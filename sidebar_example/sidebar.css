@@ -1,0 +1,23 @@
+/* sidebar.css */
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .sidebar {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    background-color: #333;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    color: white;
+  }
+  
+  .sidebar h1 {
+    text-align: center;
+  }
+  
