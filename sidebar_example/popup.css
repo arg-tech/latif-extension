@@ -1,10 +1,13 @@
-/* sidebar.css */
+/* popup.css */
 body {
+    width: 300px;
+    height: 100%;
     margin: 0;
-    padding: 0;
+    padding: 10px;
+    overflow: hidden;
   }
   
-  .sidebar {
+  .sidebar-content {
     width: 250px;
     height: 100%;
     position: fixed;
@@ -20,4 +23,3 @@ body {
   .sidebar h1 {
     text-align: center;
   }
-  
