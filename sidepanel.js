@@ -1,4 +1,4 @@
 let minePageButton = document.getElementById('minePageButton');
-minePageButton.addEventListener('onclick', function() {
+minePageButton.addEventListener('click', function() {
     alert('Stub');
 })
