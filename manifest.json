@@ -4,8 +4,7 @@
   "description": "Extension for ARG-Tech",
   "version": "0.0.1",
   "action": {
-    "default_popup": "popup.html",
-    "default_icon": "hello_extensions.png"
+    "default_popup": "popup.html"
   },
   "side_panel": {
     "default_path": "sidepanel.html"
