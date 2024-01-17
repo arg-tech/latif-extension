@@ -2,6 +2,7 @@
 
 const GOOGLE_ORIGIN = 'https://www.google.com';
 
+// Attempt to open sidepanel on google.com I think
 chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
   if (!tab.url) return;
   const url = new URL(tab.url);
@@ -19,4 +20,12 @@ chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
       enabled: false
     });
   }
+});
+
+// Enable text highlighting
+chrome.action.onClicked.addListener((tab) => {
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    files: ['content.js']
+  });
 });
