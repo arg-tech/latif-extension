@@ -6,7 +6,7 @@ document.addEventListener('mouseup', function() {
     const highlightSpan = document.createElement('span');
     highlightSpan.classList.add('highlight-f44eb599-7a93-4deb-8f0f-0f899d72cf97');
     highlightSpan.setAttribute('draggable', 'true')
-    highlightSpan.id('item')
+    // highlightSpan.id('item')
     range.surroundContents(highlightSpan);
     selection.removeAllRanges();
 });
@@ -15,7 +15,7 @@ document.addEventListener('mouseup', function() {
 const item = document.querySelector('.item');
 
 // attach the dragstart event handler
-item.addEventListener('dragstart', dragStart);
+// item.addEventListener('dragstart', dragStart);
 
 // handle the dragstart
 
