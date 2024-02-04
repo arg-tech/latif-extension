@@ -40,7 +40,15 @@ const example_analyze = {
 
 let minePageButton = document.getElementById('minePageButton');
 minePageButton.addEventListener('click', function() {
-    alert('Stub');
+    example_get_claims.output.hypothesis.forEach(claim => {
+        claim = document.createTextNode(claim);
+
+        let newRow = dropTable.insertRow();
+        newRow.insertCell().appendChild(claim);
+        newRow.insertCell();
+        newRow.insertCell();
+    });
+
 })
 
 // Droppable table
