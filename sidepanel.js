@@ -40,16 +40,14 @@ const example_analyze = {
 
 let minePageButton = document.getElementById('minePageButton');
 minePageButton.addEventListener('click', function() {
-    example_get_claims.output.hypothesis.forEach(claim => {
-        claim = document.createTextNode(claim);
+    let newRow = dropTable.insertRow();
+    newRow.insertCell();
 
-        let newRow = dropTable.insertRow();
-        newRow.insertCell().appendChild(claim);
-        newRow.insertCell();
-        newRow.insertCell();
-    });
-
-})
+    for (let index = 0; index < example_get_claims.output.hypothesis.length; index++) {
+        let hypothesisCount = document.createTextNode("H" + (index + 1));
+        newRow.insertCell().appendChild(hypothesisCount);
+    }
+});
 
 // Droppable table
 let dropTable = document.getElementById('dropTable');
