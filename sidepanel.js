@@ -40,11 +40,14 @@ const example_analyze = {
 
 let minePageButton = document.getElementById('minePageButton');
 minePageButton.addEventListener('click', function() {
-    let newRow = document.getElementById('tableHeader');
+    let tableHeader = document.getElementById('tableHeader');
 
     for (let index = 0; index < example_get_claims.output.hypothesis.length; index++) {
+        let columnHeader = document.createElement('th');
         let hypothesisCount = document.createTextNode("H" + (index + 1));
-        newRow.insertCell().appendChild(hypothesisCount);
+
+        columnHeader.appendChild(hypothesisCount);
+        tableHeader.appendChild(columnHeader);
     }
 });
 
