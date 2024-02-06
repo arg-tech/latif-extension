@@ -41,13 +41,21 @@ const example_analyze = {
 let minePageButton = document.getElementById('minePageButton');
 minePageButton.addEventListener('click', function() {
     let tableHeader = document.getElementById('tableHeader');
+    let claims = document.getElementById('page').appendChild(document.createElement('div'));
+    claims.classList.add('mt-5');
 
     for (let index = 0; index < example_get_claims.output.hypothesis.length; index++) {
+        // Add to table header
         let columnHeader = document.createElement('th');
         let hypothesisCount = document.createTextNode("H" + (index + 1));
 
         columnHeader.appendChild(hypothesisCount);
         tableHeader.appendChild(columnHeader);
+
+        // Add claims to bottom of page
+        let claim = document.createElement('p');
+        claim.innerHTML = "<strong>H" + (index + 1) + ": </strong>" + example_get_claims.output.hypothesis[index];
+        claims.appendChild(claim);
     }
 });
 
