@@ -72,9 +72,12 @@ dropTable.addEventListener('drop', function (event) {
 
     // Add the dragged text to the table
     let newRow = dropTable.insertRow();
-    newRow.insertCell();
     let newCell = newRow.insertCell();
-    newRow.insertCell();
     let newText = document.createTextNode(data);
     newCell.appendChild(newText);
+
+    // Ensure the table doesn't look cut off on this row.
+    for (let index = 0; index < example_get_claims.output.hypothesis.length; index++) {
+        newRow.insertCell();
+    }
 });
