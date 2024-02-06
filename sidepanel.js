@@ -40,8 +40,7 @@ const example_analyze = {
 
 let minePageButton = document.getElementById('minePageButton');
 minePageButton.addEventListener('click', function() {
-    let newRow = dropTable.insertRow();
-    newRow.insertCell();
+    let newRow = document.getElementById('tableHeader');
 
     for (let index = 0; index < example_get_claims.output.hypothesis.length; index++) {
         let hypothesisCount = document.createTextNode("H" + (index + 1));
