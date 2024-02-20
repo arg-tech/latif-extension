@@ -39,10 +39,32 @@ const example_analyze = {
 
 
 let minePageButton = document.getElementById('minePageButton');
-minePageButton.addEventListener('click', function() {
+minePageButton.addEventListener('click', async function() {
     let tableHeader = document.getElementById('tableHeader');
     let claims = document.getElementById('page').appendChild(document.createElement('div'));
     claims.classList.add('mt-5');
+
+    example_get_claims = await fetch('http://178.79.182.88:8080/get_claims/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            text: example_article,
+        }),
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
 
     for (let index = 0; index < example_get_claims.output.hypothesis.length; index++) {
         // Add to table header
