@@ -1,15 +1,6 @@
 const example_article = "Some experts believe that Climate change is happening. There are plenty of reasons for it, but the most popular opinion is that governments are really slow, when it comes to reaction to the climate change. Other people claim that renewable energy is a scam that should be stopped.";
 
-const example_get_claims = {
-    "code": 200,
-    "output": {
-        "hypothesis": [
-            "Some experts believe that Climate change is happening",
-            "There are plenty of reasons for it, but the most popular opinion is that governments are really slow, when it comes to reaction to the climate change",
-            "Other people claim that renewable energy is a scam that should be stopped"
-        ]
-    }
-};
+let example_get_claims;
 
 const example_analyze = {
     "hypothesis": [
