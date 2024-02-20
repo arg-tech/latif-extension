@@ -94,9 +94,19 @@ dropTable.addEventListener('drop', function (event) {
         let cell = newRow.insertCell();
         let colourNode = document.createElement("input");
         colourNode.setAttribute("type", "color");
-        colourNode.disabled = "true";
         colourNode.classList.add("form-control");
         colourNode.setAttribute("value", "#ff0000")
+        colourNode.addEventListener("click", displayScrollBar);
         cell.appendChild(colourNode);
     }
+
+    function displayScrollBar(event){
+        event.preventDefault();
+        let page = document.getElementById("page");
+        let displayBar = document.createElement("input");
+        displayBar.setAttribute("type", "range");
+        displayBar.setAttribute("class", "form-range");
+        page.appendChild(displayBar);
+    }
+
 });
