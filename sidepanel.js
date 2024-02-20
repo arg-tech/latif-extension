@@ -31,6 +31,12 @@ const example_analyze = {
 
 let minePageButton = document.getElementById('minePageButton');
 minePageButton.addEventListener('click', async function() {
+    // Add spinner to Mine webpage button once clicked.
+    let spinner = document.createElement('span');
+    spinner.className = 'spinner-border spinner-border-sm ms-2';
+    spinner.ariaHidden = true;
+    minePageButton.appendChild(spinner);
+
     let tableHeader = document.getElementById('tableHeader');
     let claims = document.getElementById('page').appendChild(document.createElement('div'));
     claims.classList.add('mt-5');
@@ -72,6 +78,9 @@ minePageButton.addEventListener('click', async function() {
         claim.innerHTML = "<strong>H" + (index + 1) + ": </strong>" + example_get_claims.output.hypothesis[index];
         claims.appendChild(claim);
     }
+
+    // Remove "loading" spinner from the button by resetting the text back to Mine webpage.
+    minePageButton.innerHTML = 'Mine webpage';
 });
 
 // Droppable table
