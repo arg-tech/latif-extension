@@ -35,6 +35,7 @@ minePageButton.addEventListener('click', async function() {
     let claims = document.getElementById('page').appendChild(document.createElement('div'));
     claims.classList.add('mt-5');
 
+    // Fetch page data from the API.
     example_get_claims = await fetch('http://178.79.182.88:8080/get_claims/', {
         method: 'POST',
         headers: {
@@ -57,6 +58,7 @@ minePageButton.addEventListener('click', async function() {
             console.error('There has been a problem with your fetch operation:', error);
         });
 
+    // Update table with claims mined from webpage.
     for (let index = 0; index < example_get_claims.output.hypothesis.length; index++) {
         // Add to table header
         let columnHeader = document.createElement('th');
