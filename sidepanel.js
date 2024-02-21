@@ -28,6 +28,8 @@ const example_analyze = {
     "min_alignment_limit": -1
 };
 
+let manual_evidences = [];
+
 
 let minePageButton = document.getElementById('minePageButton');
 minePageButton.addEventListener('click', async function() {
@@ -93,6 +95,8 @@ dropTable.addEventListener('dragover', function (event) {
 dropTable.addEventListener('drop', function (event) {
     event.preventDefault(); // Prevent default action (open as link for some elements)
     let data = event.dataTransfer.getData('text/plain');
+
+    manual_evidences.push(data);
 
     // Add the dragged text to the table
     let newRow = dropTable.insertRow();
