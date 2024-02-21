@@ -61,6 +61,42 @@ minePageButton.addEventListener('click', async function() {
     minePageButton.innerHTML = 'Mine webpage';
 });
 
+document.getElementById('analyzeButton').addEventListener('click', async function (event) {
+    console.log({
+        "hypothesis": example_get_claims.output.hypothesis,
+        "manual_evidences": manual_evidences,
+        "max_alignment_limit": -1,
+        "min_alignment_limit": -1
+    });
+    // Fetch page data from the API.
+    example_analyze = await fetch('http://178.79.182.88:8080/analyze/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            "hypothesis": example_get_claims.output.hypothesis,
+            "manual_evidences": manual_evidences,
+            "max_alignment_limit": -1,
+            "min_alignment_limit": -1
+        }),
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+
+    console.log(example_analyze);
+});
+
 // Droppable table
 let dropTable = document.getElementById('dropTable');
 
