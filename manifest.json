@@ -3,9 +3,6 @@
   "name": "ARG-Tech",
   "description": "Extension for ARG-Tech",
   "version": "0.0.1",
-  "action": {
-    "default_popup": "popup.html"
-  },
   "side_panel": {
     "default_path": "sidepanel.html"
   },
