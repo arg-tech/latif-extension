@@ -12,7 +12,10 @@
   "background": {
     "service_worker": "service-worker.js"
   },
-  "permissions": ["sidePanel", "activeTab"],
+  "permissions": [
+    "sidePanel",
+    "activeTab"
+  ],
   "host_permissions": [
     "http://178.79.182.88:8080/"
   ]
