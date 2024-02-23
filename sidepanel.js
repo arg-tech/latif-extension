@@ -8,7 +8,7 @@ let manual_evidences = [];
 
 
 let minePageButton = document.getElementById('minePageButton');
-minePageButton.addEventListener('click', async function() {
+minePageButton.addEventListener('click', async function () {
     // Add spinner to Mine webpage button once clicked.
     let spinner = document.createElement('span');
     spinner.className = 'spinner-border spinner-border-sm ms-2';
@@ -128,7 +128,7 @@ dropTable.addEventListener('drop', function (event) {
         cell.appendChild(colourNode);
     }
 
-    function displayScrollBar(event){
+    function displayScrollBar(event) {
         event.preventDefault();
         let page = document.getElementById("page");
         let displayBar = document.createElement("input");
@@ -142,10 +142,10 @@ dropTable.addEventListener('drop', function (event) {
         let dataList = document.createElement("datalist");
         dataList.id = "values";
         label = ["low", "medium", "high"];
-        for (let i=-1; i<=1; i++){
+        for (let i = -1; i <= 1; i++) {
             let tickMark = document.createElement("option");
             tickMark.setAttribute("value", i);
-            tickMark.setAttribute("label", label[i+1]);
+            tickMark.setAttribute("label", label[i + 1]);
             dataList.appendChild(tickMark);
         }
         page.appendChild(displayBar);
