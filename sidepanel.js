@@ -113,29 +113,28 @@ dropTable.addEventListener('drop', function (event) {
     for (let index = 0; index < example_get_claims.output.hypothesis.length; index++) {
         let cell = newRow.insertCell();
     }
-
-    function displayScrollBar(event) {
-        event.preventDefault();
-        let page = document.getElementById("page");
-        let displayBar = document.createElement("input");
-        displayBar.setAttribute("type", "range");
-        // displayBar.setAttribute("class", "form-range");
-        displayBar.setAttribute("list", "values");
-        displayBar.setAttribute("min", "-1");
-        displayBar.setAttribute("max", "1");
-        displayBar.setAttribute("id", "rangeInput");
-        displayBar.setAttribute("step", "0.01");
-        let dataList = document.createElement("datalist");
-        dataList.id = "values";
-        label = ["low", "medium", "high"];
-        for (let i = -1; i <= 1; i++) {
-            let tickMark = document.createElement("option");
-            tickMark.setAttribute("value", i);
-            tickMark.setAttribute("label", label[i + 1]);
-            dataList.appendChild(tickMark);
-        }
-        page.appendChild(displayBar);
-        page.appendChild(dataList);
-    }
-
 });
+
+function displayScrollBar(event) {
+    event.preventDefault();
+    let page = document.getElementById("page");
+    let displayBar = document.createElement("input");
+    displayBar.setAttribute("type", "range");
+    // displayBar.setAttribute("class", "form-range");
+    displayBar.setAttribute("list", "values");
+    displayBar.setAttribute("min", "-1");
+    displayBar.setAttribute("max", "1");
+    displayBar.setAttribute("id", "rangeInput");
+    displayBar.setAttribute("step", "0.01");
+    let dataList = document.createElement("datalist");
+    dataList.id = "values";
+    label = ["low", "medium", "high"];
+    for (let i = -1; i <= 1; i++) {
+        let tickMark = document.createElement("option");
+        tickMark.setAttribute("value", i);
+        tickMark.setAttribute("label", label[i + 1]);
+        dataList.appendChild(tickMark);
+    }
+    page.appendChild(displayBar);
+    page.appendChild(dataList);
+}
