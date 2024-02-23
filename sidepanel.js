@@ -111,7 +111,8 @@ dropTable.addEventListener('drop', function (event) {
     manual_evidences.push(data);
 
     // Add the dragged text to the table
-    let newRow = dropTable.insertRow();
+    let tbody = dropTable.getElementsByTagName('tbody')[0];
+    let newRow = tbody.insertRow();
     let newCell = newRow.insertCell();
     let newText = document.createTextNode(data);
     newCell.appendChild(newText);
