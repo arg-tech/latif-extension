@@ -86,13 +86,11 @@ document.getElementById('analyzeButton').addEventListener('click', async functio
             console.error('There has been a problem with your fetch operation:', error);
         });
 
-    console.log(analyzeResponse);
 
     let table = document.getElementById('dropTable');
     let tbody = table.getElementsByTagName('tbody')[0];
     for (let i = 0; i < tbody.rows.length; i++) {
         let row = tbody.rows[i];
-        console.log(row);
 
         let cells = row.cells
         for (let j = 1; j < cells.length; j++) {
