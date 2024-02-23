@@ -2,8 +2,6 @@ const example_article = "Some experts believe that Climate change is happening. 
 
 let example_get_claims;
 
-let example_analyze;
-
 let manual_evidences = [];
 
 
@@ -62,14 +60,8 @@ minePageButton.addEventListener('click', async function () {
 });
 
 document.getElementById('analyzeButton').addEventListener('click', async function (event) {
-    console.log({
-        "hypothesis": example_get_claims.output.hypothesis,
-        "manual_evidences": manual_evidences,
-        "max_alignment_limit": -1,
-        "min_alignment_limit": -1
-    });
     // Fetch page data from the API.
-    example_analyze = await fetch('http://178.79.182.88:8080/analyze/', {
+    let analyzeResponse = await fetch('http://178.79.182.88:8080/analyze/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
