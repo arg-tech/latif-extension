@@ -2,8 +2,6 @@ const example_article = "Some experts believe that Climate change is happening. 
 
 let example_get_claims;
 
-let example_analyze;
-
 let manual_evidences = [];
 
 
@@ -62,14 +60,8 @@ minePageButton.addEventListener('click', async function () {
 });
 
 document.getElementById('analyzeButton').addEventListener('click', async function (event) {
-    console.log({
-        "hypothesis": example_get_claims.output.hypothesis,
-        "manual_evidences": manual_evidences,
-        "max_alignment_limit": -1,
-        "min_alignment_limit": -1
-    });
     // Fetch page data from the API.
-    example_analyze = await fetch('http://178.79.182.88:8080/analyze/', {
+    let analyzeResponse = await fetch('http://178.79.182.88:8080/analyze/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -94,7 +86,30 @@ document.getElementById('analyzeButton').addEventListener('click', async functio
             console.error('There has been a problem with your fetch operation:', error);
         });
 
-    console.log(example_analyze);
+    console.log(analyzeResponse);
+
+    let table = document.getElementById('dropTable');
+    let tbody = table.getElementsByTagName('tbody')[0];
+    for (let i = 0; i < tbody.rows.length; i++) {
+        let row = tbody.rows[i];
+        console.log(row);
+
+        let cells = row.cells
+        let values = ["#ff0000", "#00ff00", "#ffff00"];
+        for (let j = 1; j < cells.length; j++) {
+            // TODO: Work out colour from API response.
+            let cellColor = analyzeResponse.output.full_scoring_matrix[j - 1][i];
+
+            // Create colourBox, with colour calculated earlier.
+            let colourNode = document.createElement("input");
+            colourNode.setAttribute("type", "color");
+            colourNode.classList.add("form-control");
+            colourNode.setAttribute("value", values[j - 1])
+            colourNode.addEventListener("click", displayScrollBar);
+            cells[j].appendChild(colourNode);
+        }
+    }
+
 });
 
 // Droppable table
@@ -120,36 +135,29 @@ dropTable.addEventListener('drop', function (event) {
     // Ensure the table doesn't look cut off on this row.
     for (let index = 0; index < example_get_claims.output.hypothesis.length; index++) {
         let cell = newRow.insertCell();
-        let colourNode = document.createElement("input");
-        colourNode.setAttribute("type", "color");
-        colourNode.classList.add("form-control");
-        colourNode.setAttribute("value", "#ff0000")
-        colourNode.addEventListener("click", displayScrollBar);
-        cell.appendChild(colourNode);
     }
-
-    function displayScrollBar(event) {
-        event.preventDefault();
-        let page = document.getElementById("page");
-        let displayBar = document.createElement("input");
-        displayBar.setAttribute("type", "range");
-        // displayBar.setAttribute("class", "form-range");
-        displayBar.setAttribute("list", "values");
-        displayBar.setAttribute("min", "-1");
-        displayBar.setAttribute("max", "1");
-        displayBar.setAttribute("id", "rangeInput");
-        displayBar.setAttribute("step", "0.01");
-        let dataList = document.createElement("datalist");
-        dataList.id = "values";
-        label = ["low", "medium", "high"];
-        for (let i = -1; i <= 1; i++) {
-            let tickMark = document.createElement("option");
-            tickMark.setAttribute("value", i);
-            tickMark.setAttribute("label", label[i + 1]);
-            dataList.appendChild(tickMark);
-        }
-        page.appendChild(displayBar);
-        page.appendChild(dataList);
-    }
-
 });
+
+function displayScrollBar(event) {
+    event.preventDefault();
+    let page = document.getElementById("page");
+    let displayBar = document.createElement("input");
+    displayBar.setAttribute("type", "range");
+    // displayBar.setAttribute("class", "form-range");
+    displayBar.setAttribute("list", "values");
+    displayBar.setAttribute("min", "-1");
+    displayBar.setAttribute("max", "1");
+    displayBar.setAttribute("id", "rangeInput");
+    displayBar.setAttribute("step", "0.01");
+    let dataList = document.createElement("datalist");
+    dataList.id = "values";
+    label = ["low", "medium", "high"];
+    for (let i = -1; i <= 1; i++) {
+        let tickMark = document.createElement("option");
+        tickMark.setAttribute("value", i);
+        tickMark.setAttribute("label", label[i + 1]);
+        dataList.appendChild(tickMark);
+    }
+    page.appendChild(displayBar);
+    page.appendChild(dataList);
+}
