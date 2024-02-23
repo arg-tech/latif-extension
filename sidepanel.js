@@ -2,9 +2,6 @@ const example_article = "Some experts believe that Climate change is happening. 
 
 let example_get_claims;
 
-let manual_evidences = [];
-
-
 let minePageButton = document.getElementById('minePageButton');
 minePageButton.addEventListener('click', async function () {
     // Add spinner to Mine webpage button once clicked.
@@ -68,7 +65,7 @@ document.getElementById('analyzeButton').addEventListener('click', async functio
         },
         body: JSON.stringify({
             "hypothesis": example_get_claims.output.hypothesis,
-            "manual_evidences": manual_evidences,
+            "manual_evidences": Array.from(document.querySelectorAll(`table tr td:nth-child(1)`)).map(e => e.textContent),
             "max_alignment_limit": -1,
             "min_alignment_limit": -1
         }),
@@ -134,8 +131,6 @@ dropTable.addEventListener('dragover', function (event) {
 dropTable.addEventListener('drop', function (event) {
     event.preventDefault(); // Prevent default action (open as link for some elements)
     let data = event.dataTransfer.getData('text/plain');
-
-    manual_evidences.push(data);
 
     // Add the dragged text to the table
     let tbody = dropTable.getElementsByTagName('tbody')[0];
