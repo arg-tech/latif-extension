@@ -112,12 +112,6 @@ dropTable.addEventListener('drop', function (event) {
     // Ensure the table doesn't look cut off on this row.
     for (let index = 0; index < example_get_claims.output.hypothesis.length; index++) {
         let cell = newRow.insertCell();
-        let colourNode = document.createElement("input");
-        colourNode.setAttribute("type", "color");
-        colourNode.classList.add("form-control");
-        colourNode.setAttribute("value", "#ff0000")
-        colourNode.addEventListener("click", displayScrollBar);
-        cell.appendChild(colourNode);
     }
 
     function displayScrollBar(event) {
