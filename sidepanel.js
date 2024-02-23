@@ -133,8 +133,21 @@ dropTable.addEventListener('drop', function (event) {
         let page = document.getElementById("page");
         let displayBar = document.createElement("input");
         displayBar.setAttribute("type", "range");
-        displayBar.setAttribute("class", "form-range");
+        // displayBar.setAttribute("class", "form-range");
+        displayBar.setAttribute("list", "values");
+        displayBar.setAttribute("min", "-1");
+        displayBar.setAttribute("max", "1");
+        displayBar.setAttribute("step", "0.01");
+        let dataList = document.createElement("datalist");
+        dataList.id = "values";
+        for (let i=-1; i<=1; i++){
+            let tickMark = document.createElement("option");
+            tickMark.setAttribute("value", i);
+            tickMark.setAttribute("label", "medium");
+            dataList.appendChild(tickMark);
+        }
         page.appendChild(displayBar);
+        page.appendChild(dataList);
     }
 
 });
