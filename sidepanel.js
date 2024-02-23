@@ -86,7 +86,30 @@ document.getElementById('analyzeButton').addEventListener('click', async functio
             console.error('There has been a problem with your fetch operation:', error);
         });
 
-    console.log(example_analyze);
+    console.log(analyzeResponse);
+
+    let table = document.getElementById('dropTable');
+    let tbody = table.getElementsByTagName('tbody')[0];
+    for (let i = 0; i < tbody.rows.length; i++) {
+        let row = tbody.rows[i];
+        console.log(row);
+
+        let cells = row.cells
+        let values = ["#ff0000", "#00ff00", "#ffff00"];
+        for (let j = 1; j < cells.length; j++) {
+            // TODO: Work out colour from API response.
+            let cellColor = analyzeResponse.output.full_scoring_matrix[j - 1][i];
+
+            // Create colourBox, with colour calculated earlier.
+            let colourNode = document.createElement("input");
+            colourNode.setAttribute("type", "color");
+            colourNode.classList.add("form-control");
+            colourNode.setAttribute("value", values[j - 1])
+            colourNode.addEventListener("click", displayScrollBar);
+            cells[j].appendChild(colourNode);
+        }
+    }
+
 });
 
 // Droppable table
