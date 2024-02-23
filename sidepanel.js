@@ -1,6 +1,8 @@
 const example_article = "Some experts believe that Climate change is happening. There are plenty of reasons for it, but the most popular opinion is that governments are really slow, when it comes to reaction to the climate change. Other people claim that renewable energy is a scam that should be stopped.";
 
-let example_get_claims;
+// Save list of hypotheses so that we can resend them to api/analyze.
+// Also so that when formatting the table upon a drop we resize correctly (This can be fixed).
+let hypotheses;
 
 let minePageButton = document.getElementById('minePageButton');
 minePageButton.addEventListener('click', async function () {
@@ -15,7 +17,7 @@ minePageButton.addEventListener('click', async function () {
     claims.classList.add('mt-5');
 
     // Fetch page data from the API.
-    example_get_claims = await fetch('http://178.79.182.88:8080/get_claims/', {
+    hypotheses = await fetch('http://178.79.182.88:8080/get_claims/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -38,7 +40,7 @@ minePageButton.addEventListener('click', async function () {
         });
 
     // Update table with claims mined from webpage.
-    for (let index = 0; index < example_get_claims.output.hypothesis.length; index++) {
+    for (let index = 0; index < hypotheses.output.hypothesis.length; index++) {
         // Add to table header
         let columnHeader = document.createElement('th');
         let hypothesisCount = document.createTextNode("H" + (index + 1));
@@ -48,7 +50,7 @@ minePageButton.addEventListener('click', async function () {
 
         // Add claims to bottom of page
         let claim = document.createElement('p');
-        claim.innerHTML = "<strong>H" + (index + 1) + ": </strong>" + example_get_claims.output.hypothesis[index];
+        claim.innerHTML = "<strong>H" + (index + 1) + ": </strong>" + hypotheses.output.hypothesis[index];
         claims.appendChild(claim);
     }
 
@@ -64,7 +66,7 @@ document.getElementById('analyzeButton').addEventListener('click', async functio
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            "hypothesis": example_get_claims.output.hypothesis,
+            "hypothesis": hypotheses.output.hypothesis,
             "manual_evidences": Array.from(document.querySelectorAll(`table tr td:nth-child(1)`)).map(e => e.textContent),
             "max_alignment_limit": -1,
             "min_alignment_limit": -1
@@ -140,7 +142,7 @@ dropTable.addEventListener('drop', function (event) {
     newCell.appendChild(newText);
 
     // Ensure the table doesn't look cut off on this row.
-    for (let index = 0; index < example_get_claims.output.hypothesis.length; index++) {
+    for (let index = 0; index < hypotheses.output.hypothesis.length; index++) {
         let cell = newRow.insertCell();
     }
 });
