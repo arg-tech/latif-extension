@@ -95,21 +95,35 @@ document.getElementById('analyzeButton').addEventListener('click', async functio
         console.log(row);
 
         let cells = row.cells
-        let values = ["#ff0000", "#00ff00", "#ffff00"];
         for (let j = 1; j < cells.length; j++) {
-            // TODO: Work out colour from API response.
+            // Work out colour from API response.
             let cellColor = analyzeResponse.output.full_scoring_matrix[j - 1][i];
+            let red, green;
+            if (cellColor < 0) {
+                red = 255;
+                green = (cellColor * -1) * 255;
+            } else if (cellColor == 0) {
+                red = 255;
+                green = 255;
+            } else {
+                green = 255;
+                red = (1 - (cellColor)) * 255;
+            }
+
+            red = Math.round(red);
+            green = Math.round(green);
 
             // Create colourBox, with colour calculated earlier.
             let colourNode = document.createElement("input");
             colourNode.setAttribute("type", "color");
             colourNode.classList.add("form-control");
-            colourNode.setAttribute("value", values[j - 1])
+
+            const toHex = c => c.toString(16).padStart(2, '0');
+            colourNode.setAttribute("value", `#${toHex(red)}${toHex(green)}${toHex(0)}`);
             colourNode.addEventListener("click", displayScrollBar);
             cells[j].appendChild(colourNode);
         }
     }
-
 });
 
 // Droppable table
