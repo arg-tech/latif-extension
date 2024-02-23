@@ -137,13 +137,15 @@ dropTable.addEventListener('drop', function (event) {
         displayBar.setAttribute("list", "values");
         displayBar.setAttribute("min", "-1");
         displayBar.setAttribute("max", "1");
+        displayBar.setAttribute("id", "rangeInput");
         displayBar.setAttribute("step", "0.01");
         let dataList = document.createElement("datalist");
         dataList.id = "values";
+        label = ["low", "medium", "high"];
         for (let i=-1; i<=1; i++){
             let tickMark = document.createElement("option");
             tickMark.setAttribute("value", i);
-            tickMark.setAttribute("label", "medium");
+            tickMark.setAttribute("label", label[i+1]);
             dataList.appendChild(tickMark);
         }
         page.appendChild(displayBar);
