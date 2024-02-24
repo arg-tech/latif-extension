@@ -13,6 +13,7 @@
     "sidePanel",
     "activeTab"
   ],
+  "minimum_chrome_version": "114",
   "host_permissions": [
     "http://178.79.182.88:8080/"
   ]
