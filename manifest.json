@@ -10,8 +10,7 @@
     "service_worker": "service-worker.js"
   },
   "permissions": [
-    "sidePanel",
-    "activeTab"
+    "sidePanel"
   ],
   "minimum_chrome_version": "114",
   "host_permissions": [
