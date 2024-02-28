@@ -149,7 +149,11 @@ dropTable.addEventListener('drop', function (event) {
 
 function displayScrollBar(event) {
     event.preventDefault();
-    let page = document.getElementById("page");
+    // Find place in page to put slider after.
+    let analyzeButtonDiv = document.getElementById('analyzeButton');
+    analyzeButtonDiv = analyzeButtonDiv.parentElement;
+
+    sliderDiv = document.createElement('div');
     let displayBar = document.createElement("input");
     displayBar.setAttribute("type", "range");
     // displayBar.setAttribute("class", "form-range");
@@ -167,8 +171,10 @@ function displayScrollBar(event) {
         tickMark.setAttribute("label", label[i + 1]);
         dataList.appendChild(tickMark);
     }
-    page.appendChild(displayBar);
-    page.appendChild(dataList);
+
+    sliderDiv.append(displayBar);
+    sliderDiv.append(dataList);
+    analyzeButtonDiv.after(sliderDiv);
 }
 
 const colorInput = document.getElementById('colorInput');
