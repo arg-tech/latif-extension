@@ -177,15 +177,16 @@ function displayScrollBar(event) {
     analyzeButtonDiv.after(sliderDiv);
 }
 
-const colorInput = document.getElementById('colorInput');
-const rangeInput = document.getElementById('rangeInput');
+// Comment out heatmap slider so that we don't get errors showing up in our extension.
+// const colorInput = document.getElementById('colorInput');
+// const rangeInput = document.getElementById('rangeInput');
 
-rangeInput.addEventListener('input', updateColour);
+// rangeInput.addEventListener('input', updateColour);
 
-function updateColour() {
-    const hue = (rangeInput.value / 100) * 120; // Map the range value to a hue value between 0 and 120
-    const color = `hsl(${hue}, 100%, 50%)`;
+// function updateColour() {
+//     const hue = (rangeInput.value / 100) * 120; // Map the range value to a hue value between 0 and 120
+//     const color = `hsl(${hue}, 100%, 50%)`;
 
-    colorInput.value = color;
-    colorInput.style.backgroundColor = color;
-}
+//     colorInput.value = color;
+//     colorInput.style.backgroundColor = color;
+// }
