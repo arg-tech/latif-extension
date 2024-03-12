@@ -112,15 +112,9 @@ document.getElementById('analyzeButton').addEventListener('click', async functio
             red = Math.round(red);
             green = Math.round(green);
 
-            // Create colourBox, with colour calculated earlier.
-            let colourNode = document.createElement("input");
-            colourNode.setAttribute("type", "color");
-            colourNode.classList.add("form-control");
-
+            // Change bg colour of cell with colour calculated earlier.
             const toHex = c => c.toString(16).padStart(2, '0');
-            colourNode.setAttribute("value", `#${toHex(red)}${toHex(green)}${toHex(0)}`);
-            colourNode.addEventListener("click", displayScrollBar);
-            cells[j].appendChild(colourNode);
+            cells[j].setAttribute("style",  `background-color: #${toHex(red)}${toHex(green)}${toHex(0)}`);
         }
     }
 });
