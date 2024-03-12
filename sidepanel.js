@@ -69,7 +69,9 @@ document.getElementById('analyzeButton').addEventListener('click', async functio
             "hypothesis": hypotheses.output.hypothesis,
             "manual_evidences": Array.from(document.querySelectorAll(`table tr td:nth-child(1)`)).map(e => e.textContent),
             "max_alignment_limit": -1,
-            "min_alignment_limit": -1
+            "min_alignment_limit": -1,
+            "hypothesis_nodes": hypotheses.output.hypothesis_nodes,
+            "structure_hypothesis_graph": hypotheses.output.structure_hypothesis_graph
         }),
     })
         .then(response => {
