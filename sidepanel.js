@@ -59,7 +59,7 @@ minePageButton.addEventListener('click', async function () {
 });
 
 document.getElementById('analyzeButton').addEventListener('click', async function (event) {
-    // Add spinner to Mine webpage button once clicked.
+    // Add spinner to analyze button once clicked.
     let spinner = document.createElement('span');
     spinner.className = 'spinner-border spinner-border-sm ms-2';
     spinner.ariaHidden = true;
@@ -121,6 +121,7 @@ document.getElementById('analyzeButton').addEventListener('click', async functio
             // Change bg colour of cell with colour calculated earlier.
             const toHex = c => c.toString(16).padStart(2, '0');
             cells[j].setAttribute("style",  `background-color: #${toHex(red)}${toHex(green)}${toHex(0)}`);
+            cells[j].addEventListener('click', displayScrollBar);
         }
     }
 
