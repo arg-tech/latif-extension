@@ -59,6 +59,12 @@ minePageButton.addEventListener('click', async function () {
 });
 
 document.getElementById('analyzeButton').addEventListener('click', async function (event) {
+    // Add spinner to Mine webpage button once clicked.
+    let spinner = document.createElement('span');
+    spinner.className = 'spinner-border spinner-border-sm ms-2';
+    spinner.ariaHidden = true;
+    analyzeButton.appendChild(spinner);
+
     // Fetch page data from the API.
     let analyzeResponse = await fetch('http://178.79.182.88:8080/analyze/', {
         method: 'POST',
@@ -117,6 +123,9 @@ document.getElementById('analyzeButton').addEventListener('click', async functio
             cells[j].setAttribute("style",  `background-color: #${toHex(red)}${toHex(green)}${toHex(0)}`);
         }
     }
+
+        // Remove "loading" spinner from the button by resetting the text back to its original state.
+        analyzeButton.innerHTML = 'Analyze ACH Table';
 });
 
 // Droppable table
