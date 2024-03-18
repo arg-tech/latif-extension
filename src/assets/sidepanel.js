@@ -61,12 +61,12 @@ addEventListener('DOMContentLoaded', () => {
     minePageButton.innerHTML = 'Mine webpage'
   })
 
-  document.getElementById('analyzeButton').addEventListener('click', async function (event) {
+  document.getElementById('analyzeButton').addEventListener('click', async function () {
     // Add spinner to analyze button once clicked.
     let spinner = document.createElement('span')
     spinner.className = 'spinner-border spinner-border-sm ms-2'
     spinner.ariaHidden = true
-    analyzeButton.appendChild(spinner)
+    document.getElementById('analyzeButton').appendChild(spinner)
 
     // Fetch page data from the API.
     let analyzeResponse = await fetch('http://178.79.182.88:8080/analyze/', {
@@ -130,7 +130,7 @@ addEventListener('DOMContentLoaded', () => {
     }
 
     // Remove "loading" spinner from the button by resetting the text back to its original state.
-    analyzeButton.innerHTML = 'Analyze ACH Table'
+    document.getElementById('analyzeButton').innerHTML = 'Analyze ACH Table'
   })
 
   // Droppable table
@@ -153,7 +153,7 @@ addEventListener('DOMContentLoaded', () => {
 
     // Ensure the table doesn't look cut off on this row.
     for (let index = 0; index < hypotheses.output.hypothesis.length; index++) {
-      let cell = newRow.insertCell()
+      newRow.insertCell()
     }
   })
 
@@ -163,7 +163,7 @@ addEventListener('DOMContentLoaded', () => {
     let analyzeButtonDiv = document.getElementById('analyzeButton')
     analyzeButtonDiv = analyzeButtonDiv.parentElement
 
-    sliderDiv = document.createElement('div')
+    let sliderDiv = document.createElement('div')
     let displayBar = document.createElement('input')
     displayBar.setAttribute('type', 'range')
     // displayBar.setAttribute("class", "form-range");
@@ -174,7 +174,7 @@ addEventListener('DOMContentLoaded', () => {
     displayBar.setAttribute('step', '0.01')
     let dataList = document.createElement('datalist')
     dataList.id = 'values'
-    label = ['low', 'medium', 'high']
+    let label = ['low', 'medium', 'high']
     for (let i = -1; i <= 1; i++) {
       let tickMark = document.createElement('option')
       tickMark.setAttribute('value', i)
