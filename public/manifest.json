@@ -9,13 +9,9 @@
   "background": {
     "service_worker": "service-worker.js"
   },
-  "permissions": [
-    "sidePanel"
-  ],
+  "permissions": ["sidePanel"],
   "minimum_chrome_version": "114",
-  "host_permissions": [
-    "http://178.79.182.88:8080/"
-  ],
+  "host_permissions": ["http://178.79.182.88:8080/"],
   "icons": {
     "16": "icon16.png",
     "32": "icon32.png",
