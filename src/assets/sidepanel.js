@@ -2,6 +2,7 @@ addEventListener('DOMContentLoaded', () => {
   // Save list of hypotheses so that we can resend them to api/analyze.
   // Also so that when formatting the table upon a drop we resize correctly (This can be fixed).
   let hypotheses
+  let analyzeResponse
 
   let minePageButton = document.getElementById('minePageButton')
   minePageButton.addEventListener('click', async function () {
@@ -70,7 +71,7 @@ addEventListener('DOMContentLoaded', () => {
     document.getElementById('analyzeButton').appendChild(spinner)
 
     // Fetch page data from the API.
-    let analyzeResponse = await fetch('http://178.79.182.88:8080/analyze/', {
+    analyzeResponse = await fetch('http://178.79.182.88:8080/analyze/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
