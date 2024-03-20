@@ -14,6 +14,10 @@ addEventListener('DOMContentLoaded', () => {
     spinner.ariaHidden = true
     minePageButton.appendChild(spinner)
 
+    // Get article text
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+    const articleText = (await chrome.tabs.sendMessage(tab.id, { action: 'getArticleText' })).text
+
     let tableHeader = document.getElementById('tableHeader')
     let claims = document.getElementById('page').appendChild(document.createElement('div'))
     claims.classList.add('mt-5')
@@ -25,7 +29,7 @@ addEventListener('DOMContentLoaded', () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        text: example_article
+        text: articleText
       })
     })
       .then((response) => {
