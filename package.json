@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@mozilla/readability": "^0.5.0",
+    "html-to-text": "^9.0.5",
     "vue": "^3.4.21"
   },
   "devDependencies": {
