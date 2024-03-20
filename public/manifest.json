@@ -9,6 +9,12 @@
   "background": {
     "service_worker": "service-worker.js"
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
   "permissions": ["sidePanel"],
   "minimum_chrome_version": "114",
   "host_permissions": ["http://178.79.182.88:8080/"],

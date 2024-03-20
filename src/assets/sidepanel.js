@@ -1,7 +1,4 @@
 addEventListener('DOMContentLoaded', () => {
-  const example_article =
-    'Some experts believe that Climate change is happening. There are plenty of reasons for it, but the most popular opinion is that governments are really slow, when it comes to reaction to the climate change. Other people claim that renewable energy is a scam that should be stopped.'
-
   // Save list of hypotheses so that we can resend them to api/analyze.
   // Also so that when formatting the table upon a drop we resize correctly (This can be fixed).
   let hypotheses
@@ -14,6 +11,10 @@ addEventListener('DOMContentLoaded', () => {
     spinner.ariaHidden = true
     minePageButton.appendChild(spinner)
 
+    // Get article text
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+    const articleText = (await chrome.tabs.sendMessage(tab.id, { action: 'getArticleText' })).text
+
     let tableHeader = document.getElementById('tableHeader')
     let claims = document.getElementById('page').appendChild(document.createElement('div'))
     claims.classList.add('mt-5')
@@ -25,7 +26,7 @@ addEventListener('DOMContentLoaded', () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        text: example_article
+        text: articleText
       })
     })
       .then((response) => {
