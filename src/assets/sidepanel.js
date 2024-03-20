@@ -1,7 +1,4 @@
 addEventListener('DOMContentLoaded', () => {
-  const example_article =
-    'Some experts believe that Climate change is happening. There are plenty of reasons for it, but the most popular opinion is that governments are really slow, when it comes to reaction to the climate change. Other people claim that renewable energy is a scam that should be stopped.'
-
   // Save list of hypotheses so that we can resend them to api/analyze.
   // Also so that when formatting the table upon a drop we resize correctly (This can be fixed).
   let hypotheses
