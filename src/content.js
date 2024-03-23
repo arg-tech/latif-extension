@@ -3,7 +3,7 @@ import { convert } from 'html-to-text'
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'getArticleText') {
-    const article = new Readability(document.cloneNode(true), { charThreshold: 200 }).parse()
+    const article = new Readability(document.cloneNode(true), { charThreshold: 100 }).parse()
     sendResponse({ text: convert(article.content) })
   }
 })
