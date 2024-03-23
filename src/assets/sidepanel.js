@@ -43,6 +43,9 @@ addEventListener('DOMContentLoaded', () => {
         console.error('There has been a problem with your fetch operation:', error)
       })
 
+    // Log the response to help with debugging.
+    console.log('Hypotheses: ', hypotheses.output)
+
     // Update table with claims mined from webpage.
     for (let index = 0; index < hypotheses.output.hypothesis.length; index++) {
       // Add to table header
@@ -99,6 +102,9 @@ addEventListener('DOMContentLoaded', () => {
       .catch((error) => {
         console.error('There has been a problem with your fetch operation:', error)
       })
+
+    // Log the response to help with debugging.
+    console.log('Analyze: ', analyzeResponse.output)
 
     let table = document.getElementById('dropTable')
     let tbody = table.getElementsByTagName('tbody')[0]
