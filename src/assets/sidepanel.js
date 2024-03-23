@@ -2,6 +2,7 @@ addEventListener('DOMContentLoaded', () => {
   // Save list of hypotheses so that we can resend them to api/analyze.
   // Also so that when formatting the table upon a drop we resize correctly (This can be fixed).
   let hypotheses
+  let analyzeResponse
 
   let minePageButton = document.getElementById('minePageButton')
   minePageButton.addEventListener('click', async function () {
@@ -42,6 +43,9 @@ addEventListener('DOMContentLoaded', () => {
         console.error('There has been a problem with your fetch operation:', error)
       })
 
+    // Log the response to help with debugging.
+    console.log('Hypotheses: ', hypotheses.output)
+
     // Update table with claims mined from webpage.
     for (let index = 0; index < hypotheses.output.hypothesis.length; index++) {
       // Add to table header
@@ -70,7 +74,7 @@ addEventListener('DOMContentLoaded', () => {
     document.getElementById('analyzeButton').appendChild(spinner)
 
     // Fetch page data from the API.
-    let analyzeResponse = await fetch('http://178.79.182.88:8080/analyze/', {
+    analyzeResponse = await fetch('http://178.79.182.88:8080/analyze/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -98,6 +102,9 @@ addEventListener('DOMContentLoaded', () => {
       .catch((error) => {
         console.error('There has been a problem with your fetch operation:', error)
       })
+
+    // Log the response to help with debugging.
+    console.log('Analyze: ', analyzeResponse.output)
 
     let table = document.getElementById('dropTable')
     let tbody = table.getElementsByTagName('tbody')[0]
@@ -132,6 +139,45 @@ addEventListener('DOMContentLoaded', () => {
 
     // Remove "loading" spinner from the button by resetting the text back to its original state.
     document.getElementById('analyzeButton').innerHTML = 'Analyze ACH Table'
+  })
+
+  document.getElementById('reportGenerationButton').addEventListener('click', async function () {
+    // Add spinner to Report generation button once clicked.
+    let spinner = document.createElement('span')
+    spinner.className = 'spinner-border spinner-border-sm ms-2'
+    spinner.ariaHidden = true
+    document.getElementById('reportGenerationButton').appendChild(spinner)
+
+    // Used for debugging the API response.
+    let report
+
+    // The other option here is: generate_per_claim_articles
+    await fetch('http://178.79.182.88:8000/generate_check_result_article/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(analyzeResponse.output)
+    })
+      .then((response) => {
+        report = response
+        response.blob()
+      })
+      .then((blob) => {
+        const link = document.createElement('a')
+        link.href = URL.createObjectURL(blob)
+        link.download = 'report' // Filename
+        link.click()
+        URL.revokeObjectURL(link.href)
+      })
+      .catch((error) => {
+        console.error('Error downloading file:', error)
+      })
+
+    console.log(report.output)
+
+    // Remove "loading" spinner from the button by resetting the text back to its original state.
+    document.getElementById('reportGenerationButton').innerHTML = 'Generate report'
   })
 
   // Droppable table
