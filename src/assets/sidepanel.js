@@ -141,6 +141,45 @@ addEventListener('DOMContentLoaded', () => {
     document.getElementById('analyzeButton').innerHTML = 'Analyze ACH Table'
   })
 
+  document.getElementById('reportGenerationButton').addEventListener('click', async function () {
+    // Add spinner to Report generation button once clicked.
+    let spinner = document.createElement('span')
+    spinner.className = 'spinner-border spinner-border-sm ms-2'
+    spinner.ariaHidden = true
+    document.getElementById('reportGenerationButton').appendChild(spinner)
+
+    // Used for debugging the API response.
+    let report
+
+    // The other option here is: generate_per_claim_articles
+    await fetch('http://178.79.182.88:8000/generate_check_result_article/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(analyzeResponse.output)
+    })
+      .then((response) => {
+        report = response
+        response.blob()
+      })
+      .then((blob) => {
+        const link = document.createElement('a')
+        link.href = URL.createObjectURL(blob)
+        link.download = 'report' // Filename
+        link.click()
+        URL.revokeObjectURL(link.href)
+      })
+      .catch((error) => {
+        console.error('Error downloading file:', error)
+      })
+
+    console.log(report.output)
+
+    // Remove "loading" spinner from the button by resetting the text back to its original state.
+    document.getElementById('reportGenerationButton').innerHTML = 'Generate report'
+  })
+
   // Droppable table
   let dropTable = document.getElementById('dropTable')
 
