@@ -19,6 +19,9 @@
     <div class="d-grid gap-2">
       <button type="button" id="analyzeButton" class="btn btn-primary">Analyze ACH Table</button>
     </div>
+    <div class="d-grid gap-2 mt-3">
+      <button type="button" id="reportGenerationButton" class="btn btn-primary">Generate report</button>
+    </div>
   </main>
 
   <footer class="d-flex flex-wrap justify-content-between align-items-center mt-2 border-top">
