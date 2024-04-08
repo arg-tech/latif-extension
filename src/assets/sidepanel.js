@@ -16,6 +16,8 @@ addEventListener('DOMContentLoaded', () => {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
     const articleText = (await chrome.tabs.sendMessage(tab.id, { action: 'getArticleText' })).text
 
+    console.log(articleText)
+
     let tableHeader = document.getElementById('tableHeader')
     let claims = document.getElementById('page').appendChild(document.createElement('div'))
     claims.classList.add('mt-5')
