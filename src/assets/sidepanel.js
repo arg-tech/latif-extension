@@ -116,7 +116,10 @@ addEventListener('DOMContentLoaded', () => {
         // Work out colour from API response.
         let cellColor = analyzeResponse.output.full_scoring_matrix[j - 1][i]
         let red, green
-        if (cellColor < 0) {
+        if (cellColor === -1000) {
+          red = 255
+          green = 0
+        } else if (cellColor < 0) {
           red = 255
           green = cellColor * -1 * 255
         } else if (cellColor == 0) {
