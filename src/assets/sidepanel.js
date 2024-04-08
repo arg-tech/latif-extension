@@ -163,12 +163,17 @@ addEventListener('DOMContentLoaded', () => {
       body: JSON.stringify(analyzeResponse.output)
     })
       .then((response) => {
-        report = response
-        return response.blob()
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+        return response.json()
       })
-      .then((blob) => {
+      .then((response) => {
+        report = response
+        response = response.output.article
+        let textBlob = new Blob([response], { type: 'text/plain' })
         const link = document.createElement('a')
-        link.href = URL.createObjectURL(blob)
+        link.href = URL.createObjectURL(textBlob)
         link.download = 'report' // Filename
         link.click()
         URL.revokeObjectURL(link.href)
