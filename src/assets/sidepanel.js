@@ -161,7 +161,7 @@ addEventListener('DOMContentLoaded', () => {
     })
       .then((response) => {
         report = response
-        response.blob()
+        return response.blob()
       })
       .then((blob) => {
         const link = document.createElement('a')
