@@ -15,12 +15,22 @@ import PageFooter from './components/PageFooter.vue'
       /></a>
     </div>
     <div class="d-grid gap-2">
-      <button type="button" id="minePageButton" class="btn btn-primary">Mine webpage</button>
+      <button @click="minePage" type="button" :disabled="loading.minePage" class="btn btn-primary">
+        Mine webpage
+        <span
+          v-if="loading.minePage"
+          aria-hidden="true"
+          class="spinner-border spinner-border-sm ms-2"
+        ></span>
+      </button>
     </div>
-    <table class="table table-bordered mt-3" id="dropTable">
+    <table class="table table-bordered mt-3" id="dropTable" v-if="get_claims">
       <thead>
         <tr id="tableHeader">
           <th>#</th>
+          <th v-for="(hypothesis, index) in get_claims.output.hypothesis" :key="index">
+            H{{ index + 1 }}
+          </th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -33,9 +43,16 @@ import PageFooter from './components/PageFooter.vue'
         Generate report
       </button>
     </div>
+
+    <div class="mt-4" v-if="get_claims">
+      <p v-for="(hypothesis, index) in get_claims.output.hypothesis" :key="index">
+        <strong>H{{ index + 1 }}: </strong>
+        {{ hypothesis }}
+      </p>
+    </div>
   </main>
 
-  <PageFooter></PageFooter>
+  <PageFooter />
 </template>
 
 <style scoped>
@@ -66,3 +83,56 @@ header {
   }
 }
 </style>
+
+<script>
+export default {
+  data() {
+    return {
+      get_claims: null,
+      loading: { minePage: false }
+    }
+  },
+
+  methods: {
+    async minePage() {
+      // Add the loading spinner.
+      this.loading.minePage = true
+
+      // Get article text
+      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+      const articleText = (await chrome.tabs.sendMessage(tab.id, { action: 'getArticleText' })).text
+
+      console.log(articleText)
+
+      // Fetch page data from the API.
+      this.get_claims = await fetch('http://178.79.182.88:8080/get_claims/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          text: articleText
+        })
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok')
+          }
+          return response.json()
+        })
+        .then((data) => {
+          return data
+        })
+        .catch((error) => {
+          console.error('There has been a problem with your fetch operation:', error)
+        })
+
+      // Log the response to help with debugging.
+      console.log('get_claims: ', this.get_claims)
+
+      // Remove the loading spinner.
+      this.loading.minePage = false
+    }
+  }
+}
+</script>
