@@ -24,17 +24,26 @@ import PageFooter from './components/PageFooter.vue'
         ></span>
       </button>
     </div>
-    <table class="table table-bordered mt-3" id="dropTable" v-if="get_claims">
-      <thead>
-        <tr id="tableHeader">
-          <th>#</th>
-          <th v-for="(hypothesis, index) in get_claims.output.hypothesis" :key="index">
-            H{{ index + 1 }}
-          </th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <div class="table-responsive my-3" v-if="get_claims">
+      <table class="table table-bordered" @dragover.prevent @drop.prevent="tableDrop">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th v-for="(hypothesis, index) in get_claims.output.hypothesis" :key="index">
+              H{{ index + 1 }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(evidence, index) in evidences" :key="index">
+            <td>
+              {{ evidence }}
+            </td>
+            <td v-for="(_, index) in get_claims.output.hypothesis" :key="index"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="d-grid gap-2">
       <button type="button" id="analyzeButton" class="btn btn-primary">Analyze ACH Table</button>
     </div>
@@ -89,7 +98,8 @@ export default {
   data() {
     return {
       get_claims: null,
-      loading: { minePage: false }
+      loading: { minePage: false },
+      evidences: []
     }
   },
 
@@ -132,6 +142,11 @@ export default {
 
       // Remove the loading spinner.
       this.loading.minePage = false
+    },
+
+    tableDrop(event) {
+      let data = event.dataTransfer.getData('text/plain')
+      this.evidences.push(data)
     }
   }
 }

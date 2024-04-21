@@ -126,30 +126,6 @@ addEventListener('DOMContentLoaded', () => {
     document.getElementById('reportGenerationButton').innerHTML = 'Generate report'
   })
 
-  // Droppable table
-  let dropTable = document.getElementById('dropTable')
-
-  dropTable.addEventListener('dragover', function (event) {
-    event.preventDefault() // Prevent default to allow drop
-  })
-
-  dropTable.addEventListener('drop', function (event) {
-    event.preventDefault() // Prevent default action (open as link for some elements)
-    let data = event.dataTransfer.getData('text/plain')
-
-    // Add the dragged text to the table
-    let tbody = dropTable.getElementsByTagName('tbody')[0]
-    let newRow = tbody.insertRow()
-    let newCell = newRow.insertCell()
-    let newText = document.createTextNode(data)
-    newCell.appendChild(newText)
-
-    // Ensure the table doesn't look cut off on this row.
-    for (let index = 0; index < hypotheses.output.hypothesis.length; index++) {
-      newRow.insertCell()
-    }
-  })
-
   function displayScrollBar(event) {
     event.preventDefault()
     // Find place in page to put slider after.
