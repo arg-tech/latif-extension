@@ -34,24 +34,21 @@ import PageFooter from './components/PageFooter.vue'
             </th>
           </tr>
         </thead>
-        <tbody v-if="!responses.analyze">
+        <tbody>
           <tr v-for="(evidence, index) in evidences" :key="index">
             <td>
               {{ evidence }}
             </td>
-            <td v-for="(_, index2) in responses.get_claims.output.hypothesis" :key="index2"></td>
-          </tr>
-        </tbody>
-        <tbody v-else>
-          <tr v-for="(evidence, index) in evidences" :key="index">
-            <td>
-              {{ evidence }}
-            </td>
-            <td
-              :style="{ backgroundColor: getBackgroundColor(score) }"
-              v-for="(score, index2) in responses.analyze.output.full_scoring_matrix"
-              :key="index2"
-            ></td>
+            <template v-if="!responses.analyze">
+              <td v-for="(_, index2) in responses.get_claims.output.hypothesis" :key="index2"></td>
+            </template>
+            <template v-else>
+              <td
+                :style="{ backgroundColor: getBackgroundColor(score) }"
+                v-for="(score, index2) in responses.analyze.output.full_scoring_matrix"
+                :key="index2"
+              ></td>
+            </template>
           </tr>
         </tbody>
       </table>
