@@ -44,8 +44,8 @@ import PageFooter from './components/PageFooter.vue'
             </template>
             <template v-else>
               <td
-                :style="{ backgroundColor: getBackgroundColor(score) }"
                 v-for="(score, index2) in responses.analyze.output.full_scoring_matrix"
+                :style="{ backgroundColor: getBackgroundColor(score[index]) }"
                 :key="index2"
                 @click.prevent="addColorSlider(index, index2)"
               ></td>
