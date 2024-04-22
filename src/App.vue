@@ -47,6 +47,7 @@ import PageFooter from './components/PageFooter.vue'
                 :style="{ backgroundColor: getBackgroundColor(score) }"
                 v-for="(score, index2) in responses.analyze.output.full_scoring_matrix"
                 :key="index2"
+                @click.prevent="slider(index, index2)"
               ></td>
             </template>
           </tr>
@@ -79,6 +80,22 @@ import PageFooter from './components/PageFooter.vue'
           class="spinner-border spinner-border-sm ms-2"
         ></span>
       </button>
+    </div>
+
+    <div v-if="sliderIndex" class="mt-3">
+      <input
+        v-model="responses.analyze.output.full_scoring_matrix[sliderIndex[1]][sliderIndex[0]]"
+        type="range"
+        list="values"
+        min="-1"
+        max="1"
+        step="0.01"
+      />
+      <datalist id="values">
+        <option value="-1" label="low"></option>
+        <option value="0" label="medium"></option>
+        <option value="1" label="high"></option>
+      </datalist>
     </div>
 
     <div class="mt-3" v-if="responses.get_claims">
@@ -127,7 +144,8 @@ export default {
     return {
       responses: { get_claims: null, analyze: null },
       loading: { minePage: false, analyze: false, generateReport: false },
-      evidences: []
+      evidences: [],
+      sliderIndex: null
     }
   },
 
@@ -239,6 +257,10 @@ export default {
       // Change bg colour of cell with colour calculated earlier.
       const toHex = (c) => c.toString(16).padStart(2, '0')
       return `#${toHex(red)}${toHex(green)}${toHex(0)}`
+    },
+
+    addColorSlider(index, index2) {
+      this.sliderIndex = [index, index2]
     },
 
     async generateReport() {
