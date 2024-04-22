@@ -68,9 +68,19 @@ import PageFooter from './components/PageFooter.vue'
       </button>
     </div>
 
-    <div class="d-grid gap-2 mt-3">
-      <button type="button" id="reportGenerationButton" class="btn btn-primary">
+    <div v-if="responses.analyze" class="d-grid gap-2 mt-3">
+      <button
+        @click="generateReport"
+        type="button"
+        :disabled="loading.generateReport"
+        class="btn btn-primary"
+      >
         Generate report
+        <span
+          v-if="loading.generateReport"
+          aria-hidden="true"
+          class="spinner-border spinner-border-sm ms-2"
+        ></span>
       </button>
     </div>
 
@@ -119,7 +129,7 @@ export default {
   data() {
     return {
       responses: { get_claims: null, analyze: null },
-      loading: { minePage: false, analyze: false },
+      loading: { minePage: false, analyze: false, generateReport: false },
       evidences: []
     }
   },
@@ -238,6 +248,47 @@ export default {
 
       // Remove the loading spinner.
       this.loading.analyze = false
+    },
+
+    async generateReport() {
+      // Add the loading spinner.
+      this.loading.generateReport = true
+
+      // Used for debugging the API response.
+      let report
+
+      // The other option here is: generate_per_claim_articles
+      await fetch('http://178.79.182.88:8000/generate_check_result_article/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.responses.analyze.output)
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok')
+          }
+          return response.json()
+        })
+        .then((response) => {
+          report = response
+          response = response.output.article
+          let textBlob = new Blob([response], { type: 'text/plain' })
+          const link = document.createElement('a')
+          link.href = URL.createObjectURL(textBlob)
+          link.download = 'report' // Filename
+          link.click()
+          URL.revokeObjectURL(link.href)
+        })
+        .catch((error) => {
+          console.error('Error downloading file:', error)
+        })
+
+      console.log("Report: ", report.output)
+
+      // Remove the loading spinner.
+      this.loading.generateReport = false
     }
   }
 }
