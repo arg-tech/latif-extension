@@ -224,7 +224,7 @@ export default {
         green = 0
       } else if (cellColor < 0) {
         red = 255
-        green = cellColor * -1 * 255
+        green = (1 - cellColor * -1) * 255
       } else if (cellColor == 0) {
         red = 255
         green = 255
