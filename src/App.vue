@@ -59,7 +59,7 @@ import PageFooter from './components/PageFooter.vue'
 
     <div v-if="evidences.length !== 0" class="d-grid gap-2">
       <button @click="analyze" type="button" :disabled="loading.analyze" class="btn btn-primary">
-        Analyze ACH Table
+        Analyze ACH table
         <span
           v-if="loading.analyze"
           aria-hidden="true"
