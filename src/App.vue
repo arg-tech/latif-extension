@@ -3,7 +3,7 @@ import PageFooter from './components/PageFooter.vue'
 </script>
 
 <template>
-  <main id="page" class="container-fluid mt-2 flex-grow-1">
+  <main class="container-fluid mt-2 flex-grow-1">
     <div class="d-flex mb-4">
       <h1 class="me-auto">Impartial Fact Checker</h1>
       <a href="https://www.arg.tech/" target="_blank"
