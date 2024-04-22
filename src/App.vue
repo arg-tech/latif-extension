@@ -48,8 +48,8 @@ import PageFooter from './components/PageFooter.vue'
               {{ evidence }}
             </td>
             <td
-              :style="{ backgroundColor: score }"
-              v-for="(score, index2) in coloredMatrix"
+              :style="{ backgroundColor: getBackgroundColor(score) }"
+              v-for="(score, index2) in responses.analyze.output.full_scoring_matrix"
               :key="index2"
             ></td>
           </tr>
@@ -131,37 +131,6 @@ export default {
       responses: { get_claims: null, analyze: null },
       loading: { minePage: false, analyze: false, generateReport: false },
       evidences: []
-    }
-  },
-
-  computed: {
-    coloredMatrix() {
-      return this.responses.analyze.output.full_scoring_matrix.map((t) =>
-        t.map((u) => {
-          let cellColor = u
-          let red, green
-          if (cellColor === -1000) {
-            red = 255
-            green = 0
-          } else if (cellColor < 0) {
-            red = 255
-            green = cellColor * -1 * 255
-          } else if (cellColor == 0) {
-            red = 255
-            green = 255
-          } else {
-            green = 255
-            red = (1 - cellColor) * 255
-          }
-
-          red = Math.round(red)
-          green = Math.round(green)
-
-          // Change bg colour of cell with colour calculated earlier.
-          const toHex = (c) => c.toString(16).padStart(2, '0')
-          return `#${toHex(red)}${toHex(green)}${toHex(0)}`
-        })
-      )
     }
   },
 
@@ -250,6 +219,31 @@ export default {
       this.loading.analyze = false
     },
 
+    getBackgroundColor(score) {
+      let cellColor = score
+      let red, green
+      if (cellColor === -1000) {
+        red = 255
+        green = 0
+      } else if (cellColor < 0) {
+        red = 255
+        green = cellColor * -1 * 255
+      } else if (cellColor == 0) {
+        red = 255
+        green = 255
+      } else {
+        green = 255
+        red = (1 - cellColor) * 255
+      }
+
+      red = Math.round(red)
+      green = Math.round(green)
+
+      // Change bg colour of cell with colour calculated earlier.
+      const toHex = (c) => c.toString(16).padStart(2, '0')
+      return `#${toHex(red)}${toHex(green)}${toHex(0)}`
+    },
+
     async generateReport() {
       // Add the loading spinner.
       this.loading.generateReport = true
@@ -285,7 +279,7 @@ export default {
           console.error('Error downloading file:', error)
         })
 
-      console.log("Report: ", report.output)
+      console.log('Report: ', report.output)
 
       // Remove the loading spinner.
       this.loading.generateReport = false
