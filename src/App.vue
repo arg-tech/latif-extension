@@ -235,6 +235,10 @@ export default {
     },
 
     getBackgroundColor(score) {
+      if (typeof score !== 'number') {
+        return
+      }
+
       let red = 255
       let green = 255
 
