@@ -235,24 +235,16 @@ export default {
     },
 
     getBackgroundColor(score) {
-      let cellColor = score
-      let red, green
-      if (cellColor === -1000) {
-        red = 255
-        green = 0
-      } else if (cellColor < 0) {
-        red = 255
-        green = (1 - cellColor * -1) * 255
-      } else if (cellColor == 0) {
-        red = 255
-        green = 255
-      } else {
-        green = 255
-        red = (1 - cellColor) * 255
-      }
+      let red = 255
+      let green = 255
 
-      red = Math.round(red)
-      green = Math.round(green)
+      if (score === -1000) {
+        green = 0
+      } else if (score < 0) {
+        green = Math.round(255 * (1 + score))
+      } else if (score > 0) {
+        red = Math.round(255 * (1 - score))
+      }
 
       // Change bg colour of cell with colour calculated earlier.
       const toHex = (c) => c.toString(16).padStart(2, '0')
