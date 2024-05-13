@@ -247,7 +247,7 @@ export default {
         green = 0
       } else if (score < 0) {
         // If score is a string we still want numeric addition, not concatination.
-        green = Math.round(255 * (1 + (+score)))
+        green = Math.round(255 * (1 + +score))
       } else if (score > 0) {
         red = Math.round(255 * (1 - score))
       }
