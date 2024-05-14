@@ -17,7 +17,7 @@ import TableHeader from './components/TableHeader.vue'
     </div>
     <div class="d-grid gap-2">
       <button @click="minePage" type="button" :disabled="loading.minePage" class="btn btn-primary">
-        Mine webpage
+        Extract Claims
         <span
           v-if="loading.minePage"
           aria-hidden="true"
@@ -60,7 +60,7 @@ import TableHeader from './components/TableHeader.vue'
 
     <div v-if="evidences.length !== 0" class="d-grid gap-2">
       <button @click="analyze" type="button" :disabled="loading.analyze" class="btn btn-primary">
-        Analyze ACH table
+        Analyse Evidence
         <span
           v-if="loading.analyze"
           aria-hidden="true"
@@ -76,7 +76,7 @@ import TableHeader from './components/TableHeader.vue'
         :disabled="loading.generateReport"
         class="btn btn-primary"
       >
-        Generate report
+        Generate Report
         <span
           v-if="loading.generateReport"
           aria-hidden="true"
