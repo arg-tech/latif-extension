@@ -16,10 +16,15 @@ import TableHeader from './components/TableHeader.vue'
       /></a>
     </div>
     <div class="d-grid gap-2">
-      <button @click="minePage" type="button" :disabled="loading.minePage" class="btn btn-primary">
+      <button
+        @click="extractClaims"
+        type="button"
+        :disabled="loading.extractClaims"
+        class="btn btn-primary"
+      >
         Extract Claims
         <span
-          v-if="loading.minePage"
+          v-if="loading.extractClaims"
           aria-hidden="true"
           class="spinner-border spinner-border-sm ms-2"
         ></span>
@@ -59,10 +64,15 @@ import TableHeader from './components/TableHeader.vue'
     </div>
 
     <div v-if="evidences.length !== 0" class="d-grid gap-2">
-      <button @click="analyze" type="button" :disabled="loading.analyze" class="btn btn-primary">
+      <button
+        @click="analyzeEvidence"
+        type="button"
+        :disabled="loading.analyzeEvidence"
+        class="btn btn-primary"
+      >
         Analyse Evidence
         <span
-          v-if="loading.analyze"
+          v-if="loading.analyzeEvidence"
           aria-hidden="true"
           class="spinner-border spinner-border-sm ms-2"
         ></span>
@@ -139,16 +149,16 @@ export default {
   data() {
     return {
       responses: { get_claims: null, analyze: null },
-      loading: { minePage: false, analyze: false, generateReport: false },
+      loading: { extractClaims: false, analyzeEvidence: false, generateReport: false },
       evidences: [],
       sliderIndex: null
     }
   },
 
   methods: {
-    async minePage() {
+    async extractClaims() {
       // Add the loading spinner.
-      this.loading.minePage = true
+      this.loading.extractClaims = true
 
       // Get article text
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
@@ -183,7 +193,7 @@ export default {
       console.log('get_claims: ', this.responses.get_claims)
 
       // Remove the loading spinner.
-      this.loading.minePage = false
+      this.loading.extractClaims = false
     },
 
     tableDrop(event) {
@@ -191,9 +201,9 @@ export default {
       this.evidences.push(data)
     },
 
-    async analyze() {
+    async analyzeEvidence() {
       // Add the loading spinner.
-      this.loading.analyze = true
+      this.loading.analyzeEvidence = true
 
       // Fetch page data from the API.
       this.responses.analyze = await fetch('http://178.79.182.88:8080/analyze/', {
@@ -227,7 +237,7 @@ export default {
       console.log('Analyze: ', this.responses.analyze.output)
 
       // Remove the loading spinner.
-      this.loading.analyze = false
+      this.loading.analyzeEvidence = false
     },
 
     getBackgroundColor(score) {
