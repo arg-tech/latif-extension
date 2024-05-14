@@ -1,20 +1,12 @@
 <script setup>
+import PageHeader from './components/PageHeader.vue'
 import PageFooter from './components/PageFooter.vue'
 import TableHeader from './components/TableHeader.vue'
 </script>
 
 <template>
   <main class="container-fluid mt-2 flex-grow-1">
-    <div class="d-flex mb-4">
-      <h1 class="me-auto">Impartial Fact Checker</h1>
-      <a href="https://www.arg.tech/" target="_blank"
-        ><img
-          class="img-fluid me-2"
-          src="/icon128.png"
-          alt="ARG-tech logo"
-          style="width: 40px; height: 40px"
-      /></a>
-    </div>
+    <PageHeader class="mb-4" />
     <div class="d-grid gap-2">
       <button
         @click="extractClaims"
