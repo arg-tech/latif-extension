@@ -1,5 +1,6 @@
 <script setup>
 import PageFooter from './components/PageFooter.vue'
+import TableHeader from './components/TableHeader.vue'
 </script>
 
 <template>
@@ -29,8 +30,8 @@ import PageFooter from './components/PageFooter.vue'
         <thead>
           <tr>
             <th>#</th>
-            <th v-for="(_, index) in responses.get_claims.output.hypothesis" :key="index">
-              H{{ index + 1 }}
+            <th v-for="(hypothesis, index) in responses.get_claims.output.hypothesis" :key="index">
+              <TableHeader :hypothesis="hypothesis" />
             </th>
           </tr>
         </thead>
