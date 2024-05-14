@@ -98,13 +98,6 @@ import TableHeader from './components/TableHeader.vue'
         <option value="1" label="high"></option>
       </datalist>
     </div>
-
-    <div class="mt-3" v-if="responses.get_claims">
-      <p v-for="(hypothesis, index) in responses.get_claims.output.hypothesis" :key="index">
-        <strong>H{{ index + 1 }}: </strong>
-        {{ hypothesis }}
-      </p>
-    </div>
   </main>
 
   <PageFooter />
