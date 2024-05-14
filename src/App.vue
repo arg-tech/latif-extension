@@ -1,47 +1,20 @@
 <script setup>
+import AchTable from './components/AchTable.vue'
 import PageButton from './components/PageButton.vue'
 import PageHeader from './components/PageHeader.vue'
 import PageFooter from './components/PageFooter.vue'
-import TableHeader from './components/TableHeader.vue'
 </script>
 
 <template>
   <main class="container-fluid mt-2 flex-grow-1">
     <PageHeader class="mb-4" />
+
     <div class="d-grid gap-2">
       <PageButton @click="extractClaims" :loading="loading.extractClaims">Extract Claims</PageButton>
     </div>
+
     <div class="table-responsive my-3" v-if="responses.get_claims">
-      <table class="table table-bordered" @dragover.prevent @drop.prevent="tableDrop">
-        <thead>
-          <tr>
-            <th>#</th>
-            <TableHeader
-              v-for="(hypothesis, index) in responses.get_claims.output.hypothesis"
-              :key="index"
-              :hypothesis="hypothesis"
-            />
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(evidence, index) in evidences" :key="index">
-            <td>
-              {{ evidence }}
-            </td>
-            <template v-if="!responses.analyze">
-              <td v-for="(_, index2) in responses.get_claims.output.hypothesis" :key="index2"></td>
-            </template>
-            <template v-else>
-              <td
-                v-for="(score, index2) in responses.analyze.output.full_scoring_matrix"
-                :style="{ backgroundColor: getBackgroundColor(score[index]) }"
-                :key="index2"
-                @click.prevent="addColorSlider(index, index2)"
-              ></td>
-            </template>
-          </tr>
-        </tbody>
-      </table>
+      <AchTable :responses="responses" :evidences="evidences" @drop="tableDrop"></AchTable>
     </div>
 
     <div v-if="evidences.length !== 0" class="d-grid gap-2">
