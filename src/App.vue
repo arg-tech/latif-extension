@@ -30,9 +30,11 @@ import TableHeader from './components/TableHeader.vue'
         <thead>
           <tr>
             <th>#</th>
-            <th v-for="(hypothesis, index) in responses.get_claims.output.hypothesis" :key="index">
-              <TableHeader :hypothesis="hypothesis" />
-            </th>
+            <TableHeader
+              v-for="(hypothesis, index) in responses.get_claims.output.hypothesis"
+              :key="index"
+              :hypothesis="hypothesis"
+            />
           </tr>
         </thead>
         <tbody>

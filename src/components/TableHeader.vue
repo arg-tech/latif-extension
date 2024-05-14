@@ -1,7 +1,7 @@
 <template>
-  <span ref="tooltipElement" data-bs-toggle="tooltip" :data-bs-title="hypothesis">
+  <th ref="tooltipElement" data-bs-toggle="tooltip" :data-bs-title="hypothesis">
     {{ hypothesis.slice(0, 10).trimEnd() }}...
-  </span>
+  </th>
 </template>
 
 <script>
