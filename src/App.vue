@@ -1,4 +1,5 @@
 <script setup>
+import PageButton from './components/PageButton.vue'
 import PageHeader from './components/PageHeader.vue'
 import PageFooter from './components/PageFooter.vue'
 import TableHeader from './components/TableHeader.vue'
@@ -8,19 +9,7 @@ import TableHeader from './components/TableHeader.vue'
   <main class="container-fluid mt-2 flex-grow-1">
     <PageHeader class="mb-4" />
     <div class="d-grid gap-2">
-      <button
-        @click="extractClaims"
-        type="button"
-        :disabled="loading.extractClaims"
-        class="btn btn-primary"
-      >
-        Extract Claims
-        <span
-          v-if="loading.extractClaims"
-          aria-hidden="true"
-          class="spinner-border spinner-border-sm ms-2"
-        ></span>
-      </button>
+      <PageButton @click="extractClaims" :loading="loading.extractClaims">Extract Claims</PageButton>
     </div>
     <div class="table-responsive my-3" v-if="responses.get_claims">
       <table class="table table-bordered" @dragover.prevent @drop.prevent="tableDrop">
@@ -56,35 +45,11 @@ import TableHeader from './components/TableHeader.vue'
     </div>
 
     <div v-if="evidences.length !== 0" class="d-grid gap-2">
-      <button
-        @click="analyzeEvidence"
-        type="button"
-        :disabled="loading.analyzeEvidence"
-        class="btn btn-primary"
-      >
-        Analyse Evidence
-        <span
-          v-if="loading.analyzeEvidence"
-          aria-hidden="true"
-          class="spinner-border spinner-border-sm ms-2"
-        ></span>
-      </button>
+      <PageButton @click="analyzeEvidence" :loading="loading.analyzeEvidence">Analyse Evidence</PageButton>
     </div>
 
     <div v-if="responses.analyze" class="d-grid gap-2 mt-3">
-      <button
-        @click="generateReport"
-        type="button"
-        :disabled="loading.generateReport"
-        class="btn btn-primary"
-      >
-        Generate Report
-        <span
-          v-if="loading.generateReport"
-          aria-hidden="true"
-          class="spinner-border spinner-border-sm ms-2"
-        ></span>
-      </button>
+      <PageButton @click="generateReport" :loading="loading.generateReport">Generate Report</PageButton>
     </div>
 
     <div v-if="sliderIndex" class="mt-3">
