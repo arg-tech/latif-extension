@@ -18,7 +18,7 @@
       "js": ["content.js"]
     }
   ],
-  "permissions": ["sidePanel"],
+  "permissions": ["sidePanel", "tabs"],
   "minimum_chrome_version": "114",
   "icons": {
     "16": "icon16.png",
