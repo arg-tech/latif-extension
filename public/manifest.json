@@ -4,7 +4,7 @@
   "description": "Impartial fact checker extension for LATIF, developed by ARG-tech.",
   "version": "0.0.2",
   "side_panel": {
-    "default_path": "sidepanel.html"
+    "default_path": "index.html"
   },
   "background": {
     "service_worker": "service-worker.js"

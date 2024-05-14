@@ -10,7 +10,7 @@ datalist {
     width: 90%;
   }
 
-  body {
+  #app {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
