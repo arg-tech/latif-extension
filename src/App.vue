@@ -132,29 +132,6 @@ export default {
       this.loading.analyzeEvidence = false
     },
 
-    getBackgroundColor(score) {
-      // When using the slider it updates as a string.
-      if (typeof score !== 'number' && typeof score !== 'string') {
-        return
-      }
-
-      let red = 255
-      let green = 255
-
-      if (score === -1000) {
-        green = 0
-      } else if (score < 0) {
-        // If score is a string we still want numeric addition, not concatination.
-        green = Math.round(255 * (1 + +score))
-      } else if (score > 0) {
-        red = Math.round(255 * (1 - score))
-      }
-
-      // Change bg colour of cell with colour calculated earlier.
-      const toHex = (c) => c.toString(16).padStart(2, '0')
-      return `#${toHex(red)}${toHex(green)}${toHex(0)}`
-    },
-
     addColorSlider(index, index2) {
       this.sliderIndex = [index, index2]
     },
