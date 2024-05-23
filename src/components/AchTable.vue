@@ -25,7 +25,7 @@ import TableHeader from './TableHeader.vue'
         <template v-else>
           <td
             v-for="(score, index2) in responses.analyze.output.full_scoring_matrix"
-            :style="{ backgroundColor: $parent.getBackgroundColor(score[index]) }"
+            :style="{ backgroundColor: getBackgroundColor(score[index]) }"
             :key="index2"
             @click.prevent="$parent.addColorSlider(index, index2)"
           ></td>
@@ -37,6 +37,31 @@ import TableHeader from './TableHeader.vue'
 
 <script>
 export default {
-  props: ['responses', 'evidences']
+  props: ['responses', 'evidences'],
+
+  methods: {
+    getBackgroundColor(score) {
+      // When using the slider it updates as a string.
+      if (typeof score !== 'number' && typeof score !== 'string') {
+        return
+      }
+
+      let red = 255
+      let green = 255
+
+      if (score === -1000) {
+        green = 0
+      } else if (score < 0) {
+        // If score is a string we still want numeric addition, not concatination.
+        green = Math.round(255 * (1 + +score))
+      } else if (score > 0) {
+        red = Math.round(255 * (1 - score))
+      }
+
+      // Change bg colour of cell with colour calculated earlier.
+      const toHex = (c) => c.toString(16).padStart(2, '0')
+      return `#${toHex(red)}${toHex(green)}${toHex(0)}`
+    }
+  }
 }
 </script>

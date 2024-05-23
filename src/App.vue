@@ -1,5 +1,6 @@
 <script setup>
 import AchTable from './components/AchTable.vue'
+import EvidenceTuner from './components/EvidenceTuner.vue'
 import PageButton from './components/PageButton.vue'
 import PageHeader from './components/PageHeader.vue'
 import PageFooter from './components/PageFooter.vue'
@@ -26,19 +27,7 @@ import PageFooter from './components/PageFooter.vue'
     </div>
 
     <div v-if="sliderIndex" class="mt-3">
-      <input
-        v-model="responses.analyze.output.full_scoring_matrix[sliderIndex[1]][sliderIndex[0]]"
-        type="range"
-        list="values"
-        min="-1"
-        max="1"
-        step="0.01"
-      />
-      <datalist id="values">
-        <option value="-1" label="low"></option>
-        <option value="0" label="medium"></option>
-        <option value="1" label="high"></option>
-      </datalist>
+      <EvidenceTuner v-model="responses.analyze.output.full_scoring_matrix[sliderIndex[1]][sliderIndex[0]]" />
     </div>
   </main>
 
@@ -141,29 +130,6 @@ export default {
 
       // Remove the loading spinner.
       this.loading.analyzeEvidence = false
-    },
-
-    getBackgroundColor(score) {
-      // When using the slider it updates as a string.
-      if (typeof score !== 'number' && typeof score !== 'string') {
-        return
-      }
-
-      let red = 255
-      let green = 255
-
-      if (score === -1000) {
-        green = 0
-      } else if (score < 0) {
-        // If score is a string we still want numeric addition, not concatination.
-        green = Math.round(255 * (1 + +score))
-      } else if (score > 0) {
-        red = Math.round(255 * (1 - score))
-      }
-
-      // Change bg colour of cell with colour calculated earlier.
-      const toHex = (c) => c.toString(16).padStart(2, '0')
-      return `#${toHex(red)}${toHex(green)}${toHex(0)}`
     },
 
     addColorSlider(index, index2) {
