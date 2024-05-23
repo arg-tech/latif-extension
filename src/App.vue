@@ -1,5 +1,6 @@
 <script setup>
 import AchTable from './components/AchTable.vue'
+import EvidenceTuner from './components/EvidenceTuner.vue'
 import PageButton from './components/PageButton.vue'
 import PageHeader from './components/PageHeader.vue'
 import PageFooter from './components/PageFooter.vue'
@@ -26,19 +27,7 @@ import PageFooter from './components/PageFooter.vue'
     </div>
 
     <div v-if="sliderIndex" class="mt-3">
-      <input
-        v-model="responses.analyze.output.full_scoring_matrix[sliderIndex[1]][sliderIndex[0]]"
-        type="range"
-        list="values"
-        min="-1"
-        max="1"
-        step="0.01"
-      />
-      <datalist id="values">
-        <option value="-1" label="low"></option>
-        <option value="0" label="medium"></option>
-        <option value="1" label="high"></option>
-      </datalist>
+      <EvidenceTuner v-model="responses.analyze.output.full_scoring_matrix[sliderIndex[1]][sliderIndex[0]]" />
     </div>
   </main>
 
