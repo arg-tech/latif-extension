@@ -63,6 +63,10 @@ async function analyzeEvidence() {
   // Add the loading spinner.
   loading.analyzeEvidence = true
 
+  // If the analyse evidence button is clicked while the evidence tuner is open the evidence tuner doesn't update to the new value.
+  // This hides it until a new cell is clicked on, and it will be up to date again.
+  sliderIndex.value = null
+
   // Fetch page data from the API.
   responses.analyze = await fetch('http://178.79.182.88:8080/analyze/', {
     method: 'POST',
