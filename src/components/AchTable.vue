@@ -1,7 +1,10 @@
 <script setup>
+import { inject } from 'vue'
 import TableHeader from '@/components/TableHeader.vue'
 
-defineProps(['responses', 'evidences', 'modelValue', 'sliderIndex'])
+const sliderIndex = inject('sliderIndex')
+
+defineProps(['responses', 'evidences', 'modelValue'])
 defineEmits(['update:modelValue'])
 
 function addColorSlider(index, index2) {

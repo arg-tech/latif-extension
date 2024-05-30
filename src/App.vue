@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import { provide, reactive, ref } from 'vue'
 
 import AchTable from '@/components/AchTable.vue'
 import EvidenceTuner from '@/components/EvidenceTuner.vue'
@@ -11,6 +11,9 @@ const responses = reactive({ get_claims: null, analyze: null })
 const loading = reactive({ extractClaims: false, analyzeEvidence: false, generateReport: false })
 const evidences = ref([])
 const sliderIndex = ref(null)
+
+provide('responses', responses)
+provide('sliderIndex', sliderIndex)
 
 async function extractClaims() {
   // Add the loading spinner.
