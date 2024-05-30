@@ -108,16 +108,9 @@ onMounted(() => {
   drawDial()
 })
 
-// watch(
-//   'responses.analyze.output.full_scoring_matrix[sliderIndex.value[1]][sliderIndex.value[0]]',
-//   (newValue) => {
-//     const canvas = dialCanvas.value
-//     const ctx = canvas.value.getContext('2d')
-//     let value = ((newValue + 1) / 2) * 100 // Convert to 0-100 scale
-
-//     // Call drawDial
-//   }
-// )
+watch(sliderIndex, () => {
+  drawDial()
+})
 </script>
 
 <template>
