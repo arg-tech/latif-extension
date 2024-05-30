@@ -1,42 +1,41 @@
+<script setup>
+import * as bootstrap from 'bootstrap'
+import { onBeforeUpdate, onMounted, onUpdated, ref } from 'vue'
+
+defineProps(['hypothesis'])
+const tooltip = ref(null)
+const tooltipElement = ref(null)
+
+function initTooltip() {
+  if (tooltipElement.value) {
+    tooltip.value = new bootstrap.Tooltip(tooltipElement.value)
+  }
+}
+
+function disposeTooltip() {
+  if (tooltip.value) {
+    tooltip.value.dispose()
+    tooltip.value = null
+  }
+}
+
+onMounted(() => {
+  initTooltip()
+})
+
+onBeforeUpdate(() => {
+  // Dispose of the tooltip before updating.
+  disposeTooltip()
+})
+
+onUpdated(() => {
+  // Reinitialize the tooltip after data updates.
+  initTooltip()
+})
+</script>
+
 <template>
   <th ref="tooltipElement" data-bs-toggle="tooltip" :data-bs-title="hypothesis">
     {{ hypothesis.slice(0, 10).trimEnd() }}...
   </th>
 </template>
-
-<script>
-import * as bootstrap from 'bootstrap'
-
-export default {
-  props: ['hypothesis'],
-  data() {
-    return {
-      tooltip: null
-    }
-  },
-  mounted() {
-    this.initTooltip()
-  },
-  beforeUpdate() {
-    // Dispose of the tooltip before updating
-    this.disposeTooltip()
-  },
-  updated() {
-    // Reinitialize the tooltip after data updates
-    this.initTooltip()
-  },
-  methods: {
-    initTooltip() {
-      if (this.$refs.tooltipElement) {
-        this.tooltip = new bootstrap.Tooltip(this.$refs.tooltipElement)
-      }
-    },
-    disposeTooltip() {
-      if (this.tooltip) {
-        this.tooltip.dispose()
-        this.tooltip = null
-      }
-    }
-  }
-}
-</script>
