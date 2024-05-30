@@ -96,10 +96,6 @@ async function analyzeEvidence() {
   loading.analyzeEvidence = false
 }
 
-function addColorSlider(index, index2) {
-  sliderIndex.value = [index, index2]
-}
-
 async function generateReport() {
   // Add the loading spinner.
   this.loading.generateReport = true

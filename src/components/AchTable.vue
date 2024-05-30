@@ -4,6 +4,10 @@ import TableHeader from '@/components/TableHeader.vue'
 defineProps(['responses', 'evidences', 'modelValue', 'sliderIndex'])
 defineEmits(['update:modelValue'])
 
+function addColorSlider(index, index2) {
+  sliderIndex.value = [index, index2]
+}
+
 function getBackgroundColor(score) {
   // When using the slider it updates as a string.
   if (typeof score !== 'number' && typeof score !== 'string') {
@@ -53,7 +57,7 @@ function getBackgroundColor(score) {
             v-for="(score, index2) in responses.analyze.output.full_scoring_matrix"
             :style="{ backgroundColor: getBackgroundColor(score[index]) }"
             :key="index2"
-            @click.prevent="$parent.addColorSlider(index, index2)"
+            @click.prevent="addColorSlider(index, index2)"
           ></td>
         </template>
       </tr>
