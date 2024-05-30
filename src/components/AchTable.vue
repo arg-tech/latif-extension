@@ -1,5 +1,5 @@
 <script setup>
-import TableHeader from './TableHeader.vue'
+import TableHeader from '@/components/TableHeader.vue'
 
 defineProps(['responses', 'evidences', 'modelValue', 'sliderIndex'])
 defineEmits(['update:modelValue'])

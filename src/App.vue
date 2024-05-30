@@ -1,9 +1,9 @@
 <script setup>
-import AchTable from './components/AchTable.vue'
-import EvidenceTuner from './components/EvidenceTuner.vue'
-import PageButton from './components/PageButton.vue'
-import PageHeader from './components/PageHeader.vue'
-import PageFooter from './components/PageFooter.vue'
+import AchTable from '@/components/AchTable.vue'
+import EvidenceTuner from '@/components/EvidenceTuner.vue'
+import PageButton from '@/components/PageButton.vue'
+import PageHeader from '@/components/PageHeader.vue'
+import PageFooter from '@/components/PageFooter.vue'
 </script>
 
 <template>
