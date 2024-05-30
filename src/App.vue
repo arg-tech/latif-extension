@@ -11,7 +11,9 @@ import PageFooter from './components/PageFooter.vue'
     <PageHeader class="mb-4" />
 
     <div class="d-grid gap-2">
-      <PageButton @click="extractClaims" :loading="loading.extractClaims">Extract Claims</PageButton>
+      <PageButton @click="extractClaims" :loading="loading.extractClaims"
+        >Extract Claims</PageButton
+      >
     </div>
 
     <div class="table-responsive my-3" v-if="responses.get_claims">
@@ -19,15 +21,21 @@ import PageFooter from './components/PageFooter.vue'
     </div>
 
     <div v-if="evidences.length !== 0" class="d-grid gap-2">
-      <PageButton @click="analyzeEvidence" :loading="loading.analyzeEvidence">Analyse Evidence</PageButton>
+      <PageButton @click="analyzeEvidence" :loading="loading.analyzeEvidence"
+        >Analyse Evidence</PageButton
+      >
     </div>
 
     <div v-if="responses.analyze" class="d-grid gap-2 mt-3">
-      <PageButton @click="generateReport" :loading="loading.generateReport">Generate Report</PageButton>
+      <PageButton @click="generateReport" :loading="loading.generateReport"
+        >Generate Report</PageButton
+      >
     </div>
 
     <div v-if="sliderIndex" class="mt-3">
-      <EvidenceTuner v-model="responses.analyze.output.full_scoring_matrix[sliderIndex[1]][sliderIndex[0]]" />
+      <EvidenceTuner
+        v-model="responses.analyze.output.full_scoring_matrix[sliderIndex[1]][sliderIndex[0]]"
+      />
     </div>
   </main>
 
