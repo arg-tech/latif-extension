@@ -8,6 +8,12 @@ const sliderIndex = inject('sliderIndex')
 defineProps(['responses', 'evidences'])
 
 function activateEvidenceTuner(index, index2) {
+  // Remove the evidence tuner if the same cell is clicked on twice.
+  if (sliderIndex.value && sliderIndex.value[0] == index && sliderIndex.value[1] == index2) {
+    sliderIndex.value = null
+    return
+  }
+
   sliderIndex.value = [index, index2]
 }
 
