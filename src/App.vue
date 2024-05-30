@@ -100,7 +100,7 @@ async function analyzeEvidence() {
 
 async function generateReport() {
   // Add the loading spinner.
-  this.loading.generateReport = true
+  loading.generateReport = true
 
   // Used for debugging the API response.
   let report
@@ -111,7 +111,7 @@ async function generateReport() {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(this.responses.analyze.output)
+    body: JSON.stringify(responses.analyze.output)
   })
     .then((response) => {
       if (!response.ok) {
@@ -136,7 +136,7 @@ async function generateReport() {
   console.log('Report: ', report.output)
 
   // Remove the loading spinner.
-  this.loading.generateReport = false
+  loading.generateReport = false
 }
 </script>
 
