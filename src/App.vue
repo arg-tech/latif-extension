@@ -2,7 +2,6 @@
 import { provide, reactive, ref } from 'vue'
 
 import AchTable from '@/components/AchTable.vue'
-import EvidenceTuner from '@/components/EvidenceTuner.vue'
 import PageButton from '@/components/PageButton.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import PageFooter from '@/components/PageFooter.vue'
@@ -165,12 +164,6 @@ async function generateReport() {
       <PageButton @click="generateReport" :loading="loading.generateReport"
         >Generate Report</PageButton
       >
-    </div>
-
-    <div v-if="sliderIndex" class="mt-3">
-      <EvidenceTuner
-        v-model="responses.analyze.output.full_scoring_matrix[sliderIndex[1]][sliderIndex[0]]"
-      />
     </div>
   </main>
 

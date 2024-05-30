@@ -1,11 +1,11 @@
 <script setup>
 import { inject } from 'vue'
+import EvidenceTuner from '@/components/EvidenceTuner.vue'
 import TableHeader from '@/components/TableHeader.vue'
 
 const sliderIndex = inject('sliderIndex')
 
-defineProps(['responses', 'evidences', 'modelValue'])
-defineEmits(['update:modelValue'])
+defineProps(['responses', 'evidences'])
 
 function addColorSlider(index, index2) {
   sliderIndex.value = [index, index2]
@@ -51,6 +51,9 @@ function getBackgroundColor(score) {
       <tr v-for="(evidence, index) in evidences" :key="index">
         <td>
           {{ evidence }}
+          <div v-if="sliderIndex && sliderIndex[0] === index" class="mt-3">
+            <EvidenceTuner />
+          </div>
         </td>
         <template v-if="!responses.analyze">
           <td v-for="(_, index2) in responses.get_claims.output.hypothesis" :key="index2"></td>
