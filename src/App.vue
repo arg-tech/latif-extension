@@ -145,33 +145,35 @@ async function generateReport() {
 </script>
 
 <template>
-  <PageHeader class="mt-2 mb-4 container-fluid" />
+  <div class="flex-column min-vh-100 d-flex">
+    <PageHeader class="mt-2 mb-4 container-fluid" />
 
-  <main class="container-fluid flex-grow-1">
-    <div class="d-grid gap-2">
-      <PageButton @click="extractClaims" :loading="loading.extractClaims"
-        >Extract Claims</PageButton
-      >
-    </div>
+    <main class="container-fluid flex-grow-1">
+      <div class="d-grid gap-2">
+        <PageButton @click="extractClaims" :loading="loading.extractClaims"
+          >Extract Claims</PageButton
+        >
+      </div>
 
-    <div class="table-responsive my-3" v-if="responses.get_claims">
-      <AchTable :responses="responses" :evidences="evidences" @drop="tableDrop"></AchTable>
-    </div>
+      <div class="table-responsive my-3" v-if="responses.get_claims">
+        <AchTable :responses="responses" :evidences="evidences" @drop="tableDrop"></AchTable>
+      </div>
 
-    <div v-if="evidences.length !== 0" class="d-grid gap-2">
-      <PageButton @click="analyzeEvidence" :loading="loading.analyzeEvidence"
-        >Analyse Evidence</PageButton
-      >
-    </div>
+      <div v-if="evidences.length !== 0" class="d-grid gap-2">
+        <PageButton @click="analyzeEvidence" :loading="loading.analyzeEvidence"
+          >Analyse Evidence</PageButton
+        >
+      </div>
 
-    <div v-if="responses.analyze" class="d-grid gap-2 mt-3">
-      <PageButton @click="generateReport" :loading="loading.generateReport"
-        >Generate Report</PageButton
-      >
-    </div>
-  </main>
+      <div v-if="responses.analyze" class="d-grid gap-2 mt-3">
+        <PageButton @click="generateReport" :loading="loading.generateReport"
+          >Generate Report</PageButton
+        >
+      </div>
+    </main>
 
-  <PageFooter />
+    <PageFooter />
+  </div>
 </template>
 
 <style scoped></style>

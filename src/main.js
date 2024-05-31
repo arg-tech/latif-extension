@@ -1,5 +1,3 @@
-import './assets/main.css'
-
 // Import our custom CSS
 import './scss/styles.scss'
 
