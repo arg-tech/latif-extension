@@ -37,9 +37,10 @@ function drawDial() {
       2) *
     100
 
+  // Clear the canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  // Draw dial lower layer.
+  // Draw the outer circle.
   ctx.beginPath()
   ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI)
   ctx.lineWidth = lineWidth
@@ -51,7 +52,7 @@ function drawDial() {
   const endAngle = startAngle + (value / maxValue) * 2 * Math.PI
   const color = getColor(value)
 
-  // Draw current dial status.
+  // Draw the filled arc.
   ctx.beginPath()
   ctx.arc(centerX, centerY, radius, startAngle, endAngle)
   ctx.lineWidth = lineWidth
