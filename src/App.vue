@@ -145,9 +145,9 @@ async function generateReport() {
 </script>
 
 <template>
-  <main class="container-fluid mt-2 flex-grow-1">
-    <PageHeader class="mb-4" />
+  <PageHeader class="mt-2 mb-4 container-fluid" />
 
+  <main class="container-fluid flex-grow-1">
     <div class="d-grid gap-2">
       <PageButton @click="extractClaims" :loading="loading.extractClaims"
         >Extract Claims</PageButton
