@@ -54,9 +54,11 @@ async function extractClaims() {
   loading.extractClaims = false
 }
 
-function tableDrop(event) {
+async function tableDrop(event) {
   let data = event.dataTransfer.getData('text/plain')
-  evidences.value.push(data)
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+  const url = (await chrome.tabs.sendMessage(tab.id, { action: 'getFragmentUrl' })).url
+  evidences.value.push({ text: data, url: url })
 }
 
 async function analyzeEvidence() {
@@ -75,7 +77,7 @@ async function analyzeEvidence() {
     },
     body: JSON.stringify({
       hypothesis: responses.get_claims.output.hypothesis,
-      manual_evidences: evidences.value,
+      manual_evidences: evidences.value.map((t) => t.text),
       max_alignment_limit: -1,
       min_alignment_limit: -1,
       hypothesis_nodes: responses.get_claims.output.hypothesis_nodes,

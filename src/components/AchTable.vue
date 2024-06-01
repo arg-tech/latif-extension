@@ -60,7 +60,9 @@ function getBackgroundColor(score) {
     <tbody>
       <tr v-for="(evidence, rowIndex) in evidences" :key="rowIndex">
         <td>
-          {{ evidence }}
+          <a target="_blank" rel="noreferrer" :href="evidence.url" class="d-block text-decoration-none text-reset">{{
+            evidence.text
+          }}</a>
           <div v-if="evidenceTunerCellRef && evidenceTunerCellRef[0] === rowIndex" class="mt-3">
             <EvidenceTuner />
           </div>
