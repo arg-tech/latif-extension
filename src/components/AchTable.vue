@@ -3,18 +3,22 @@ import { inject } from 'vue'
 import EvidenceTuner from '@/components/EvidenceTuner.vue'
 import TableHeader from '@/components/TableHeader.vue'
 
-const sliderIndex = inject('sliderIndex')
+const evidenceTunerCellRef = inject('evidenceTunerCellRef')
 
 defineProps(['responses', 'evidences'])
 
 function activateEvidenceTuner(index, index2) {
   // Remove the evidence tuner if the same cell is clicked on twice.
-  if (sliderIndex.value && sliderIndex.value[0] == index && sliderIndex.value[1] == index2) {
-    sliderIndex.value = null
+  if (
+    evidenceTunerCellRef.value &&
+    evidenceTunerCellRef.value[0] == index &&
+    evidenceTunerCellRef.value[1] == index2
+  ) {
+    evidenceTunerCellRef.value = null
     return
   }
 
-  sliderIndex.value = [index, index2]
+  evidenceTunerCellRef.value = [index, index2]
 }
 
 function getBackgroundColor(score) {
@@ -57,7 +61,7 @@ function getBackgroundColor(score) {
       <tr v-for="(evidence, index) in evidences" :key="index">
         <td>
           {{ evidence }}
-          <div v-if="sliderIndex && sliderIndex[0] === index" class="mt-3">
+          <div v-if="evidenceTunerCellRef && evidenceTunerCellRef[0] === index" class="mt-3">
             <EvidenceTuner />
           </div>
         </td>

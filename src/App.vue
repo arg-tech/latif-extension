@@ -9,10 +9,10 @@ import PageFooter from '@/components/PageFooter.vue'
 const responses = reactive({ get_claims: null, analyze: null })
 const loading = reactive({ extractClaims: false, analyzeEvidence: false, generateReport: false })
 const evidences = ref([])
-const sliderIndex = ref(null)
+const evidenceTunerCellRef = ref(null)
 
 provide('responses', responses)
-provide('sliderIndex', sliderIndex)
+provide('evidenceTunerCellRef', evidenceTunerCellRef)
 
 async function extractClaims() {
   // Add the loading spinner.
@@ -65,7 +65,7 @@ async function analyzeEvidence() {
 
   // If the analyse evidence button is clicked while the evidence tuner is open the evidence tuner doesn't update to the new value.
   // This hides it until a new cell is clicked on, and it will be up to date again.
-  sliderIndex.value = null
+  evidenceTunerCellRef.value = null
 
   // Fetch page data from the API.
   responses.analyze = await fetch('http://178.79.182.88:8080/analyze/', {

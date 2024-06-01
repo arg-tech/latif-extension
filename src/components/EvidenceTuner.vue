@@ -2,7 +2,7 @@
 import { inject, onMounted, ref, watch } from 'vue'
 
 const responses = inject('responses')
-const sliderIndex = inject('sliderIndex')
+const evidenceTunerCellRef = inject('evidenceTunerCellRef')
 
 const dialCanvas = ref(null)
 
@@ -32,7 +32,9 @@ function drawDial() {
 
   // Convert to 0-100 scale.
   const value =
-    ((responses.analyze.output.full_scoring_matrix[sliderIndex.value[1]][sliderIndex.value[0]] +
+    ((responses.analyze.output.full_scoring_matrix[evidenceTunerCellRef.value[1]][
+      evidenceTunerCellRef.value[0]
+    ] +
       1) /
       2) *
     100
@@ -76,8 +78,9 @@ function handleMouseMove(event) {
 
   // Now update dial.
   // Convert back to -1 to 1 scale.
-  responses.analyze.output.full_scoring_matrix[sliderIndex.value[1]][sliderIndex.value[0]] =
-    parseFloat((normalizedAngle * 2 - 1).toFixed(2))
+  responses.analyze.output.full_scoring_matrix[evidenceTunerCellRef.value[1]][
+    evidenceTunerCellRef.value[0]
+  ] = parseFloat((normalizedAngle * 2 - 1).toFixed(2))
   drawDial()
 }
 
@@ -109,7 +112,7 @@ onMounted(() => {
   drawDial()
 })
 
-watch(sliderIndex, () => {
+watch(evidenceTunerCellRef, () => {
   drawDial()
 })
 </script>
