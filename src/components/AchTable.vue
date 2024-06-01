@@ -7,18 +7,18 @@ const evidenceTunerCellRef = inject('evidenceTunerCellRef')
 
 defineProps(['responses', 'evidences'])
 
-function activateEvidenceTuner(index, index2) {
+function activateEvidenceTuner(rowIndex, colIndex) {
   // Remove the evidence tuner if the same cell is clicked on twice.
   if (
     evidenceTunerCellRef.value &&
-    evidenceTunerCellRef.value[0] == index &&
-    evidenceTunerCellRef.value[1] == index2
+    evidenceTunerCellRef.value[0] == rowIndex &&
+    evidenceTunerCellRef.value[1] == colIndex
   ) {
     evidenceTunerCellRef.value = null
     return
   }
 
-  evidenceTunerCellRef.value = [index, index2]
+  evidenceTunerCellRef.value = [rowIndex, colIndex]
 }
 
 function getBackgroundColor(score) {
@@ -51,29 +51,29 @@ function getBackgroundColor(score) {
       <tr>
         <th>#</th>
         <TableHeader
-          v-for="(hypothesis, index) in responses.get_claims.output.hypothesis"
-          :key="index"
+          v-for="(hypothesis, colIndex) in responses.get_claims.output.hypothesis"
+          :key="colIndex"
           :hypothesis="hypothesis"
         />
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(evidence, index) in evidences" :key="index">
+      <tr v-for="(evidence, rowIndex) in evidences" :key="rowIndex">
         <td>
           {{ evidence }}
-          <div v-if="evidenceTunerCellRef && evidenceTunerCellRef[0] === index" class="mt-3">
+          <div v-if="evidenceTunerCellRef && evidenceTunerCellRef[0] === rowIndex" class="mt-3">
             <EvidenceTuner />
           </div>
         </td>
         <template v-if="!responses.analyze">
-          <td v-for="(_, index2) in responses.get_claims.output.hypothesis" :key="index2"></td>
+          <td v-for="(_, colIndex) in responses.get_claims.output.hypothesis" :key="colIndex"></td>
         </template>
         <template v-else>
           <td
-            v-for="(score, index2) in responses.analyze.output.full_scoring_matrix"
-            :style="{ backgroundColor: getBackgroundColor(score[index]) }"
-            :key="index2"
-            @click.prevent="activateEvidenceTuner(index, index2)"
+            v-for="(scoreCol, colIndex) in responses.analyze.output.full_scoring_matrix"
+            :style="{ backgroundColor: getBackgroundColor(scoreCol[rowIndex]) }"
+            :key="colIndex"
+            @click.prevent="activateEvidenceTuner(rowIndex, colIndex)"
           ></td>
         </template>
       </tr>
