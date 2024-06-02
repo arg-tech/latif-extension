@@ -36,6 +36,6 @@ onUpdated(() => {
 
 <template>
   <th ref="tooltipElement" data-bs-toggle="tooltip" :data-bs-title="hypothesis" class="text-nowrap">
-    {{ hypothesis.slice(0, 10).trimEnd() }}...
+    {{ hypothesis.length < 10 ? hypothesis : hypothesis.slice(0, 10).trimEnd() + "..." }}
   </th>
 </template>
