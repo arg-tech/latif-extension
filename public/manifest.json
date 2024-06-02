@@ -3,6 +3,9 @@
   "name": "Impartial Fact Checker",
   "description": "Impartial fact checker extension for LATIF, developed by ARG-tech.",
   "version": "0.0.6",
+  "action": {
+    "default_title": "Impartial Fact Checker"
+  },
   "side_panel": {
     "default_path": "index.html"
   },
