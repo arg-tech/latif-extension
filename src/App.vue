@@ -55,7 +55,7 @@ async function extractClaims() {
 }
 
 async function tableDrop(event) {
-  let data = event.dataTransfer.getData('text/plain')
+  const data = event.dataTransfer.getData('text/plain')
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
   const url = (await chrome.tabs.sendMessage(tab.id, { action: 'getFragmentUrl' })).url
   evidences.value.push({ text: data, url: url })
