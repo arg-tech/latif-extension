@@ -29,10 +29,19 @@ function getFragmentUrl() {
   }
 }
 
+function goToUrl(url) {
+  const link = document.createElement('a')
+  link.href = url
+  link.click()
+  URL.revokeObjectURL(link.href)
+}
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'getArticleText') {
     sendResponse(getArticleText())
   } else if (message.action === 'getFragmentUrl') {
     sendResponse({ url: getFragmentUrl() })
+  } else if (message.action === 'goToUrl') {
+    goToUrl(message.url)
   }
 })
