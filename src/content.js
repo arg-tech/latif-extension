@@ -29,6 +29,10 @@ function getFragmentUrl() {
   }
 }
 
+function getSelectionText() {
+  return window.getSelection().toString()
+}
+
 function goToUrl(url) {
   const link = document.createElement('a')
   link.href = url
@@ -41,6 +45,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     sendResponse(getArticleText())
   } else if (message.action === 'getFragmentUrl') {
     sendResponse({ url: getFragmentUrl() })
+  } else if (message.action === 'getSelectionText') {
+    sendResponse({ text: getSelectionText() })
   } else if (message.action === 'goToUrl') {
     goToUrl(message.url)
   }
