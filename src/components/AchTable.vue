@@ -1,6 +1,6 @@
 <script setup>
 import { inject } from 'vue'
-import EvidenceTuner from '@/components/EvidenceTuner.vue'
+import EvidenceCell from '@/components/EvidenceCell.vue'
 import TableHeader from '@/components/TableHeader.vue'
 
 const evidenceTunerCellRef = inject('evidenceTunerCellRef')
@@ -59,12 +59,7 @@ function getBackgroundColor(score) {
     </thead>
     <tbody>
       <tr v-for="(evidence, rowIndex) in evidences" :key="rowIndex">
-        <td>
-          {{ evidence }}
-          <div v-if="evidenceTunerCellRef && evidenceTunerCellRef[0] === rowIndex" class="mt-3">
-            <EvidenceTuner />
-          </div>
-        </td>
+        <EvidenceCell :evidence :rowIndex />
         <template v-if="!responses.analyze">
           <td v-for="(_, colIndex) in responses.get_claims.output.hypothesis" :key="colIndex"></td>
         </template>
