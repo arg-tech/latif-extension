@@ -27,33 +27,29 @@ async function extractClaims() {
   console.log(articleText)
 
   // Fetch page data from the API.
-  responses.get_claims = await fetch('http://178.79.182.88:8080/get_claims/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      text: articleText
-    })
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
-      return response.json()
-    })
-    .then((data) => {
-      return data
-    })
-    .catch((error) => {
-      console.error('There has been a problem with your fetch operation:', error)
+  try {
+    const response = await fetch('http://178.79.182.88:8080/get_claims/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        text: articleText
+      })
     })
 
-  // Log the response to help with debugging.
-  console.log('get_claims: ', responses.get_claims)
+    if (!response.ok) {
+      return
+    }
 
-  // Remove the loading spinner.
-  loading.extractClaims = false
+    responses.get_claims = await response.json()
+
+    // Log the response to help with debugging.
+    console.log('get_claims: ', responses.get_claims)
+  } finally {
+    // Remove the loading spinner.
+    loading.extractClaims = false
+  }
 }
 
 async function tableDrop() {
