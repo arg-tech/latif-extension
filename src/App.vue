@@ -1,10 +1,12 @@
 <script setup>
+import * as bootstrap from 'bootstrap'
 import { provide, reactive, ref } from 'vue'
 
 import AchTable from '@/components/AchTable.vue'
 import PageButton from '@/components/PageButton.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import PageFooter from '@/components/PageFooter.vue'
+import SourceCheckModal from '@/components/SourceCheckModal.vue'
 
 const responses = reactive({ get_claims: null, analyze: null })
 const loading = reactive({ extractClaims: false, analyzeEvidence: false, generateReport: false })
@@ -104,6 +106,25 @@ async function analyzeEvidence() {
   loading.analyzeEvidence = false
 }
 
+async function checkAndGenerateReport() {
+  // Check number of unique URLs is acceptable.
+  let uniqueUrls = new Set()
+  for (const e of evidences.value) {
+    const url = new URL(e.url)
+    url.hash = ''
+    uniqueUrls.add(url.toString())
+  }
+
+  if (uniqueUrls.size <= 2) {
+    const myModal = new bootstrap.Modal('#sourceCheckModal', {})
+    myModal.show()
+
+    return
+  }
+
+  generateReport()
+}
+
 async function generateReport() {
   // Add the loading spinner.
   loading.generateReport = true
@@ -168,7 +189,7 @@ async function generateReport() {
       </div>
 
       <div v-if="responses.analyze" class="d-grid gap-2 mt-3">
-        <PageButton @click="generateReport" :loading="loading.generateReport"
+        <PageButton @click="checkAndGenerateReport" :loading="loading.generateReport"
           >Generate Report</PageButton
         >
       </div>
@@ -176,6 +197,7 @@ async function generateReport() {
 
     <PageFooter />
   </div>
+  <SourceCheckModal @continueAnyway="generateReport" />
 </template>
 
 <style scoped></style>
