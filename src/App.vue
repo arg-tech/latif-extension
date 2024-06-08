@@ -33,6 +33,8 @@ async function extractClaims() {
 
   // Get article text
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+  // Fixes 'Receiving end does not exist' error on extension reload.
+  await ensureContentScriptIsReady(tab.id)
   const articleText = (await chrome.tabs.sendMessage(tab.id, { action: 'getArticleText' })).text
 
   console.log(articleText)
@@ -65,8 +67,12 @@ async function extractClaims() {
 
 async function tableDrop() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+
+  // Fixes 'Receiving end does not exist' error on extension reload.
+  await ensureContentScriptIsReady(tab.id)
   const url = (await chrome.tabs.sendMessage(tab.id, { action: 'getFragmentUrl' })).url
   const text = (await chrome.tabs.sendMessage(tab.id, { action: 'getSelectionText' })).text
+
   evidences.value.push({ text, url })
 }
 
