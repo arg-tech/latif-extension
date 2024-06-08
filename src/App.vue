@@ -16,12 +16,25 @@ const evidenceTunerCellRef = ref(null)
 provide('responses', responses)
 provide('evidenceTunerCellRef', evidenceTunerCellRef)
 
+async function ensureContentScriptIsReady(tabId) {
+  try {
+    await chrome.tabs.sendMessage(tabId, {})
+  } catch {
+    await chrome.scripting.executeScript({
+      target: { tabId: tabId },
+      files: ['content.js']
+    })
+  }
+}
+
 async function extractClaims() {
   // Add the loading spinner.
   loading.extractClaims = true
 
   // Get article text
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+  // Fixes 'Receiving end does not exist' error on extension reload.
+  await ensureContentScriptIsReady(tab.id)
   const articleText = (await chrome.tabs.sendMessage(tab.id, { action: 'getArticleText' })).text
 
   console.log(articleText)
@@ -54,8 +67,12 @@ async function extractClaims() {
 
 async function tableDrop() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+
+  // Fixes 'Receiving end does not exist' error on extension reload.
+  await ensureContentScriptIsReady(tab.id)
   const url = (await chrome.tabs.sendMessage(tab.id, { action: 'getFragmentUrl' })).url
   const text = (await chrome.tabs.sendMessage(tab.id, { action: 'getSelectionText' })).text
+
   evidences.value.push({ text, url })
 }
 
