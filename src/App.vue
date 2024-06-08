@@ -119,41 +119,34 @@ async function generateReport() {
   // Add the loading spinner.
   loading.generateReport = true
 
-  // Used for debugging the API response.
-  let report
-
-  // The other option here is: generate_per_claim_articles
-  await fetch('http://178.79.182.88:8000/generate_check_result_article/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(responses.analyze.output)
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
-      return response.json()
-    })
-    .then((response) => {
-      report = response
-      response = response.output.article
-      let textBlob = new Blob([response], { type: 'text/plain' })
-      const link = document.createElement('a')
-      link.href = URL.createObjectURL(textBlob)
-      link.download = 'report' // Filename
-      link.click()
-      URL.revokeObjectURL(link.href)
-    })
-    .catch((error) => {
-      console.error('Error downloading file:', error)
+  try {
+    // The other option here is: generate_per_claim_articles
+    const response = await fetch('http://178.79.182.88:8000/generate_check_result_article/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(responses.analyze.output)
     })
 
-  console.log('Report: ', report.output)
+    if (!response.ok) {
+      return
+    }
 
-  // Remove the loading spinner.
-  loading.generateReport = false
+    const article = (await response.json()).output.article
+
+    let textBlob = new Blob([article], { type: 'text/plain' })
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(textBlob)
+    link.download = 'report' // Filename
+    link.click()
+    URL.revokeObjectURL(link.href)
+
+    console.log('Report: ', response.output)
+  } finally {
+    // Remove the loading spinner.
+    loading.generateReport = false
+  }
 }
 </script>
 
