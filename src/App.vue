@@ -16,6 +16,17 @@ const evidenceTunerCellRef = ref(null)
 provide('responses', responses)
 provide('evidenceTunerCellRef', evidenceTunerCellRef)
 
+async function ensureContentScriptIsReady(tabId) {
+  try {
+    await chrome.tabs.sendMessage(tabId, {})
+  } catch {
+    await chrome.scripting.executeScript({
+      target: { tabId: tabId },
+      files: ['content.js']
+    })
+  }
+}
+
 async function extractClaims() {
   // Add the loading spinner.
   loading.extractClaims = true
