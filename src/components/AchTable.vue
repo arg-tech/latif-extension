@@ -4,10 +4,16 @@ import EvidenceCell from '@/components/EvidenceCell.vue'
 import TableHeader from '@/components/TableHeader.vue'
 
 const evidenceTunerCellRef = inject('evidenceTunerCellRef')
+const responses = inject('responses')
 
-defineProps(['responses', 'evidences'])
+defineProps(['evidences'])
 
 function activateEvidenceTuner(rowIndex, colIndex) {
+  // Don't show evidence tuner on cells that aren't coloured.
+  if (responses.analyze.output.full_scoring_matrix[colIndex][rowIndex] === undefined) {
+    return
+  }
+
   // Remove the evidence tuner if the same cell is clicked on twice.
   if (
     evidenceTunerCellRef.value &&
