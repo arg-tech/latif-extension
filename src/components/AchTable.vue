@@ -63,6 +63,7 @@ function getBackgroundColor(score) {
           v-for="(hypothesis, colIndex) in store.responses.get_claims.output.hypothesis"
           :key="colIndex"
           :hypothesis="hypothesis"
+          :index="colIndex"
         />
       </tr>
     </thead>
