@@ -1,7 +1,7 @@
 <script setup>
 import { inject } from 'vue'
-import EvidenceCell from '@/components/EvidenceCell.vue'
-import TableHeader from '@/components/TableHeader.vue'
+import EvidenceCell from '@/components/AchTableEvidenceCell.vue'
+import TableHeader from '@/components/AchTableHeader.vue'
 
 const evidenceTunerCellRef = inject('evidenceTunerCellRef')
 const responses = inject('responses')

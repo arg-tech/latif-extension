@@ -1,6 +1,6 @@
 <script setup>
 import { inject, ref } from 'vue'
-import EvidenceTuner from '@/components/EvidenceTuner.vue'
+import EvidenceTuner from '@/components/AchTableEvidenceTuner.vue'
 
 const evidenceTunerCellRef = inject('evidenceTunerCellRef')
 

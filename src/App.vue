@@ -3,9 +3,9 @@ import * as bootstrap from 'bootstrap'
 import { provide, reactive, ref } from 'vue'
 
 import AchTable from '@/components/AchTable.vue'
-import PageButton from '@/components/PageButton.vue'
-import PageHeader from '@/components/PageHeader.vue'
-import PageFooter from '@/components/PageFooter.vue'
+import BaseButton from '@/components/BaseButton.vue'
+import BaseHeader from '@/components/BaseHeader.vue'
+import BaseFooter from '@/components/BaseFooter.vue'
 import SourceCheckModal from '@/components/SourceCheckModal.vue'
 
 const responses = reactive({ get_claims: null, analyze: null })
@@ -169,12 +169,12 @@ async function generateReport() {
 
 <template>
   <div class="flex-column min-vh-100 d-flex">
-    <PageHeader class="mt-2 mb-4 container-fluid" />
+    <BaseHeader class="mt-2 mb-4 container-fluid" />
 
     <main class="container-fluid flex-grow-1">
       <div class="d-grid gap-2">
-        <PageButton @click="extractClaims" :loading="loading.extractClaims"
-          >Extract Claims</PageButton
+        <BaseButton @click="extractClaims" :loading="loading.extractClaims"
+          >Extract Claims</BaseButton
         >
       </div>
 
@@ -183,19 +183,19 @@ async function generateReport() {
       </div>
 
       <div v-if="evidences.length !== 0" class="d-grid gap-2">
-        <PageButton @click="analyzeEvidence" :loading="loading.analyzeEvidence"
-          >Analyse Evidence</PageButton
+        <BaseButton @click="analyzeEvidence" :loading="loading.analyzeEvidence"
+          >Analyse Evidence</BaseButton
         >
       </div>
 
       <div v-if="responses.analyze" class="d-grid gap-2 mt-3">
-        <PageButton @click="checkAndGenerateReport" :loading="loading.generateReport"
-          >Generate Report</PageButton
+        <BaseButton @click="checkAndGenerateReport" :loading="loading.generateReport"
+          >Generate Report</BaseButton
         >
       </div>
     </main>
 
-    <PageFooter />
+    <BaseFooter />
   </div>
   <SourceCheckModal @continueAnyway="generateReport" />
 </template>
