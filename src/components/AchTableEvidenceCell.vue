@@ -1,6 +1,7 @@
 <script setup>
 import { inject, ref } from 'vue'
 import EvidenceTuner from '@/components/AchTableEvidenceTuner.vue'
+import { doUrlsMatch } from '@/utils'
 
 const evidenceTunerCellRef = inject('evidenceTunerCellRef')
 
@@ -10,19 +11,6 @@ defineProps({
 })
 
 const anchor = ref(null)
-
-// Don't compare the hash in the url to make sure we find any valid matches.
-function doUrlsMatch(urlA, urlB) {
-  const parsedUrlA = new URL(urlA)
-  const parsedUrlB = new URL(urlB)
-
-  return (
-    parsedUrlA.hostname === parsedUrlB.hostname &&
-    parsedUrlA.port === parsedUrlB.port &&
-    parsedUrlA.pathname === parsedUrlB.pathname &&
-    parsedUrlA.search === parsedUrlB.search
-  )
-}
 
 // Either opens a new tab or switches to an existing tab and modifies the url to include the text fragment.
 async function onClick(evidenceUrl) {
