@@ -7,11 +7,13 @@ import BaseButton from '@/components/BaseButton.vue'
 import BaseHeader from '@/components/BaseHeader.vue'
 import BaseFooter from '@/components/BaseFooter.vue'
 import SourceCheckModal from '@/components/SourceCheckModal.vue'
+import { doUrlsMatch } from './utils'
 
 const responses = reactive({ get_claims: null, analyze: null })
 const loading = reactive({ extractClaims: false, analyzeEvidence: false, generateReport: false })
 const evidences = ref([])
 const evidenceTunerCellRef = ref(null)
+let extractedClaimsUrl
 
 provide('responses', responses)
 provide('evidenceTunerCellRef', evidenceTunerCellRef)
@@ -38,6 +40,8 @@ async function extractClaims() {
   const articleText = (await chrome.tabs.sendMessage(tab.id, { action: 'getArticleText' })).text
 
   console.log(articleText)
+
+  extractedClaimsUrl = tab.url
 
   // Fetch page data from the API.
   try {
@@ -73,7 +77,11 @@ async function tableDrop() {
   const url = (await chrome.tabs.sendMessage(tab.id, { action: 'getFragmentUrl' })).url
   const text = (await chrome.tabs.sendMessage(tab.id, { action: 'getSelectionText' })).text
 
-  evidences.value.push({ text, url })
+  if (doUrlsMatch(tab.url, extractedClaimsUrl)) {
+    responses.get_claims.output.hypothesis.push(text)
+  } else {
+    evidences.value.push({ text, url })
+  }
 }
 
 async function analyzeEvidence() {
