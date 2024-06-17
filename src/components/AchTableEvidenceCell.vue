@@ -38,7 +38,7 @@ async function onClick(evidenceUrl) {
 
   // If tab is open then go to it and add text fragment to url.
   await chrome.tabs.update(nearestTab.id, { active: true })
-  chrome.tabs.sendMessage(nearestTab.id, {action: 'goToUrl', url: evidenceUrl})
+  chrome.tabs.sendMessage(nearestTab.id, { action: 'goToUrl', url: evidenceUrl })
 }
 </script>
 
