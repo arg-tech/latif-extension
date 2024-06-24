@@ -1,6 +1,6 @@
 <script setup>
 import * as bootstrap from 'bootstrap'
-import { onBeforeUpdate, onMounted, onUpdated, ref } from 'vue'
+import { onBeforeUpdate, onMounted, onUnmounted, onUpdated, ref } from 'vue'
 
 defineProps(['hypothesis'])
 const tooltip = ref(null)
@@ -21,6 +21,11 @@ function disposeTooltip() {
 
 onMounted(() => {
   initTooltip()
+})
+
+onUnmounted(() => {
+  // Dispose of the tooltip before unmounting, stops tooltip staying after item is deleted.
+  disposeTooltip()
 })
 
 onBeforeUpdate(() => {
