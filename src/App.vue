@@ -48,7 +48,8 @@ async function extractClaims() {
     const response = await fetch('http://178.79.182.88:8080/get_claims/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        accept: 'application/json'
       },
       body: JSON.stringify({
         text: articleText
@@ -97,7 +98,8 @@ async function analyzeEvidence() {
     const response = await fetch('http://178.79.182.88:8080/analyze/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        accept: 'application/json'
       },
       body: JSON.stringify({
         ...responses.get_claims.output,
@@ -149,7 +151,8 @@ async function generateReport() {
     const response = await fetch('http://178.79.182.88:8000/generate_check_result_article/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        accept: 'application/json'
       },
       body: JSON.stringify(responses.analyze.output)
     })
