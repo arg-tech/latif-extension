@@ -1,6 +1,10 @@
 <script setup>
 import * as bootstrap from 'bootstrap'
-import { provide, reactive, ref } from 'vue'
+import { provide } from 'vue'
+import { useStore } from '@/store'
+import { storeToRefs } from 'pinia'
+
+const store = useStore()
 
 import AchTable from '@/components/AchTable.vue'
 import BaseButton from '@/components/BaseButton.vue'
@@ -9,11 +13,10 @@ import BaseFooter from '@/components/BaseFooter.vue'
 import SourceCheckModal from '@/components/SourceCheckModal.vue'
 import { doUrlsMatch } from '@/utils'
 
-const responses = reactive({ get_claims: null, analyze: null })
-const loading = reactive({ extractClaims: false, analyzeEvidence: false, generateReport: false })
-const evidences = ref([])
-const evidenceTunerCellRef = ref(null)
-let extractedClaimsUrl
+const responses = store.responses
+const loading = store.loading
+const { evidences } = storeToRefs(store)
+const { evidenceTunerCellRef } = storeToRefs(store)
 
 provide('responses', responses)
 provide('evidenceTunerCellRef', evidenceTunerCellRef)
@@ -41,7 +44,7 @@ async function extractClaims() {
 
   console.log(articleText)
 
-  extractedClaimsUrl = tab.url
+  store.extractedClaimsUrl = tab.url
 
   // Fetch page data from the API.
   try {
@@ -78,7 +81,7 @@ async function tableDrop() {
   const url = (await chrome.tabs.sendMessage(tab.id, { action: 'getFragmentUrl' })).url
   const text = (await chrome.tabs.sendMessage(tab.id, { action: 'getSelectionText' })).text
 
-  if (doUrlsMatch(tab.url, extractedClaimsUrl)) {
+  if (doUrlsMatch(tab.url, store.extractedClaimsUrl)) {
     responses.get_claims.output.hypothesis.push(text)
   } else {
     evidences.value.push({ text, url })
