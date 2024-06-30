@@ -11,7 +11,7 @@ import BaseButton from '@/components/BaseButton.vue'
 import BaseHeader from '@/components/BaseHeader.vue'
 import BaseFooter from '@/components/BaseFooter.vue'
 import SourceCheckModal from '@/components/SourceCheckModal.vue'
-import { doUrlsMatch } from '@/utils'
+import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
 
 const responses = store.responses
 const loading = store.loading
@@ -20,17 +20,6 @@ const { evidenceTunerCellRef } = storeToRefs(store)
 
 provide('responses', responses)
 provide('evidenceTunerCellRef', evidenceTunerCellRef)
-
-async function ensureContentScriptIsReady(tabId) {
-  try {
-    await chrome.tabs.sendMessage(tabId, {})
-  } catch {
-    await chrome.scripting.executeScript({
-      target: { tabId: tabId },
-      files: ['content.js']
-    })
-  }
-}
 
 async function extractClaims() {
   // Add the loading spinner.

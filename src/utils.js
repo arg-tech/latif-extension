@@ -10,3 +10,14 @@ export function doUrlsMatch(urlA, urlB) {
     parsedUrlA.search === parsedUrlB.search
   )
 }
+
+export async function ensureContentScriptIsReady(tabId) {
+  try {
+    await chrome.tabs.sendMessage(tabId, {})
+  } catch {
+    await chrome.scripting.executeScript({
+      target: { tabId: tabId },
+      files: ['content.js']
+    })
+  }
+}
