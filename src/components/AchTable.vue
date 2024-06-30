@@ -1,16 +1,17 @@
 <script setup>
-import { inject } from 'vue'
 import EvidenceCell from '@/components/AchTableEvidenceCell.vue'
 import TableHeader from '@/components/AchTableHeader.vue'
 import { useStore } from '@/store'
+import { storeToRefs } from 'pinia'
 
 const store = useStore()
 
-const evidenceTunerCellRef = inject('evidenceTunerCellRef')
+const { evidenceTunerCellRef } = storeToRefs(store)
 
 defineProps(['evidences'])
 
 function activateEvidenceTuner(rowIndex, colIndex) {
+  console.log(evidenceTunerCellRef)
   // Don't show evidence tuner on cells that aren't coloured.
   if (store.responses.analyze.output.full_scoring_matrix[colIndex][rowIndex] === undefined) {
     return

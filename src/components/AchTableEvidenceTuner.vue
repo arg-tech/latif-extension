@@ -1,10 +1,11 @@
 <script setup>
-import { inject, onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useStore } from '@/store'
+import { storeToRefs } from 'pinia';
 
 const store = useStore()
 
-const evidenceTunerCellRef = inject('evidenceTunerCellRef')
+const { evidenceTunerCellRef } = storeToRefs(store)
 
 const dialCanvas = ref(null)
 

@@ -1,5 +1,4 @@
 <script setup>
-import { provide } from 'vue'
 import { useStore } from '@/store'
 import { storeToRefs } from 'pinia'
 
@@ -14,9 +13,6 @@ import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
 
 const loading = store.loading
 const { evidences } = storeToRefs(store)
-const { evidenceTunerCellRef } = storeToRefs(store)
-
-provide('evidenceTunerCellRef', evidenceTunerCellRef)
 
 async function tableDrop() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
