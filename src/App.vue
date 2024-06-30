@@ -12,12 +12,10 @@ import BaseFooter from '@/components/BaseFooter.vue'
 import SourceCheckModal from '@/components/SourceCheckModal.vue'
 import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
 
-const responses = store.responses
 const loading = store.loading
 const { evidences } = storeToRefs(store)
 const { evidenceTunerCellRef } = storeToRefs(store)
 
-provide('responses', responses)
 provide('evidenceTunerCellRef', evidenceTunerCellRef)
 
 async function tableDrop() {
@@ -29,7 +27,7 @@ async function tableDrop() {
   const text = (await chrome.tabs.sendMessage(tab.id, { action: 'getSelectionText' })).text
 
   if (doUrlsMatch(tab.url, store.extractedClaimsUrl)) {
-    responses.get_claims.output.hypothesis.push(text)
+    store.responses.get_claims.output.hypothesis.push(text)
   } else {
     evidences.value.push({ text, url })
   }
@@ -47,8 +45,8 @@ async function tableDrop() {
         >
       </div>
 
-      <div class="table-responsive my-3" v-if="responses.get_claims">
-        <AchTable :responses="responses" :evidences="evidences" @drop="tableDrop"></AchTable>
+      <div class="table-responsive my-3" v-if="store.responses.get_claims">
+        <AchTable :evidences="evidences" @drop="tableDrop"></AchTable>
       </div>
 
       <div v-if="evidences.length !== 0" class="d-grid gap-2">
@@ -57,7 +55,7 @@ async function tableDrop() {
         >
       </div>
 
-      <div v-if="responses.analyze" class="d-grid gap-2 mt-3">
+      <div v-if="store.responses.analyze" class="d-grid gap-2 mt-3">
         <BaseButton @click="store.checkAndGenerateReport" :loading="loading.generateReport"
           >Generate Report</BaseButton
         >
