@@ -1,5 +1,4 @@
 <script setup>
-import * as bootstrap from 'bootstrap'
 import { provide } from 'vue'
 import { useStore } from '@/store'
 import { storeToRefs } from 'pinia'
@@ -35,60 +34,6 @@ async function tableDrop() {
     evidences.value.push({ text, url })
   }
 }
-
-async function checkAndGenerateReport() {
-  // Check number of unique URLs is acceptable.
-  let uniqueUrls = new Set()
-  for (const e of evidences.value) {
-    const url = new URL(e.url)
-    url.hash = ''
-    uniqueUrls.add(url.toString())
-  }
-
-  if (uniqueUrls.size <= 2) {
-    const myModal = new bootstrap.Modal('#sourceCheckModal', {})
-    myModal.show()
-
-    return
-  }
-
-  generateReport()
-}
-
-async function generateReport() {
-  // Add the loading spinner.
-  loading.generateReport = true
-
-  try {
-    // The other option here is: generate_per_claim_articles
-    const response = await fetch('http://178.79.182.88:8000/generate_check_result_article/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        accept: 'application/json'
-      },
-      body: JSON.stringify(responses.analyze.output)
-    })
-
-    if (!response.ok) {
-      return
-    }
-
-    const article = (await response.json()).output.article
-
-    let textBlob = new Blob([article], { type: 'text/plain' })
-    const link = document.createElement('a')
-    link.href = URL.createObjectURL(textBlob)
-    link.download = 'report' // Filename
-    link.click()
-    URL.revokeObjectURL(link.href)
-
-    console.log('Report: ', response.output)
-  } finally {
-    // Remove the loading spinner.
-    loading.generateReport = false
-  }
-}
 </script>
 
 <template>
@@ -113,7 +58,7 @@ async function generateReport() {
       </div>
 
       <div v-if="responses.analyze" class="d-grid gap-2 mt-3">
-        <BaseButton @click="checkAndGenerateReport" :loading="loading.generateReport"
+        <BaseButton @click="store.checkAndGenerateReport" :loading="loading.generateReport"
           >Generate Report</BaseButton
         >
       </div>
@@ -121,7 +66,7 @@ async function generateReport() {
 
     <BaseFooter />
   </div>
-  <SourceCheckModal @continueAnyway="generateReport" />
+  <SourceCheckModal @continueAnyway="store.generateReport" />
 </template>
 
 <style scoped></style>
