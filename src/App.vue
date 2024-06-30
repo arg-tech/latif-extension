@@ -11,7 +11,6 @@ import BaseFooter from '@/components/BaseFooter.vue'
 import SourceCheckModal from '@/components/SourceCheckModal.vue'
 import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
 
-const loading = store.loading
 const { evidences } = storeToRefs(store)
 
 async function tableDrop() {
@@ -36,7 +35,7 @@ async function tableDrop() {
 
     <main class="container-fluid flex-grow-1">
       <div class="d-grid gap-2">
-        <BaseButton @click="store.extractClaims" :loading="loading.extractClaims"
+        <BaseButton @click="store.extractClaims" :loading="store.loading.extractClaims"
           >Extract Claims</BaseButton
         >
       </div>
@@ -46,13 +45,13 @@ async function tableDrop() {
       </div>
 
       <div v-if="evidences.length !== 0" class="d-grid gap-2">
-        <BaseButton @click="store.analyzeEvidence" :loading="loading.analyzeEvidence"
+        <BaseButton @click="store.analyzeEvidence" :loading="store.loading.analyzeEvidence"
           >Analyse Evidence</BaseButton
         >
       </div>
 
       <div v-if="store.responses.analyze" class="d-grid gap-2 mt-3">
-        <BaseButton @click="store.checkAndGenerateReport" :loading="loading.generateReport"
+        <BaseButton @click="store.checkAndGenerateReport" :loading="store.loading.generateReport"
           >Generate Report</BaseButton
         >
       </div>
