@@ -7,7 +7,7 @@ import BaseButton from '@/components/BaseButton.vue'
 import BaseHeader from '@/components/BaseHeader.vue'
 import BaseFooter from '@/components/BaseFooter.vue'
 import SourceCheckModal from '@/components/SourceCheckModal.vue'
-import { doUrlsMatch } from './utils'
+import { doUrlsMatch } from '@/utils'
 
 const responses = reactive({ get_claims: null, analyze: null })
 const loading = reactive({ extractClaims: false, analyzeEvidence: false, generateReport: false })
