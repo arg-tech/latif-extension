@@ -21,47 +21,6 @@ const { evidenceTunerCellRef } = storeToRefs(store)
 provide('responses', responses)
 provide('evidenceTunerCellRef', evidenceTunerCellRef)
 
-async function extractClaims() {
-  // Add the loading spinner.
-  loading.extractClaims = true
-
-  // Get article text
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
-  // Fixes 'Receiving end does not exist' error on extension reload.
-  await ensureContentScriptIsReady(tab.id)
-  const articleText = (await chrome.tabs.sendMessage(tab.id, { action: 'getArticleText' })).text
-
-  console.log(articleText)
-
-  store.extractedClaimsUrl = tab.url
-
-  // Fetch page data from the API.
-  try {
-    const response = await fetch('http://178.79.182.88:8080/get_claims/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        accept: 'application/json'
-      },
-      body: JSON.stringify({
-        text: articleText
-      })
-    })
-
-    if (!response.ok) {
-      return
-    }
-
-    responses.get_claims = await response.json()
-
-    // Log the response to help with debugging.
-    console.log('get_claims: ', responses.get_claims)
-  } finally {
-    // Remove the loading spinner.
-    loading.extractClaims = false
-  }
-}
-
 async function tableDrop() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
 
@@ -176,7 +135,7 @@ async function generateReport() {
 
     <main class="container-fluid flex-grow-1">
       <div class="d-grid gap-2">
-        <BaseButton @click="extractClaims" :loading="loading.extractClaims"
+        <BaseButton @click="store.extractClaims" :loading="loading.extractClaims"
           >Extract Claims</BaseButton
         >
       </div>
