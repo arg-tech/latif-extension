@@ -36,44 +36,6 @@ async function tableDrop() {
   }
 }
 
-async function analyzeEvidence() {
-  // Add the loading spinner.
-  loading.analyzeEvidence = true
-
-  // If the analyse evidence button is clicked while the evidence tuner is open the evidence tuner doesn't update to the new value.
-  // This hides it until a new cell is clicked on, and it will be up to date again.
-  evidenceTunerCellRef.value = null
-
-  try {
-    // Fetch page data from the API.
-    const response = await fetch('http://178.79.182.88:8080/analyze/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        accept: 'application/json'
-      },
-      body: JSON.stringify({
-        ...responses.get_claims.output,
-        manual_evidences: evidences.value.map((t) => t.text),
-        max_alignment_limit: -1,
-        min_alignment_limit: -1
-      })
-    })
-
-    if (!response.ok) {
-      return
-    }
-
-    responses.analyze = await response.json()
-
-    // Log the response to help with debugging.
-    console.log('Analyze: ', responses.analyze.output)
-  } finally {
-    // Remove the loading spinner.
-    loading.analyzeEvidence = false
-  }
-}
-
 async function checkAndGenerateReport() {
   // Check number of unique URLs is acceptable.
   let uniqueUrls = new Set()
@@ -145,7 +107,7 @@ async function generateReport() {
       </div>
 
       <div v-if="evidences.length !== 0" class="d-grid gap-2">
-        <BaseButton @click="analyzeEvidence" :loading="loading.analyzeEvidence"
+        <BaseButton @click="store.analyzeEvidence" :loading="loading.analyzeEvidence"
           >Analyse Evidence</BaseButton
         >
       </div>
