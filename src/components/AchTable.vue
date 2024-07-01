@@ -8,8 +8,6 @@ const store = useStore()
 
 const { evidenceTunerCellRef } = storeToRefs(store)
 
-defineProps(['evidences'])
-
 function activateEvidenceTuner(rowIndex, colIndex) {
   console.log(evidenceTunerCellRef)
   // Don't show evidence tuner on cells that aren't coloured.
@@ -67,7 +65,7 @@ function getBackgroundColor(score) {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(evidence, rowIndex) in evidences" :key="rowIndex">
+      <tr v-for="(evidence, rowIndex) in store.evidences" :key="rowIndex">
         <EvidenceCell :evidence :rowIndex />
         <template v-if="!store.responses.analyze">
           <td

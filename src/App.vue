@@ -1,6 +1,5 @@
 <script setup>
 import { useStore } from '@/store'
-import { storeToRefs } from 'pinia'
 
 const store = useStore()
 
@@ -11,8 +10,6 @@ import BaseFooter from '@/components/BaseFooter.vue'
 import SourceCheckModal from '@/components/SourceCheckModal.vue'
 import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
 import { reactive } from 'vue'
-
-const { evidences } = storeToRefs(store)
 
 async function tableDrop() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
@@ -25,7 +22,7 @@ async function tableDrop() {
   if (doUrlsMatch(tab.url, store.extractedClaimsUrl)) {
     store.responses.get_claims.output.hypothesis.push(text)
   } else {
-    evidences.value.push({ text, url })
+    store.evidences.push({ text, url })
   }
 }
 
@@ -62,10 +59,10 @@ async function analyzeEvidence() {
       </div>
 
       <div class="table-responsive my-3" v-if="store.responses.get_claims">
-        <AchTable :evidences="evidences" @drop="tableDrop"></AchTable>
+        <AchTable @drop="tableDrop"></AchTable>
       </div>
 
-      <div v-if="evidences.length !== 0" class="d-grid gap-2">
+      <div v-if="store.evidences.length !== 0" class="d-grid gap-2">
         <BaseButton @click="analyzeEvidence" :loading="loading.analyzeEvidence"
           >Analyse Evidence</BaseButton
         >
