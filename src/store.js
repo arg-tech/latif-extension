@@ -5,15 +5,12 @@ import { ensureContentScriptIsReady } from './utils'
 
 export const useStore = defineStore('store', () => {
   const responses = reactive({ get_claims: null, analyze: null })
-  const loading = reactive({ extractClaims: false, analyzeEvidence: false, generateReport: false })
+  const loading = reactive({ analyzeEvidence: false, generateReport: false })
   const evidences = ref([])
   const evidenceTunerCellRef = ref(null)
   const extractedClaimsUrl = ref(null)
 
   async function extractClaims() {
-    // Add the loading spinner.
-    loading.extractClaims = true
-
     // Get article text
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
     // Fixes 'Receiving end does not exist' error on extension reload.
@@ -25,30 +22,25 @@ export const useStore = defineStore('store', () => {
     extractedClaimsUrl.value = tab.url
 
     // Fetch page data from the API.
-    try {
-      const response = await fetch('http://178.79.182.88:8080/get_claims/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          accept: 'application/json'
-        },
-        body: JSON.stringify({
-          text: articleText
-        })
+    const response = await fetch('http://178.79.182.88:8080/get_claims/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        accept: 'application/json'
+      },
+      body: JSON.stringify({
+        text: articleText
       })
+    })
 
-      if (!response.ok) {
-        return
-      }
-
-      responses.get_claims = await response.json()
-
-      // Log the response to help with debugging.
-      console.log('get_claims: ', responses.get_claims)
-    } finally {
-      // Remove the loading spinner.
-      loading.extractClaims = false
+    if (!response.ok) {
+      return
     }
+
+    responses.get_claims = await response.json()
+
+    // Log the response to help with debugging.
+    console.log('get_claims: ', responses.get_claims)
   }
 
   async function analyzeEvidence() {

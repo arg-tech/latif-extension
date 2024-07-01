@@ -10,6 +10,7 @@ import BaseHeader from '@/components/BaseHeader.vue'
 import BaseFooter from '@/components/BaseFooter.vue'
 import SourceCheckModal from '@/components/SourceCheckModal.vue'
 import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
+import { reactive } from 'vue'
 
 const { evidences } = storeToRefs(store)
 
@@ -27,6 +28,17 @@ async function tableDrop() {
     evidences.value.push({ text, url })
   }
 }
+
+const loading = reactive({ extractClaims: false })
+
+async function extractClaims() {
+  loading.extractClaims = true
+  try {
+    await store.extractClaims()
+  } finally {
+    loading.extractClaims = false
+  }
+}
 </script>
 
 <template>
@@ -35,7 +47,7 @@ async function tableDrop() {
 
     <main class="container-fluid flex-grow-1">
       <div class="d-grid gap-2">
-        <BaseButton @click="store.extractClaims" :loading="store.loading.extractClaims"
+        <BaseButton @click="extractClaims" :loading="loading.extractClaims"
           >Extract Claims</BaseButton
         >
       </div>
