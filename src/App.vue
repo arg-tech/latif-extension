@@ -29,7 +29,7 @@ async function tableDrop() {
   }
 }
 
-const loading = reactive({ extractClaims: false })
+const loading = reactive({ extractClaims: false, analyzeEvidence: false})
 
 async function extractClaims() {
   loading.extractClaims = true
@@ -37,6 +37,15 @@ async function extractClaims() {
     await store.extractClaims()
   } finally {
     loading.extractClaims = false
+  }
+}
+
+async function analyzeEvidence() {
+  loading.analyzeEvidence = true
+  try {
+    await store.analyzeEvidence()
+  } finally {
+    loading.analyzeEvidence = false
   }
 }
 </script>
@@ -57,7 +66,7 @@ async function extractClaims() {
       </div>
 
       <div v-if="evidences.length !== 0" class="d-grid gap-2">
-        <BaseButton @click="store.analyzeEvidence" :loading="store.loading.analyzeEvidence"
+        <BaseButton @click="analyzeEvidence" :loading="loading.analyzeEvidence"
           >Analyse Evidence</BaseButton
         >
       </div>
