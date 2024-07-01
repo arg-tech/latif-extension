@@ -1,9 +1,13 @@
 <script setup>
-import { inject, ref } from 'vue'
+import { ref } from 'vue'
 import EvidenceTuner from '@/components/AchTableEvidenceTuner.vue'
 import { doUrlsMatch } from '@/utils'
+import { useStore } from '@/store'
+import { storeToRefs } from 'pinia'
 
-const evidenceTunerCellRef = inject('evidenceTunerCellRef')
+const store = useStore()
+
+const { evidenceTunerCellRef } = storeToRefs(store)
 
 defineProps({
   evidence: String,

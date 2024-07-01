@@ -1,16 +1,17 @@
 <script setup>
-import { inject } from 'vue'
 import EvidenceCell from '@/components/AchTableEvidenceCell.vue'
 import TableHeader from '@/components/AchTableHeader.vue'
+import { useStore } from '@/store'
+import { storeToRefs } from 'pinia'
 
-const evidenceTunerCellRef = inject('evidenceTunerCellRef')
-const responses = inject('responses')
+const store = useStore()
 
-defineProps(['evidences'])
+const { evidenceTunerCellRef } = storeToRefs(store)
 
 function activateEvidenceTuner(rowIndex, colIndex) {
+  console.log(evidenceTunerCellRef)
   // Don't show evidence tuner on cells that aren't coloured.
-  if (responses.analyze.output.full_scoring_matrix[colIndex][rowIndex] === undefined) {
+  if (store.responses.analyze.output.full_scoring_matrix[colIndex][rowIndex] === undefined) {
     return
   }
 
@@ -57,21 +58,24 @@ function getBackgroundColor(score) {
       <tr>
         <th>#</th>
         <TableHeader
-          v-for="(hypothesis, colIndex) in responses.get_claims.output.hypothesis"
+          v-for="(hypothesis, colIndex) in store.responses.get_claims.output.hypothesis"
           :key="colIndex"
           :hypothesis="hypothesis"
         />
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(evidence, rowIndex) in evidences" :key="rowIndex">
+      <tr v-for="(evidence, rowIndex) in store.evidences" :key="rowIndex">
         <EvidenceCell :evidence :rowIndex />
-        <template v-if="!responses.analyze">
-          <td v-for="(_, colIndex) in responses.get_claims.output.hypothesis" :key="colIndex"></td>
+        <template v-if="!store.responses.analyze">
+          <td
+            v-for="(_, colIndex) in store.responses.get_claims.output.hypothesis"
+            :key="colIndex"
+          ></td>
         </template>
         <template v-else>
           <td
-            v-for="(scoreCol, colIndex) in responses.analyze.output.full_scoring_matrix"
+            v-for="(scoreCol, colIndex) in store.responses.analyze.output.full_scoring_matrix"
             :style="{ backgroundColor: getBackgroundColor(scoreCol[rowIndex]) }"
             :key="colIndex"
             @click.prevent="activateEvidenceTuner(rowIndex, colIndex)"

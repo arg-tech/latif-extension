@@ -1,8 +1,11 @@
 <script setup>
-import { inject, onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import { useStore } from '@/store'
+import { storeToRefs } from 'pinia';
 
-const responses = inject('responses')
-const evidenceTunerCellRef = inject('evidenceTunerCellRef')
+const store = useStore()
+
+const { evidenceTunerCellRef } = storeToRefs(store)
 
 const dialCanvas = ref(null)
 
@@ -32,7 +35,7 @@ function drawDial() {
 
   // Convert to 0-100 scale.
   const value =
-    ((responses.analyze.output.full_scoring_matrix[evidenceTunerCellRef.value[1]][
+    ((store.responses.analyze.output.full_scoring_matrix[evidenceTunerCellRef.value[1]][
       evidenceTunerCellRef.value[0]
     ] +
       1) /
@@ -78,7 +81,7 @@ function handleMouseMove(event) {
 
   // Now update dial.
   // Convert back to -1 to 1 scale.
-  responses.analyze.output.full_scoring_matrix[evidenceTunerCellRef.value[1]][
+  store.responses.analyze.output.full_scoring_matrix[evidenceTunerCellRef.value[1]][
     evidenceTunerCellRef.value[0]
   ] = parseFloat((normalizedAngle * 2 - 1).toFixed(2))
   drawDial()
