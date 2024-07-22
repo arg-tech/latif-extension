@@ -19,21 +19,21 @@ async function tableDrop() {
   const url = (await chrome.tabs.sendMessage(tab.id, { action: 'getFragmentUrl' })).url
   const text = (await chrome.tabs.sendMessage(tab.id, { action: 'getSelectionText' })).text
 
-  if (doUrlsMatch(tab.url, store.extractedClaimsUrl)) {
+  if (doUrlsMatch(tab.url, store.selectThisNewsArticleUrl)) {
     store.responses.get_claims.output.hypothesis.push(text)
   } else {
     store.evidences.push({ text, url })
   }
 }
 
-const loading = reactive({ extractClaims: false, analyzeEvidence: false})
+const loading = reactive({ selectThisNewsArticle: false, analyzeEvidence: false})
 
-async function extractClaims() {
-  loading.extractClaims = true
+async function selectThisNewsArticle() {
+  loading.selectThisNewsArticle = true
   try {
-    await store.extractClaims()
+    await store.selectThisNewsArticle()
   } finally {
-    loading.extractClaims = false
+    loading.selectThisNewsArticle = false
   }
 }
 
@@ -53,8 +53,8 @@ async function analyzeEvidence() {
 
     <main class="container-fluid flex-grow-1">
       <div class="d-grid gap-2">
-        <BaseButton @click="extractClaims" :loading="loading.extractClaims"
-          >Extract Claims</BaseButton
+        <BaseButton @click="selectThisNewsArticle" :loading="loading.selectThisNewsArticle"
+          >Select This News Article</BaseButton
         >
       </div>
 

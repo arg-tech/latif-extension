@@ -8,9 +8,9 @@ export const useStore = defineStore('store', () => {
   const loading = reactive({ draftReport: false })
   const evidences = ref([])
   const evidenceTunerCellRef = ref(null)
-  const extractedClaimsUrl = ref(null)
+  const selectThisNewsArticleUrl = ref(null)
 
-  async function extractClaims() {
+  async function selectThisNewsArticle() {
     // Get article text
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
     // Fixes 'Receiving end does not exist' error on extension reload.
@@ -19,7 +19,7 @@ export const useStore = defineStore('store', () => {
 
     console.log(articleText)
 
-    extractedClaimsUrl.value = tab.url
+    selectThisNewsArticleUrl.value = tab.url
 
     // Fetch page data from the API.
     const response = await fetch('http://178.79.182.88:8080/get_claims/', {
@@ -132,8 +132,8 @@ export const useStore = defineStore('store', () => {
     loading,
     evidences,
     evidenceTunerCellRef,
-    extractedClaimsUrl,
-    extractClaims,
+    selectThisNewsArticleUrl,
+    selectThisNewsArticle,
     analyzeEvidence,
     checkAndDraftReport,
     draftReport
