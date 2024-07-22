@@ -69,15 +69,15 @@ async function analyzeEvidence() {
       </div>
 
       <div v-if="store.responses.analyze" class="d-grid gap-2 mt-3">
-        <BaseButton @click="store.checkAndGenerateReport" :loading="store.loading.generateReport"
-          >Generate Report</BaseButton
+        <BaseButton @click="store.checkAndDraftReport" :loading="store.loading.draftReport"
+          >Draft Report</BaseButton
         >
       </div>
     </main>
 
     <BaseFooter />
   </div>
-  <SourceCheckModal @continueAnyway="store.generateReport" />
+  <SourceCheckModal @continueAnyway="store.draftReport" />
 </template>
 
 <style scoped></style>

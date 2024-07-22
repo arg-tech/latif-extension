@@ -5,7 +5,7 @@ import { ensureContentScriptIsReady } from './utils'
 
 export const useStore = defineStore('store', () => {
   const responses = reactive({ get_claims: null, analyze: null })
-  const loading = reactive({ generateReport: false })
+  const loading = reactive({ draftReport: false })
   const evidences = ref([])
   const evidenceTunerCellRef = ref(null)
   const extractedClaimsUrl = ref(null)
@@ -73,7 +73,7 @@ export const useStore = defineStore('store', () => {
     console.log('Analyze: ', responses.analyze.output)
   }
 
-  async function checkAndGenerateReport() {
+  async function checkAndDraftReport() {
     // Check number of unique URLs is acceptable.
     let uniqueUrls = new Set()
     for (const e of evidences.value) {
@@ -89,12 +89,12 @@ export const useStore = defineStore('store', () => {
       return
     }
 
-    generateReport()
+    draftReport()
   }
 
-  async function generateReport() {
+  async function draftReport() {
     // Add the loading spinner.
-    loading.generateReport = true
+    loading.draftReport = true
 
     try {
       // The other option here is: generate_per_claim_articles
@@ -123,7 +123,7 @@ export const useStore = defineStore('store', () => {
       console.log('Report: ', response.output)
     } finally {
       // Remove the loading spinner.
-      loading.generateReport = false
+      loading.draftReport = false
     }
   }
 
@@ -135,7 +135,7 @@ export const useStore = defineStore('store', () => {
     extractedClaimsUrl,
     extractClaims,
     analyzeEvidence,
-    checkAndGenerateReport,
-    generateReport
+    checkAndDraftReport,
+    draftReport
   }
 })
