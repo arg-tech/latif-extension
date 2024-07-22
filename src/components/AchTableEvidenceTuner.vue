@@ -14,20 +14,6 @@ let ctx = null
 let centerX = null
 let centerY = null
 
-function getColor(value) {
-  if (value < 50) {
-    // Interpolate between red and yellow.
-    const red = 255
-    const green = Math.round(255 * (value / 50))
-    return `rgb(${red},${green},0)`
-  } else {
-    // Interpolate between yellow and green.
-    const green = 255
-    const red = Math.round(255 * ((100 - value) / 50))
-    return `rgb(${red},${green},0)`
-  }
-}
-
 function drawDial() {
   const maxValue = 100
   const radius = 40
@@ -55,13 +41,12 @@ function drawDial() {
 
   const startAngle = -0.5 * Math.PI
   const endAngle = startAngle + (value / maxValue) * 2 * Math.PI
-  const color = getColor(value)
 
   // Draw the filled arc.
   ctx.beginPath()
   ctx.arc(centerX, centerY, radius, startAngle, endAngle)
   ctx.lineWidth = lineWidth
-  ctx.strokeStyle = color
+  ctx.strokeStyle = "rgb(255,255,255)"
   ctx.stroke()
   ctx.closePath()
 }
