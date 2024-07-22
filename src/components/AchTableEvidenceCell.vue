@@ -1,13 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import EvidenceTuner from '@/components/AchTableEvidenceTuner.vue'
 import { doUrlsMatch } from '@/utils'
-import { useStore } from '@/store'
-import { storeToRefs } from 'pinia'
-
-const store = useStore()
-
-const { evidenceTunerCellRef } = storeToRefs(store)
 
 defineProps({
   evidence: String,
@@ -55,8 +48,5 @@ async function onClick(evidenceUrl) {
       ref="anchor"
       >{{ evidence.text }}</a
     >
-    <div v-if="evidenceTunerCellRef && evidenceTunerCellRef[0] === rowIndex" class="mt-3">
-      <EvidenceTuner />
-    </div>
   </td>
 </template>
