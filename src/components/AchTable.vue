@@ -1,5 +1,6 @@
 <script setup>
 import EvidenceCell from '@/components/AchTableEvidenceCell.vue'
+import EvidenceTuner from '@/components/AchTableEvidenceTuner.vue'
 import TableHeader from '@/components/AchTableHeader.vue'
 import { useStore } from '@/store'
 import { storeToRefs } from 'pinia'
@@ -79,7 +80,11 @@ function getBackgroundColor(score) {
             :style="{ backgroundColor: getBackgroundColor(scoreCol[rowIndex]) }"
             :key="colIndex"
             @click.prevent="activateEvidenceTuner(rowIndex, colIndex)"
-          ></td>
+          >
+            <div v-if="evidenceTunerCellRef && evidenceTunerCellRef[0] === rowIndex && evidenceTunerCellRef[1] === colIndex" class="mt-3">
+              <EvidenceTuner />
+            </div>
+          </td>
         </template>
       </tr>
     </tbody>
