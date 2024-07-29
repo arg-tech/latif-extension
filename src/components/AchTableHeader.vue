@@ -3,6 +3,7 @@ import * as bootstrap from 'bootstrap'
 import TrashIcon from 'bootstrap-icons/bootstrap-icons.svg#trash'
 import { onBeforeUpdate, onMounted, onUnmounted, onUpdated, ref } from 'vue'
 import { useStore } from '@/store'
+import HeaderText from '@/components/AchTableHeaderText.vue'
 
 const store = useStore()
 
@@ -54,9 +55,7 @@ onUpdated(() => {
 <template>
   <th ref="tooltipElement" data-bs-toggle="tooltip" :data-bs-title="hypothesis">
     <div class="d-flex align-items-center">
-      <span class="text-nowrap">
-        {{ hypothesis.length < 10 ? hypothesis : hypothesis.slice(0, 10).trimEnd() + '...' }}
-      </span>
+      <HeaderText @click="tooltip.hide()" :hypothesis :index />
       <button
         @click="deleteHypothesis(index)"
         type="button"
