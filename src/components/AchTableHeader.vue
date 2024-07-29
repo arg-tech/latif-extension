@@ -2,14 +2,33 @@
 import * as bootstrap from 'bootstrap'
 import TrashIcon from 'bootstrap-icons/bootstrap-icons.svg#trash'
 import { onBeforeUpdate, onMounted, onUnmounted, onUpdated, ref } from 'vue'
-import { useStore } from '@/store'
 import HeaderText from '@/components/AchTableHeaderText.vue'
-
-const store = useStore()
+import { useStore } from '@/store'
 
 defineProps(['hypothesis', 'index'])
+
+const store = useStore()
 const tooltip = ref(null)
 const tooltipElement = ref(null)
+
+onMounted(() => {
+  initTooltip()
+})
+
+onUnmounted(() => {
+  // Dispose of the tooltip before unmounting, stops tooltip staying after item is deleted.
+  disposeTooltip()
+})
+
+onBeforeUpdate(() => {
+  // Dispose of the tooltip before updating.
+  disposeTooltip()
+})
+
+onUpdated(() => {
+  // Reinitialize the tooltip after data updates.
+  initTooltip()
+})
 
 function deleteHypothesis(index) {
   store.responses.get_claims.output.hypothesis.splice(index, 1)
@@ -31,25 +50,6 @@ function disposeTooltip() {
     tooltip.value = null
   }
 }
-
-onMounted(() => {
-  initTooltip()
-})
-
-onUnmounted(() => {
-  // Dispose of the tooltip before unmounting, stops tooltip staying after item is deleted.
-  disposeTooltip()
-})
-
-onBeforeUpdate(() => {
-  // Dispose of the tooltip before updating.
-  disposeTooltip()
-})
-
-onUpdated(() => {
-  // Reinitialize the tooltip after data updates.
-  initTooltip()
-})
 </script>
 
 <template>
