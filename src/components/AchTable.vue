@@ -1,4 +1,5 @@
 <script setup>
+import AddClaim from '@/components/AchTableAddClaim.vue'
 import EvidenceCell from '@/components/AchTableEvidenceCell.vue'
 import EvidenceTuner from '@/components/AchTableEvidenceTuner.vue'
 import TableHeader from '@/components/AchTableHeader.vue'
@@ -57,11 +58,12 @@ function getBackgroundColor(score) {
   <table class="table table-bordered" @dragover.prevent>
     <thead>
       <tr>
-        <th>#</th>
+        <th><AddClaim /></th>
         <TableHeader
           v-for="(hypothesis, colIndex) in store.responses.get_claims.output.hypothesis"
           :key="colIndex"
           :hypothesis="hypothesis"
+          :index="colIndex"
         />
       </tr>
     </thead>

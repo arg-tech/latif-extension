@@ -1,10 +1,23 @@
 <script setup>
 import * as bootstrap from 'bootstrap'
+import TrashIcon from 'bootstrap-icons/bootstrap-icons.svg#trash'
 import { onBeforeUpdate, onMounted, onUnmounted, onUpdated, ref } from 'vue'
+import { useStore } from '@/store'
+import HeaderText from '@/components/AchTableHeaderText.vue'
 
-defineProps(['hypothesis'])
+const store = useStore()
+
+defineProps(['hypothesis', 'index'])
 const tooltip = ref(null)
 const tooltipElement = ref(null)
+
+function deleteHypothesis(index) {
+  store.responses.get_claims.output.hypothesis.splice(index, 1)
+
+  if (store.responses.analyze) {
+    store.responses.analyze.output.full_scoring_matrix.splice(index, 1)
+  }
+}
 
 function initTooltip() {
   if (tooltipElement.value) {
@@ -40,7 +53,18 @@ onUpdated(() => {
 </script>
 
 <template>
-  <th ref="tooltipElement" data-bs-toggle="tooltip" :data-bs-title="hypothesis" class="text-nowrap">
-    {{ hypothesis.length < 10 ? hypothesis : hypothesis.slice(0, 10).trimEnd() + '...' }}
+  <th ref="tooltipElement" data-bs-toggle="tooltip" :data-bs-title="hypothesis">
+    <div class="d-flex align-items-center">
+      <HeaderText @click="tooltip.hide()" :hypothesis :index />
+      <button
+        @click="deleteHypothesis(index)"
+        type="button"
+        class="btn btn-sm btn-outline-danger ms-1"
+      >
+        <svg class="bi bi-trash" width="16" height="16" fill="currentColor">
+          <use :xlink:href="TrashIcon" />
+        </svg>
+      </button>
+    </div>
   </th>
 </template>
