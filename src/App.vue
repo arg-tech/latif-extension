@@ -26,7 +26,7 @@ async function tableDrop() {
   }
 }
 
-const loading = reactive({ selectThisNewsArticle: false, analyzeEvidence: false})
+const loading = reactive({ selectThisNewsArticle: false, analyzeEvidence: false })
 
 async function selectThisNewsArticle() {
   loading.selectThisNewsArticle = true

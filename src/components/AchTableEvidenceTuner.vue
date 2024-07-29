@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
 import { useStore } from '@/store'
-import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia'
 
 const store = useStore()
 
@@ -46,7 +46,7 @@ function drawDial() {
   ctx.beginPath()
   ctx.arc(centerX, centerY, radius, startAngle, endAngle)
   ctx.lineWidth = lineWidth
-  ctx.strokeStyle = "rgb(255,255,255)"
+  ctx.strokeStyle = 'rgb(255,255,255)'
   ctx.stroke()
   ctx.closePath()
 }

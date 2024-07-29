@@ -83,7 +83,14 @@ function getBackgroundColor(score) {
             :key="colIndex"
             @click.prevent="activateEvidenceTuner(rowIndex, colIndex)"
           >
-            <div v-if="evidenceTunerCellRef && evidenceTunerCellRef[0] === rowIndex && evidenceTunerCellRef[1] === colIndex" class="mt-3">
+            <div
+              v-if="
+                evidenceTunerCellRef &&
+                evidenceTunerCellRef[0] === rowIndex &&
+                evidenceTunerCellRef[1] === colIndex
+              "
+              class="mt-3"
+            >
               <EvidenceTuner />
             </div>
           </td>
