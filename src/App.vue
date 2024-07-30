@@ -13,6 +13,7 @@ import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
 import { reactive } from 'vue'
 
 const modal = ref(null)
+const showSourceCheckModal = ref(false)
 
 async function tableDrop() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
@@ -43,6 +44,31 @@ function analyzeEvidence() {
   loading.analyzeEvidence = useFetchReturn.isFetching
 }
 
+function draftReport() {
+  function areDraftReportConditionsMet() {
+    // Check number of unique URLs is acceptable.
+    let uniqueUrls = new Set()
+    for (const e of store.evidences) {
+      const url = new URL(e.url)
+      url.hash = ''
+      uniqueUrls.add(url.toString())
+    }
+
+    if (uniqueUrls.size <= 2) {
+      return false
+    }
+
+    return true
+  }
+
+  if (!areDraftReportConditionsMet()) {
+    showSourceCheckModal.value = true
+    return
+  }
+
+  store.draftReport()
+}
+
 function sourceCheckModalConfirm() {
   store.draftReport()
   modal.value.hide()
@@ -71,13 +97,13 @@ function sourceCheckModalConfirm() {
       </div>
 
       <div v-if="store.responses.analyze" class="d-grid gap-2 mt-3">
-        <BaseButton @click="store.checkAndDraftReport" :loading="store.loading.draftReport">
+        <BaseButton @click="draftReport" :loading="store.loading.draftReport">
           Draft Report
 
-          <Teleport v-if="store.showSourceCheckModal" to="body">
+          <Teleport v-if="showSourceCheckModal" to="body">
             <BaseModal
               ref="modal"
-              v-on="{ 'hidden.bs.modal': () => (store.showSourceCheckModal = false) }"
+              v-on="{ 'hidden.bs.modal': () => (showSourceCheckModal = false) }"
               @confirm="sourceCheckModalConfirm"
               title="Warning: Insufficient Evidence and Source Variety"
               confirmButtonText="Continue anyway"
