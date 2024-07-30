@@ -16,10 +16,6 @@ function addClaim(claim) {
     modal.value.hide()
   }
 }
-
-function saveChanges() {
-  claimEditor.value.confirmClaim()
-}
 </script>
 
 <template>
@@ -36,7 +32,7 @@ function saveChanges() {
       <BaseModal
         ref="modal"
         v-on="{ 'hidden.bs.modal': () => (isActive = false) }"
-        @saveChanges="saveChanges"
+        @confirm="() => claimEditor.confirmClaim()"
         v-if="isActive"
         title="Add Claim"
       >

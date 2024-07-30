@@ -25,10 +25,6 @@ function click() {
   isActive.value = true
   emits('click')
 }
-
-function saveChanges() {
-  claimEditor.value.confirmClaim()
-}
 </script>
 
 <template>
@@ -40,7 +36,7 @@ function saveChanges() {
     <BaseModal
       ref="modal"
       v-on="{ 'hidden.bs.modal': () => (isActive = false) }"
-      @saveChanges="saveChanges"
+      @confirm="() => claimEditor.confirmClaim()"
       title="Edit Claim"
       confirmButtonText="Save changes"
     >
