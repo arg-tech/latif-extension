@@ -25,7 +25,7 @@ async function tableDrop() {
   const url = (await chrome.tabs.sendMessage(tab.id, { action: 'getFragmentUrl' })).url
   const text = (await chrome.tabs.sendMessage(tab.id, { action: 'getSelectionText' })).text
 
-  if (doUrlsMatch(tab.url, store.selectThisNewsArticleUrl)) {
+  if (doUrlsMatch(tab.url, store.articleUrl)) {
     store.responses.get_claims.output.hypothesis.push(text)
   } else {
     store.evidences.push({ text, url })

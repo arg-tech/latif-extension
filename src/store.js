@@ -15,7 +15,7 @@ export const useStore = defineStore('store', () => {
   const responses = reactive({ get_claims: null, analyze: null })
   const evidences = ref([])
   const evidenceTunerCellRef = ref(null)
-  const selectThisNewsArticleUrl = ref(null)
+  const articleUrl = ref(null)
 
   const selectThisNewsArticle = createFetch({
     fetchOptions,
@@ -32,7 +32,7 @@ export const useStore = defineStore('store', () => {
 
         console.log(articleText)
 
-        selectThisNewsArticleUrl.value = tab.url
+        articleUrl.value = tab.url
 
         options.body = JSON.stringify({
           text: articleText
@@ -113,7 +113,7 @@ export const useStore = defineStore('store', () => {
     responses,
     evidences,
     evidenceTunerCellRef,
-    selectThisNewsArticleUrl,
+    articleUrl,
     selectThisNewsArticle,
     analyzeEvidence,
     draftReport
