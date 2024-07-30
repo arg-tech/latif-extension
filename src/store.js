@@ -1,4 +1,3 @@
-import * as bootstrap from 'bootstrap'
 import { defineStore } from 'pinia'
 import { ref, reactive } from 'vue'
 import { ensureContentScriptIsReady } from './utils'
@@ -9,6 +8,7 @@ export const useStore = defineStore('store', () => {
   const evidences = ref([])
   const evidenceTunerCellRef = ref(null)
   const selectThisNewsArticleUrl = ref(null)
+  const showSourceCheckModal = ref(false)
 
   async function selectThisNewsArticle() {
     // Get article text
@@ -83,8 +83,7 @@ export const useStore = defineStore('store', () => {
     }
 
     if (uniqueUrls.size <= 2) {
-      const myModal = new bootstrap.Modal('#sourceCheckModal', {})
-      myModal.show()
+      showSourceCheckModal.value = true
 
       return
     }
@@ -133,6 +132,7 @@ export const useStore = defineStore('store', () => {
     evidences,
     evidenceTunerCellRef,
     selectThisNewsArticleUrl,
+    showSourceCheckModal,
     selectThisNewsArticle,
     analyzeEvidence,
     checkAndDraftReport,

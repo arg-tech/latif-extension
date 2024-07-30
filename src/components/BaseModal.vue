@@ -12,7 +12,7 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(['saveChanges'])
+const emits = defineEmits(['confirm'])
 
 const modalEl = ref(null)
 let modalObj = null
@@ -54,7 +54,7 @@ function _hide() {
         <div class="modal-body"><slot /></div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button @click="emits('saveChanges')" type="button" class="btn btn-primary">
+          <button @click="emits('confirm')" type="button" class="btn btn-primary">
             {{ props.confirmButtonText }}
           </button>
         </div>
