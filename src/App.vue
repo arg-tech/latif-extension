@@ -37,13 +37,10 @@ function selectThisNewsArticle() {
   loading.selectThisNewsArticle = useFetchReturn.isFetching
 }
 
-async function analyzeEvidence() {
-  loading.analyzeEvidence = true
-  try {
-    await store.analyzeEvidence()
-  } finally {
-    loading.analyzeEvidence = false
-  }
+function analyzeEvidence() {
+  const useFetchReturn = store.analyzeEvidence()
+
+  loading.analyzeEvidence = useFetchReturn.isFetching
 }
 
 function sourceCheckModalConfirm() {
