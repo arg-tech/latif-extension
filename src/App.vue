@@ -13,6 +13,7 @@ import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
 import { reactive } from 'vue'
 
 const modal = ref(null)
+const showSourceCheckModal = ref(false)
 
 async function tableDrop() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
@@ -29,28 +30,53 @@ async function tableDrop() {
   }
 }
 
-const loading = reactive({ selectThisNewsArticle: false, analyzeEvidence: false })
+const loading = reactive({
+  selectThisNewsArticle: false,
+  analyzeEvidence: false,
+  draftReport: false
+})
 
-async function selectThisNewsArticle() {
-  loading.selectThisNewsArticle = true
-  try {
-    await store.selectThisNewsArticle()
-  } finally {
-    loading.selectThisNewsArticle = false
-  }
+function selectThisNewsArticle() {
+  const useFetchReturn = store.selectThisNewsArticle()
+
+  loading.selectThisNewsArticle = useFetchReturn.isFetching
 }
 
-async function analyzeEvidence() {
-  loading.analyzeEvidence = true
-  try {
-    await store.analyzeEvidence()
-  } finally {
-    loading.analyzeEvidence = false
+function analyzeEvidence() {
+  const useFetchReturn = store.analyzeEvidence()
+
+  loading.analyzeEvidence = useFetchReturn.isFetching
+}
+
+function draftReport() {
+  function areDraftReportConditionsMet() {
+    // Check number of unique URLs is acceptable.
+    let uniqueUrls = new Set()
+    for (const e of store.evidences) {
+      const url = new URL(e.url)
+      url.hash = ''
+      uniqueUrls.add(url.toString())
+    }
+
+    if (uniqueUrls.size <= 2) {
+      return false
+    }
+
+    return true
   }
+
+  if (!areDraftReportConditionsMet()) {
+    showSourceCheckModal.value = true
+    return
+  }
+
+  const useFetchReturn = store.draftReport()
+  loading.draftReport = useFetchReturn.isFetching
 }
 
 function sourceCheckModalConfirm() {
-  store.draftReport()
+  const useFetchReturn = store.draftReport()
+  loading.draftReport = useFetchReturn.isFetching
   modal.value.hide()
 }
 </script>
@@ -77,13 +103,13 @@ function sourceCheckModalConfirm() {
       </div>
 
       <div v-if="store.responses.analyze" class="d-grid gap-2 mt-3">
-        <BaseButton @click="store.checkAndDraftReport" :loading="store.loading.draftReport">
+        <BaseButton @click="draftReport" :loading="loading.draftReport">
           Draft Report
 
-          <Teleport v-if="store.showSourceCheckModal" to="body">
+          <Teleport v-if="showSourceCheckModal" to="body">
             <BaseModal
               ref="modal"
-              v-on="{ 'hidden.bs.modal': () => (store.showSourceCheckModal = false) }"
+              v-on="{ 'hidden.bs.modal': () => (showSourceCheckModal = false) }"
               @confirm="sourceCheckModalConfirm"
               title="Warning: Insufficient Evidence and Source Variety"
               confirmButtonText="Continue anyway"
