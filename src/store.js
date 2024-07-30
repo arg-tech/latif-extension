@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, reactive } from 'vue'
-import { ensureContentScriptIsReady } from './utils'
+import { ensureContentScriptIsReady } from '@/utils'
 
 export const useStore = defineStore('store', () => {
   const responses = reactive({ get_claims: null, analyze: null })
