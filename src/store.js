@@ -83,40 +83,38 @@ export const useStore = defineStore('store', () => {
     }
   })
 
-  async function draftReport() {
-    // Add the loading spinner.
-    loading.draftReport = true
+  const draftReport = createFetch({
+    fetchOptions,
+    options: {
+      async beforeFetch({ options, url }) {
+        url = 'http://178.79.182.88:8000/generate_check_result_article/'
 
-    try {
-      // The other option here is: generate_per_claim_articles
-      const response = await fetch('http://178.79.182.88:8000/generate_check_result_article/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          accept: 'application/json'
-        },
-        body: JSON.stringify(responses.analyze.output)
-      })
+        // Add the loading spinner.
+        loading.draftReport = true
 
-      if (!response.ok) {
-        return
+        options.body = JSON.stringify(responses.analyze.output)
+
+        return { url, options }
+      },
+      async afterFetch(ctx) {
+        // Remove the loading spinner.
+        loading.draftReport = false
+
+        const article = (await ctx.response.json()).output.article
+
+        let textBlob = new Blob([article], { type: 'text/plain' })
+        const link = document.createElement('a')
+        link.href = URL.createObjectURL(textBlob)
+        link.download = 'report' // Filename
+        link.click()
+        URL.revokeObjectURL(link.href)
+
+        // Log the response to help with debugging.
+        console.log('Report: ', ctx.data)
+        return ctx
       }
-
-      const article = (await response.json()).output.article
-
-      let textBlob = new Blob([article], { type: 'text/plain' })
-      const link = document.createElement('a')
-      link.href = URL.createObjectURL(textBlob)
-      link.download = 'report' // Filename
-      link.click()
-      URL.revokeObjectURL(link.href)
-
-      console.log('Report: ', response.output)
-    } finally {
-      // Remove the loading spinner.
-      loading.draftReport = false
     }
-  }
+  })
 
   return {
     responses,
