@@ -1,19 +1,21 @@
 <script setup>
-import { ref } from 'vue'
-import { useStore } from '@/store'
-
-const store = useStore()
-
+import { reactive, ref } from 'vue'
 import AchTable from '@/components/AchTable.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseHeader from '@/components/BaseHeader.vue'
 import BaseFooter from '@/components/BaseFooter.vue'
 import BaseModal from '@/components/BaseModal.vue'
+import { useStore } from '@/store'
 import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
-import { reactive } from 'vue'
 
+const store = useStore()
 const modal = ref(null)
 const showSourceCheckModal = ref(false)
+const loading = reactive({
+  selectThisNewsArticle: false,
+  analyzeEvidence: false,
+  draftReport: false
+})
 
 async function tableDrop() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
@@ -30,21 +32,13 @@ async function tableDrop() {
   }
 }
 
-const loading = reactive({
-  selectThisNewsArticle: false,
-  analyzeEvidence: false,
-  draftReport: false
-})
-
 function selectThisNewsArticle() {
   const useFetchReturn = store.selectThisNewsArticle()
-
   loading.selectThisNewsArticle = useFetchReturn.isFetching
 }
 
 function analyzeEvidence() {
   const useFetchReturn = store.analyzeEvidence()
-
   loading.analyzeEvidence = useFetchReturn.isFetching
 }
 
