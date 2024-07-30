@@ -1,6 +1,15 @@
 import { defineStore } from 'pinia'
 import { ref, reactive } from 'vue'
+import { createFetch } from '@vueuse/core'
 import { ensureContentScriptIsReady } from '@/utils'
+
+const fetchOptions = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    accept: 'application/json'
+  }
+}
 
 export const useStore = defineStore('store', () => {
   const responses = reactive({ get_claims: null, analyze: null })
@@ -44,35 +53,36 @@ export const useStore = defineStore('store', () => {
     }
   })
 
-  async function analyzeEvidence() {
-    // If the analyse evidence button is clicked while the evidence tuner is open the evidence tuner doesn't update to the new value.
-    // This hides it until a new cell is clicked on, and it will be up to date again.
-    evidenceTunerCellRef.value = null
+  const analyzeEvidence = createFetch({
+    fetchOptions,
+    options: {
+      async beforeFetch({ options, url }) {
+        url = 'http://178.79.182.88:8080/analyze/'
 
-    // Fetch page data from the API.
-    const response = await fetch('http://178.79.182.88:8080/analyze/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        accept: 'application/json'
+        options.body = JSON.stringify({
+          ...responses.get_claims.output,
+          manual_evidences: evidences.value.map((t) => t.text),
+          max_alignment_limit: -1,
+          min_alignment_limit: -1
+        })
+
+        // If the analyse evidence button is clicked while the evidence tuner is open,
+        // the evidence tuner doesn't update to the new value.
+        // This hides it until a new cell is clicked on, and it will be up to date again.
+        evidenceTunerCellRef.value = null
+
+        return { url, options }
       },
-      body: JSON.stringify({
-        ...responses.get_claims.output,
-        manual_evidences: evidences.value.map((t) => t.text),
-        max_alignment_limit: -1,
-        min_alignment_limit: -1
-      })
-    })
+      async afterFetch(ctx) {
+        responses.analyze = await ctx.response.json()
 
-    if (!response.ok) {
-      return
+        // Log the response to help with debugging.
+        console.log('Analyze: ', responses.analyze.output)
+
+        return ctx
+      }
     }
-
-    responses.analyze = await response.json()
-
-    // Log the response to help with debugging.
-    console.log('Analyze: ', responses.analyze.output)
-  }
+  })
 
   async function checkAndDraftReport() {
     // Check number of unique URLs is acceptable.
