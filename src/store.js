@@ -10,38 +10,39 @@ export const useStore = defineStore('store', () => {
   const selectThisNewsArticleUrl = ref(null)
   const showSourceCheckModal = ref(false)
 
-  async function selectThisNewsArticle() {
-    // Get article text
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
-    // Fixes 'Receiving end does not exist' error on extension reload.
-    await ensureContentScriptIsReady(tab.id)
-    const articleText = (await chrome.tabs.sendMessage(tab.id, { action: 'getArticleText' })).text
+  const selectThisNewsArticle = createFetch({
+    fetchOptions,
+    options: {
+      async beforeFetch({ options, url }) {
+        url = 'http://178.79.182.88:8080/get_claims/'
 
-    console.log(articleText)
+        // Get article text
+        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+        // Fixes 'Receiving end does not exist' error on extension reload.
+        await ensureContentScriptIsReady(tab.id)
+        const articleText = (await chrome.tabs.sendMessage(tab.id, { action: 'getArticleText' }))
+          .text
 
-    selectThisNewsArticleUrl.value = tab.url
+        console.log(articleText)
 
-    // Fetch page data from the API.
-    const response = await fetch('http://178.79.182.88:8080/get_claims/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        accept: 'application/json'
+        selectThisNewsArticleUrl.value = tab.url
+
+        options.body = JSON.stringify({
+          text: articleText
+        })
+
+        return { url, options }
       },
-      body: JSON.stringify({
-        text: articleText
-      })
-    })
+      async afterFetch(ctx) {
+        responses.get_claims = await ctx.response.json()
 
-    if (!response.ok) {
-      return
+        // Log the response to help with debugging.
+        console.log('get_claims: ', responses.get_claims.output)
+
+        return ctx
+      }
     }
-
-    responses.get_claims = await response.json()
-
-    // Log the response to help with debugging.
-    console.log('get_claims: ', responses.get_claims)
-  }
+  })
 
   async function analyzeEvidence() {
     // If the analyse evidence button is clicked while the evidence tuner is open the evidence tuner doesn't update to the new value.
