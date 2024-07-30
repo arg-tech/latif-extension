@@ -84,24 +84,6 @@ export const useStore = defineStore('store', () => {
     }
   })
 
-  async function checkAndDraftReport() {
-    // Check number of unique URLs is acceptable.
-    let uniqueUrls = new Set()
-    for (const e of evidences.value) {
-      const url = new URL(e.url)
-      url.hash = ''
-      uniqueUrls.add(url.toString())
-    }
-
-    if (uniqueUrls.size <= 2) {
-      showSourceCheckModal.value = true
-
-      return
-    }
-
-    draftReport()
-  }
-
   async function draftReport() {
     // Add the loading spinner.
     loading.draftReport = true
@@ -146,7 +128,6 @@ export const useStore = defineStore('store', () => {
     showSourceCheckModal,
     selectThisNewsArticle,
     analyzeEvidence,
-    checkAndDraftReport,
     draftReport
   }
 })
