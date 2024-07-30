@@ -53,9 +53,9 @@ async function analyzeEvidence() {
 
     <main class="container-fluid flex-grow-1">
       <div class="d-grid gap-2">
-        <BaseButton @click="selectThisNewsArticle" :loading="loading.selectThisNewsArticle"
-          >Select This News Article</BaseButton
-        >
+        <BaseButton @click="selectThisNewsArticle" :loading="loading.selectThisNewsArticle">
+          Select This News Article
+        </BaseButton>
       </div>
 
       <div class="table-responsive my-3" v-if="store.responses.get_claims">
@@ -63,15 +63,15 @@ async function analyzeEvidence() {
       </div>
 
       <div v-if="store.evidences.length !== 0" class="d-grid gap-2">
-        <BaseButton @click="analyzeEvidence" :loading="loading.analyzeEvidence"
-          >Analyse Evidence</BaseButton
-        >
+        <BaseButton @click="analyzeEvidence" :loading="loading.analyzeEvidence">
+          Analyse Evidence
+        </BaseButton>
       </div>
 
       <div v-if="store.responses.analyze" class="d-grid gap-2 mt-3">
-        <BaseButton @click="store.checkAndDraftReport" :loading="store.loading.draftReport"
-          >Draft Report</BaseButton
-        >
+        <BaseButton @click="store.checkAndDraftReport" :loading="store.loading.draftReport">
+          Draft Report
+        </BaseButton>
       </div>
     </main>
 
