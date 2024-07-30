@@ -17,7 +17,6 @@ export const useStore = defineStore('store', () => {
   const evidences = ref([])
   const evidenceTunerCellRef = ref(null)
   const selectThisNewsArticleUrl = ref(null)
-  const showSourceCheckModal = ref(false)
 
   const selectThisNewsArticle = createFetch({
     fetchOptions,
@@ -125,7 +124,6 @@ export const useStore = defineStore('store', () => {
     evidences,
     evidenceTunerCellRef,
     selectThisNewsArticleUrl,
-    showSourceCheckModal,
     selectThisNewsArticle,
     analyzeEvidence,
     draftReport

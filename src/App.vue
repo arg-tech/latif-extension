@@ -13,6 +13,7 @@ import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
 import { reactive } from 'vue'
 
 const modal = ref(null)
+const showSourceCheckModal = ref(false)
 
 async function tableDrop() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
@@ -61,7 +62,7 @@ function draftReport() {
   }
 
   if (!areDraftReportConditionsMet()) {
-    store.showSourceCheckModal = true
+    showSourceCheckModal.value = true
     return
   }
 
@@ -99,10 +100,10 @@ function sourceCheckModalConfirm() {
         <BaseButton @click="draftReport" :loading="store.loading.draftReport">
           Draft Report
 
-          <Teleport v-if="store.showSourceCheckModal" to="body">
+          <Teleport v-if="showSourceCheckModal" to="body">
             <BaseModal
               ref="modal"
-              v-on="{ 'hidden.bs.modal': () => (store.showSourceCheckModal = false) }"
+              v-on="{ 'hidden.bs.modal': () => (showSourceCheckModal = false) }"
               @confirm="sourceCheckModalConfirm"
               title="Warning: Insufficient Evidence and Source Variety"
               confirmButtonText="Continue anyway"
