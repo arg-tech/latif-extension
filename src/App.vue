@@ -31,13 +31,10 @@ async function tableDrop() {
 
 const loading = reactive({ selectThisNewsArticle: false, analyzeEvidence: false })
 
-async function selectThisNewsArticle() {
-  loading.selectThisNewsArticle = true
-  try {
-    await store.selectThisNewsArticle()
-  } finally {
-    loading.selectThisNewsArticle = false
-  }
+function selectThisNewsArticle() {
+  const useFetchReturn = store.selectThisNewsArticle()
+
+  loading.selectThisNewsArticle = useFetchReturn.isFetching
 }
 
 async function analyzeEvidence() {
