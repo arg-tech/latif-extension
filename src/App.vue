@@ -30,7 +30,11 @@ async function tableDrop() {
   }
 }
 
-const loading = reactive({ selectThisNewsArticle: false, analyzeEvidence: false })
+const loading = reactive({
+  selectThisNewsArticle: false,
+  analyzeEvidence: false,
+  draftReport: false
+})
 
 function selectThisNewsArticle() {
   const useFetchReturn = store.selectThisNewsArticle()
@@ -66,11 +70,13 @@ function draftReport() {
     return
   }
 
-  store.draftReport()
+  const useFetchReturn = store.draftReport()
+  loading.draftReport = useFetchReturn.isFetching
 }
 
 function sourceCheckModalConfirm() {
-  store.draftReport()
+  const useFetchReturn = store.draftReport()
+  loading.draftReport = useFetchReturn.isFetching
   modal.value.hide()
 }
 </script>
@@ -97,7 +103,7 @@ function sourceCheckModalConfirm() {
       </div>
 
       <div v-if="store.responses.analyze" class="d-grid gap-2 mt-3">
-        <BaseButton @click="draftReport" :loading="store.loading.draftReport">
+        <BaseButton @click="draftReport" :loading="loading.draftReport">
           Draft Report
 
           <Teleport v-if="showSourceCheckModal" to="body">

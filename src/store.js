@@ -13,7 +13,6 @@ const fetchOptions = {
 
 export const useStore = defineStore('store', () => {
   const responses = reactive({ get_claims: null, analyze: null })
-  const loading = reactive({ draftReport: false })
   const evidences = ref([])
   const evidenceTunerCellRef = ref(null)
   const selectThisNewsArticleUrl = ref(null)
@@ -89,17 +88,11 @@ export const useStore = defineStore('store', () => {
       async beforeFetch({ options, url }) {
         url = 'http://178.79.182.88:8000/generate_check_result_article/'
 
-        // Add the loading spinner.
-        loading.draftReport = true
-
         options.body = JSON.stringify(responses.analyze.output)
 
         return { url, options }
       },
       async afterFetch(ctx) {
-        // Remove the loading spinner.
-        loading.draftReport = false
-
         const article = (await ctx.response.json()).output.article
 
         let textBlob = new Blob([article], { type: 'text/plain' })
@@ -118,7 +111,6 @@ export const useStore = defineStore('store', () => {
 
   return {
     responses,
-    loading,
     evidences,
     evidenceTunerCellRef,
     selectThisNewsArticleUrl,
