@@ -92,7 +92,7 @@ function sourceCheckModalConfirm() {
 
       <div v-if="store.evidences.length !== 0" class="d-grid gap-2">
         <BaseButton @click="analyzeEvidence" :loading="loading.analyzeEvidence">
-          Analyse Evidence
+          Autocomplete Table
         </BaseButton>
       </div>
 
