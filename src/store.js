@@ -88,7 +88,11 @@ export const useStore = defineStore('store', () => {
       async beforeFetch({ options, url }) {
         url = 'http://178.79.182.88:8000/generate_check_result_article/'
 
-        options.body = JSON.stringify(responses.analyze.output)
+        options.body = JSON.stringify({
+          ordered_hypothesises: responses.analyze.output.ordered_hypothesises,
+          full_ordered_evidences: responses.analyze.output.full_ordered_evidences,
+          full_scoring_matrix: responses.analyze.output.full_scoring_matrix
+        })
 
         return { url, options }
       },
