@@ -11,12 +11,6 @@ const store = useStore()
 const { evidenceTunerCellRef } = storeToRefs(store)
 
 function activateEvidenceTuner(rowIndex, colIndex) {
-  console.log(evidenceTunerCellRef)
-  // Don't show evidence tuner on cells that aren't coloured.
-  if (store.responses.analyze.output.full_scoring_matrix[colIndex][rowIndex] === undefined) {
-    return
-  }
-
   // Remove the evidence tuner if the same cell is clicked on twice.
   if (
     evidenceTunerCellRef.value &&
