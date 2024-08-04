@@ -58,7 +58,7 @@ export const useStore = defineStore('store', () => {
         url = 'http://178.79.182.88:8080/analyze/'
 
         options.body = JSON.stringify({
-          ...responses.get_claims.output,
+          hypothesis: responses.get_claims.output.hypothesis,
           manual_evidences: evidences.value.map((t) => t.text),
           max_alignment_limit: -1,
           min_alignment_limit: -1
