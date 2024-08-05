@@ -13,6 +13,7 @@ const claimEditor = ref(null)
 function addClaim(claim) {
   if (claim) {
     store.responses.get_claims.output.hypothesis.push(claim)
+    store.manualMatrix.push(Array.from({ length: store.evidences.length }, () => undefined))
     modal.value.hide()
   }
 }

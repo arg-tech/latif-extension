@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, reactive } from 'vue'
+import { computed, ref, reactive } from 'vue'
 import { createFetch } from '@vueuse/core'
 import { ensureContentScriptIsReady } from '@/utils'
 
@@ -13,9 +13,24 @@ const fetchOptions = {
 
 export const useStore = defineStore('store', () => {
   const responses = reactive({ get_claims: null, analyze: null })
+  const manualMatrix = ref(null)
   const evidences = ref([])
   const evidenceTunerCellRef = ref(null)
   const articleUrl = ref(null)
+
+  const achMatrix = computed(() => {
+    if (!responses.analyze) {
+      return manualMatrix.value
+    }
+
+    return manualMatrix.value
+      .map((innerArr) => innerArr.slice())
+      .map((x, i) => {
+        return x.map((y, j) => {
+          return y !== undefined ? y : responses.analyze.output.full_scoring_matrix[i][j]
+        })
+      })
+  })
 
   const selectThisNewsArticle = createFetch({
     fetchOptions,
@@ -42,6 +57,11 @@ export const useStore = defineStore('store', () => {
       },
       async afterFetch(ctx) {
         responses.get_claims = await ctx.response.json()
+
+        manualMatrix.value = Array.from(
+          { length: responses.get_claims.output.hypothesis.length },
+          () => Array()
+        )
 
         // Log the response to help with debugging.
         console.log('get_claims: ', responses.get_claims.output)
@@ -88,7 +108,11 @@ export const useStore = defineStore('store', () => {
       async beforeFetch({ options, url }) {
         url = 'http://178.79.182.88:8000/generate_check_result_article/'
 
-        options.body = JSON.stringify(responses.analyze.output)
+        options.body = JSON.stringify({
+          ordered_hypothesises: responses.analyze.output.ordered_hypothesises,
+          full_ordered_evidences: responses.analyze.output.full_ordered_evidences,
+          full_scoring_matrix: achMatrix.value
+        })
 
         return { url, options }
       },
@@ -111,9 +135,11 @@ export const useStore = defineStore('store', () => {
 
   return {
     responses,
+    manualMatrix,
     evidences,
     evidenceTunerCellRef,
     articleUrl,
+    achMatrix,
     selectThisNewsArticle,
     analyzeEvidence,
     draftReport

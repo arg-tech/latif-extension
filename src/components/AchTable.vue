@@ -11,12 +11,6 @@ const store = useStore()
 const { evidenceTunerCellRef } = storeToRefs(store)
 
 function activateEvidenceTuner(rowIndex, colIndex) {
-  console.log(evidenceTunerCellRef)
-  // Don't show evidence tuner on cells that aren't coloured.
-  if (store.responses.analyze.output.full_scoring_matrix[colIndex][rowIndex] === undefined) {
-    return
-  }
-
   // Remove the evidence tuner if the same cell is clicked on twice.
   if (
     evidenceTunerCellRef.value &&
@@ -78,7 +72,7 @@ function getBackgroundColor(score) {
         </template>
         <template v-else>
           <td
-            v-for="(scoreCol, colIndex) in store.responses.analyze.output.full_scoring_matrix"
+            v-for="(scoreCol, colIndex) in store.achMatrix"
             :style="{ backgroundColor: getBackgroundColor(scoreCol[rowIndex]) }"
             :key="colIndex"
             @click.prevent="activateEvidenceTuner(rowIndex, colIndex)"

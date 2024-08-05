@@ -27,8 +27,10 @@ async function tableDrop() {
 
   if (doUrlsMatch(tab.url, store.articleUrl)) {
     store.responses.get_claims.output.hypothesis.push(text)
+    store.manualMatrix.push(Array.from({ length: store.evidences.length }, () => undefined))
   } else {
     store.evidences.push({ text, url })
+    store.manualMatrix.map((x) => x.push(undefined))
   }
 }
 
@@ -92,7 +94,7 @@ function sourceCheckModalConfirm() {
 
       <div v-if="store.evidences.length !== 0" class="d-grid gap-2">
         <BaseButton @click="analyzeEvidence" :loading="loading.analyzeEvidence">
-          Analyse Evidence
+          Autocomplete Table
         </BaseButton>
       </div>
 
