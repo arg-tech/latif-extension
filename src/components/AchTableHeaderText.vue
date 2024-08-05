@@ -35,7 +35,10 @@ function click() {
   <Teleport v-if="isActive" to="body">
     <BaseModal
       ref="modal"
-      v-on="{ 'hidden.bs.modal': () => (isActive = false) }"
+      v-on="{
+        'hidden.bs.modal': () => (isActive = false),
+        'shown.bs.modal': () => claimEditor.focus()
+      }"
       @confirm="() => claimEditor.confirmClaim()"
       title="Edit Claim"
       confirmButtonText="Save changes"

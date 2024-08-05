@@ -32,7 +32,10 @@ function addClaim(claim) {
     <Teleport to="body">
       <BaseModal
         ref="modal"
-        v-on="{ 'hidden.bs.modal': () => (isActive = false) }"
+        v-on="{
+          'hidden.bs.modal': () => (isActive = false),
+          'shown.bs.modal': () => claimEditor.focus()
+        }"
         @confirm="() => claimEditor.confirmClaim()"
         v-if="isActive"
         title="Add Claim"

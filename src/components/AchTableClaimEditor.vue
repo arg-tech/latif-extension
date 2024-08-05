@@ -1,8 +1,9 @@
 <script setup>
-import { defineEmits, defineProps, onMounted, ref } from 'vue'
+import { defineEmits, defineProps, ref } from 'vue'
 
 defineExpose({
-  confirmClaim
+  confirmClaim,
+  focus
 })
 
 const props = defineProps(['initialValue'])
@@ -11,9 +12,9 @@ const emits = defineEmits(['claim'])
 const claimText = ref(props.initialValue)
 const inputElement = ref(null)
 
-onMounted(() => {
+function focus() {
   inputElement.value.focus()
-})
+}
 
 function confirmClaim() {
   emits('claim', claimText.value)
