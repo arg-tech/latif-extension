@@ -21,7 +21,7 @@ function drawDial() {
 
   // Convert to 0-100 scale.
   const value =
-    ((store.responses.analyze.output.full_scoring_matrix[evidenceTunerCellRef.value[1]][
+    ((store.manualMatrix[evidenceTunerCellRef.value[1]][
       evidenceTunerCellRef.value[0]
     ] +
       1) /
@@ -66,7 +66,7 @@ function handleMouseMove(event) {
 
   // Now update dial.
   // Convert back to -1 to 1 scale.
-  store.responses.analyze.output.full_scoring_matrix[evidenceTunerCellRef.value[1]][
+  store.manualMatrix[evidenceTunerCellRef.value[1]][
     evidenceTunerCellRef.value[0]
   ] = parseFloat((normalizedAngle * 2 - 1).toFixed(2))
   drawDial()

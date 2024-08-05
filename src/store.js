@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, reactive } from 'vue'
+import { computed, ref, reactive } from 'vue'
 import { createFetch } from '@vueuse/core'
 import { ensureContentScriptIsReady } from '@/utils'
 
@@ -17,6 +17,20 @@ export const useStore = defineStore('store', () => {
   const evidences = ref([])
   const evidenceTunerCellRef = ref(null)
   const articleUrl = ref(null)
+
+  const achMatrix = computed(() => {
+    if (!responses.analyze) {
+      return manualMatrix.value
+    }
+
+    return manualMatrix.value
+      .map((innerArr) => innerArr.slice())
+      .map((x, i) => {
+        return x.map((y, j) => {
+          return y !== undefined ? y : responses.analyze.output.full_scoring_matrix[i][j]
+        })
+      })
+  })
 
   const selectThisNewsArticle = createFetch({
     fetchOptions,
@@ -97,7 +111,7 @@ export const useStore = defineStore('store', () => {
         options.body = JSON.stringify({
           ordered_hypothesises: responses.analyze.output.ordered_hypothesises,
           full_ordered_evidences: responses.analyze.output.full_ordered_evidences,
-          full_scoring_matrix: responses.analyze.output.full_scoring_matrix
+          full_scoring_matrix: achMatrix.value
         })
 
         return { url, options }
@@ -125,6 +139,7 @@ export const useStore = defineStore('store', () => {
     evidences,
     evidenceTunerCellRef,
     articleUrl,
+    achMatrix,
     selectThisNewsArticle,
     analyzeEvidence,
     draftReport

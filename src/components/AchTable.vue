@@ -72,7 +72,7 @@ function getBackgroundColor(score) {
         </template>
         <template v-else>
           <td
-            v-for="(scoreCol, colIndex) in store.responses.analyze.output.full_scoring_matrix"
+            v-for="(scoreCol, colIndex) in store.achMatrix"
             :style="{ backgroundColor: getBackgroundColor(scoreCol[rowIndex]) }"
             :key="colIndex"
             @click.prevent="activateEvidenceTuner(rowIndex, colIndex)"
