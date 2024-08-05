@@ -13,6 +13,7 @@ const fetchOptions = {
 
 export const useStore = defineStore('store', () => {
   const responses = reactive({ get_claims: null, analyze: null })
+  const manualMatrix = ref(null)
   const evidences = ref([])
   const evidenceTunerCellRef = ref(null)
   const articleUrl = ref(null)
@@ -42,6 +43,11 @@ export const useStore = defineStore('store', () => {
       },
       async afterFetch(ctx) {
         responses.get_claims = await ctx.response.json()
+
+        manualMatrix.value = Array.from(
+          { length: responses.get_claims.output.hypothesis.length },
+          () => Array()
+        )
 
         // Log the response to help with debugging.
         console.log('get_claims: ', responses.get_claims.output)
@@ -115,6 +121,7 @@ export const useStore = defineStore('store', () => {
 
   return {
     responses,
+    manualMatrix,
     evidences,
     evidenceTunerCellRef,
     articleUrl,
