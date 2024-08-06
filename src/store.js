@@ -114,6 +114,16 @@ export const useStore = defineStore('store', () => {
 
         analysedMatrix.value = analyse.output.full_scoring_matrix
 
+        // The api seems to return the hypotheses in reverse order. We assume this means that the
+        // matrix is in reverse order too, so check that this is still true at runtime, and flip
+        // it if it is.
+        // See Analysed hypotheses output below to confirm.
+        if (
+          analyse.output.ordered_hypothesises[0] === hypotheses.value[hypotheses.value.length - 1]
+        ) {
+          analysedMatrix.value.reverse()
+        }
+
         // Log the returned ach table to help with debugging.
         console.log('Analysed matrix: ', analysedMatrix.value)
 
