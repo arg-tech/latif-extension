@@ -12,7 +12,8 @@ const fetchOptions = {
 }
 
 export const useStore = defineStore('store', () => {
-  const responses = reactive({ get_claims: null, analyze: null })
+  const responses = reactive({ analyze: null })
+  const hypotheses = ref([])
   const manualMatrix = ref(null)
   const evidences = ref([])
   const evidenceTunerCellRef = ref(null)
@@ -56,15 +57,17 @@ export const useStore = defineStore('store', () => {
         return { url, options }
       },
       async afterFetch(ctx) {
-        responses.get_claims = await ctx.response.json()
+        const get_claims = await ctx.response.json()
+
+        hypotheses.value = get_claims.output.hypothesis
 
         manualMatrix.value = Array.from(
-          { length: responses.get_claims.output.hypothesis.length },
+          { length: hypotheses.value.length },
           () => Array()
         )
 
-        // Log the response to help with debugging.
-        console.log('get_claims: ', responses.get_claims.output)
+        // Log the hypotheses to help with debugging.
+        console.log('Hypotheses: ', hypotheses.value)
 
         return ctx
       }
@@ -78,7 +81,7 @@ export const useStore = defineStore('store', () => {
         url = 'http://178.79.182.88:8080/analyze/'
 
         options.body = JSON.stringify({
-          hypothesis: responses.get_claims.output.hypothesis,
+          hypothesis: hypotheses.value,
           manual_evidences: evidences.value.map((t) => t.text),
           max_alignment_limit: -1,
           min_alignment_limit: -1
@@ -135,6 +138,7 @@ export const useStore = defineStore('store', () => {
 
   return {
     responses,
+    hypotheses,
     manualMatrix,
     evidences,
     evidenceTunerCellRef,

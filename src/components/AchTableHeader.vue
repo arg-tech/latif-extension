@@ -31,7 +31,7 @@ onUpdated(() => {
 })
 
 function deleteHypothesis(index) {
-  store.responses.get_claims.output.hypothesis.splice(index, 1)
+  store.hypotheses.splice(index, 1)
   store.manualMatrix.splice(index, 1)
 
   if (store.responses.analyze) {

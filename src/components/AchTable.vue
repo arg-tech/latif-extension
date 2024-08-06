@@ -54,7 +54,7 @@ function getBackgroundColor(score) {
       <tr>
         <th><AddClaim /></th>
         <TableHeader
-          v-for="(hypothesis, colIndex) in store.responses.get_claims.output.hypothesis"
+          v-for="(hypothesis, colIndex) in store.hypotheses"
           :key="colIndex"
           :hypothesis="hypothesis"
           :index="colIndex"

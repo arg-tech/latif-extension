@@ -17,7 +17,7 @@ const shortHypothesis = computed(() =>
 )
 
 function editClaim(claim) {
-  store.responses.get_claims.output.hypothesis[props.index] = claim
+  store.hypotheses[props.index] = claim
   modal.value.hide()
 }
 

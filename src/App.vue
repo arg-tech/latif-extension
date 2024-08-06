@@ -26,7 +26,7 @@ async function tableDrop() {
   const text = (await chrome.tabs.sendMessage(tab.id, { action: 'getSelectionText' })).text
 
   if (doUrlsMatch(tab.url, store.articleUrl)) {
-    store.responses.get_claims.output.hypothesis.push(text)
+    store.hypotheses.push(text)
     store.manualMatrix.push(Array.from({ length: store.evidences.length }, () => undefined))
   } else {
     store.evidences.push({ text, url })
@@ -88,7 +88,7 @@ function sourceCheckModalConfirm() {
         </BaseButton>
       </div>
 
-      <div class="table-responsive my-3" v-if="store.responses.get_claims">
+      <div class="table-responsive my-3" v-if="store.hypotheses.length !== 0">
         <AchTable @drop="tableDrop"></AchTable>
       </div>
 
