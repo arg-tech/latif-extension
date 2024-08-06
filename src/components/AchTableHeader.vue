@@ -30,15 +30,6 @@ onUpdated(() => {
   initTooltip()
 })
 
-function deleteHypothesis(index) {
-  store.hypotheses.splice(index, 1)
-  store.manualMatrix.splice(index, 1)
-
-  if (store.responses.analyze) {
-    store.responses.analyze.output.full_scoring_matrix.splice(index, 1)
-  }
-}
-
 function initTooltip() {
   if (tooltipElement.value) {
     tooltip.value = new bootstrap.Tooltip(tooltipElement.value)
@@ -58,7 +49,7 @@ function disposeTooltip() {
     <div class="d-flex align-items-center">
       <HeaderText @click="tooltip.hide()" :hypothesis :index />
       <button
-        @click="deleteHypothesis(index)"
+        @click="store.deleteHypothesis(index)"
         type="button"
         class="btn btn-sm btn-outline-danger ms-1"
       >

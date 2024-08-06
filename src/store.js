@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, ref, reactive } from 'vue'
+import { computed, ref } from 'vue'
 import { createFetch } from '@vueuse/core'
 import { ensureContentScriptIsReady } from '@/utils'
 
@@ -12,15 +12,15 @@ const fetchOptions = {
 }
 
 export const useStore = defineStore('store', () => {
-  const responses = reactive({ analyze: null })
   const hypotheses = ref([])
   const manualMatrix = ref(null)
+  const analysedMatrix = ref(null)
   const evidences = ref([])
   const evidenceTunerCellRef = ref(null)
   const articleUrl = ref(null)
 
   const achMatrix = computed(() => {
-    if (!responses.analyze) {
+    if (analysedMatrix.value === null) {
       return manualMatrix.value
     }
 
@@ -31,14 +31,23 @@ export const useStore = defineStore('store', () => {
           // Prioritise the manual matrix's values, only falling back to full_scoring_matrix if the
           // first array exists. Fixes bug where table disappears if a new claim is added once
           // full_scoring_matrix exists.
-          if (y !== undefined || responses.analyze.output.full_scoring_matrix[i] === undefined) {
+          if (y !== undefined || analysedMatrix.value[i] === undefined) {
             return y
           }
 
-          return responses.analyze.output.full_scoring_matrix[i][j]
+          return analysedMatrix.value[i][j]
         })
       })
   })
+
+  function deleteHypothesis(index) {
+    hypotheses.value.splice(index, 1)
+    manualMatrix.value.splice(index, 1)
+
+    if (analysedMatrix.value !== null) {
+      analysedMatrix.value.splice(index, 1)
+    }
+  }
 
   const selectThisNewsArticle = createFetch({
     fetchOptions,
@@ -101,10 +110,15 @@ export const useStore = defineStore('store', () => {
         return { url, options }
       },
       async afterFetch(ctx) {
-        responses.analyze = await ctx.response.json()
+        const analyse = await ctx.response.json()
 
-        // Log the response to help with debugging.
-        console.log('Analyze: ', responses.analyze.output)
+        analysedMatrix.value = analyse.output.full_scoring_matrix
+
+        // Log the returned ach table to help with debugging.
+        console.log('Analysed matrix: ', analysedMatrix.value)
+
+        // Also log the returned hypotheses as they appear to be getting flipped.
+        console.log('Analysed hypotheses: ', analyse.output.ordered_hypothesises)
 
         return ctx
       }
@@ -119,8 +133,8 @@ export const useStore = defineStore('store', () => {
         url = 'http://178.79.182.88:8000/generate_check_result_article/'
 
         options.body = JSON.stringify({
-          ordered_hypothesises: responses.analyze.output.ordered_hypothesises,
-          full_ordered_evidences: responses.analyze.output.full_ordered_evidences,
+          ordered_hypothesises: hypotheses.value,
+          full_ordered_evidences: evidences.value.map((t) => t.text),
           full_scoring_matrix: achMatrix.value
         })
 
@@ -144,13 +158,14 @@ export const useStore = defineStore('store', () => {
   })
 
   return {
-    responses,
     hypotheses,
     manualMatrix,
+    analysedMatrix,
     evidences,
     evidenceTunerCellRef,
     articleUrl,
     achMatrix,
+    deleteHypothesis,
     selectThisNewsArticle,
     analyzeEvidence,
     draftReport

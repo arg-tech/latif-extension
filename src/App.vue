@@ -98,7 +98,7 @@ function sourceCheckModalConfirm() {
         </BaseButton>
       </div>
 
-      <div v-if="store.responses.analyze" class="d-grid gap-2 mt-3">
+      <div v-if="store.analysedMatrix !== null" class="d-grid gap-2 mt-3">
         <BaseButton @click="draftReport" :loading="loading.draftReport">
           Draft Report
 
