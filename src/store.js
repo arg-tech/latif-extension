@@ -102,11 +102,6 @@ export const useStore = defineStore('store', () => {
           min_alignment_limit: -1
         })
 
-        // If the analyse evidence button is clicked while the evidence tuner is open,
-        // the evidence tuner doesn't update to the new value.
-        // This hides it until a new cell is clicked on, and it will be up to date again.
-        evidenceTunerCellRef.value = null
-
         return { url, options }
       },
       async afterFetch(ctx) {
