@@ -28,7 +28,14 @@ export const useStore = defineStore('store', () => {
       .map((innerArr) => innerArr.slice())
       .map((x, i) => {
         return x.map((y, j) => {
-          return y !== undefined ? y : responses.analyze.output.full_scoring_matrix[i][j]
+          // Prioritise the manual matrix's values, only falling back to full_scoring_matrix if the
+          // first array exists. Fixes bug where table disappears if a new claim is added once
+          // full_scoring_matrix exists.
+          if (y !== undefined || responses.analyze.output.full_scoring_matrix[i] === undefined) {
+            return y
+          }
+
+          return responses.analyze.output.full_scoring_matrix[i][j]
         })
       })
   })
@@ -61,10 +68,7 @@ export const useStore = defineStore('store', () => {
 
         hypotheses.value = get_claims.output.hypothesis
 
-        manualMatrix.value = Array.from(
-          { length: hypotheses.value.length },
-          () => Array()
-        )
+        manualMatrix.value = Array.from({ length: hypotheses.value.length }, () => Array())
 
         // Log the hypotheses to help with debugging.
         console.log('Hypotheses: ', hypotheses.value)
