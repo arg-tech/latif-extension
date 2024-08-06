@@ -42,6 +42,7 @@ export const useStore = defineStore('store', () => {
 
   const selectThisNewsArticle = createFetch({
     fetchOptions,
+    combination: 'chaining',
     options: {
       async beforeFetch({ options, url }) {
         url = 'http://178.79.182.88:8080/get_claims/'
@@ -80,6 +81,7 @@ export const useStore = defineStore('store', () => {
 
   const analyzeEvidence = createFetch({
     fetchOptions,
+    combination: 'chaining',
     options: {
       async beforeFetch({ options, url }) {
         url = 'http://178.79.182.88:8080/analyze/'
@@ -111,6 +113,7 @@ export const useStore = defineStore('store', () => {
 
   const draftReport = createFetch({
     fetchOptions,
+    combination: 'chaining',
     options: {
       async beforeFetch({ options, url }) {
         url = 'http://178.79.182.88:8000/generate_check_result_article/'
