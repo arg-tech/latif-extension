@@ -16,6 +16,11 @@ const loading = reactive({
   analyzeEvidence: false,
   draftReport: false
 })
+const fetchErrors = reactive({
+  selectThisNewsArticle: null,
+  analyzeEvidence: null,
+  draftReport: null
+})
 
 async function tableDrop() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
@@ -37,11 +42,13 @@ async function tableDrop() {
 function selectThisNewsArticle() {
   const useFetchReturn = store.selectThisNewsArticle()
   loading.selectThisNewsArticle = useFetchReturn.isFetching
+  fetchErrors.analyzeEvidence = useFetchReturn.error
 }
 
 function analyzeEvidence() {
   const useFetchReturn = store.analyzeEvidence()
   loading.analyzeEvidence = useFetchReturn.isFetching
+  fetchErrors.analyzeEvidence = useFetchReturn.error
 }
 
 function draftReport() {
@@ -68,11 +75,13 @@ function draftReport() {
 
   const useFetchReturn = store.draftReport()
   loading.draftReport = useFetchReturn.isFetching
+  fetchErrors.draftReport = useFetchReturn.error
 }
 
 function sourceCheckModalConfirm() {
   const useFetchReturn = store.draftReport()
   loading.draftReport = useFetchReturn.isFetching
+  fetchErrors.draftReport = useFetchReturn.error
   modal.value.hide()
 }
 </script>
@@ -80,6 +89,10 @@ function sourceCheckModalConfirm() {
 <template>
   <div class="flex-column min-vh-100 d-flex">
     <BaseHeader class="mt-2 mb-4 container-fluid" />
+
+    <div v-if="fetchErrors.selectThisNewsArticle !== null" class="mt-3 alert alert-danger" role="alert">
+      Select This News Article failed: {{ fetchErrors.selectThisNewsArticle }}
+    </div>
 
     <main class="container-fluid flex-grow-1">
       <div class="d-grid gap-2">
@@ -92,10 +105,18 @@ function sourceCheckModalConfirm() {
         <AchTable @drop="tableDrop"></AchTable>
       </div>
 
+      <div v-if="fetchErrors.analyzeEvidence !== null" class="mt-3 alert alert-danger" role="alert">
+        Autocomplete Table failed: {{ fetchErrors.analyzeEvidence }}
+      </div>
+
       <div v-if="store.evidences.length !== 0" class="d-grid gap-2">
         <BaseButton @click="analyzeEvidence" :loading="loading.analyzeEvidence">
           Autocomplete Table
         </BaseButton>
+      </div>
+
+      <div v-if="fetchErrors.draftReport !== null" class="mt-3 alert alert-danger" role="alert">
+        Draft Report failed: {{ fetchErrors.draftReport }}
       </div>
 
       <div v-if="store.analysedMatrix !== null" class="d-grid gap-2 mt-3">
