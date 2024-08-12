@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { createFetch } from '@vueuse/core'
 import { ensureContentScriptIsReady } from '@/utils'
+import contentCssUrl from '@/content.css?url'
 
 const fetchOptions = {
   method: 'POST',
@@ -82,6 +83,19 @@ export const useStore = defineStore('store', () => {
 
         // Log the hypotheses to help with debugging.
         console.log('Hypotheses: ', hypotheses.value)
+
+        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+
+        // Highlight the hypotheses on the webpage.
+        chrome.tabs.sendMessage(tab.id, {
+          action: 'highlightHypotheses',
+          hypotheses: hypotheses.value
+        })
+
+        chrome.scripting.insertCSS({
+          target: { tabId: tab.id },
+          files: [contentCssUrl]
+        })
 
         return ctx
       }

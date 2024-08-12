@@ -11,6 +11,10 @@ module.exports = {
     'eslint:recommended',
     '@vue/eslint-config-prettier/skip-formatting'
   ],
+  globals: {
+    // We use this in content.js when using the CSS Custom Highlight API.
+    Highlight: 'readonly'
+  },
   parserOptions: {
     ecmaVersion: 'latest'
   }
