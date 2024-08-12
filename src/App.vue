@@ -1,5 +1,6 @@
 <script setup>
 import { reactive, ref } from 'vue'
+import ExclamationTriangleFill from 'bootstrap-icons/bootstrap-icons.svg#exclamation-triangle-fill'
 import AchTable from '@/components/AchTable.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseHeader from '@/components/BaseHeader.vue'
@@ -90,7 +91,14 @@ function sourceCheckModalConfirm() {
   <div class="flex-column min-vh-100 d-flex">
     <BaseHeader class="mt-2 mb-4 container-fluid" />
 
-    <div v-if="fetchErrors.selectThisNewsArticle !== null" class="mt-3 alert alert-danger" role="alert">
+    <div
+      v-if="fetchErrors.selectThisNewsArticle !== null"
+      class="mt-3 d-flex align-items-center alert alert-danger"
+      role="alert"
+    >
+      <svg class="bi flex-shrink-0 me-2" width="16" height="16" fill="currentColor">
+        <use :xlink:href="ExclamationTriangleFill" />
+      </svg>
       Select This News Article failed: {{ fetchErrors.selectThisNewsArticle }}
     </div>
 
@@ -105,7 +113,14 @@ function sourceCheckModalConfirm() {
         <AchTable @drop="tableDrop"></AchTable>
       </div>
 
-      <div v-if="fetchErrors.analyzeEvidence !== null" class="mt-3 alert alert-danger" role="alert">
+      <div
+        v-if="fetchErrors.analyzeEvidence !== null"
+        class="mt-3 d-flex align-items-center alert alert-danger"
+        role="alert"
+      >
+        <svg class="bi flex-shrink-0 me-2" width="16" height="16" fill="currentColor">
+          <use :xlink:href="ExclamationTriangleFill" />
+        </svg>
         Autocomplete Table failed: {{ fetchErrors.analyzeEvidence }}
       </div>
 
@@ -115,7 +130,14 @@ function sourceCheckModalConfirm() {
         </BaseButton>
       </div>
 
-      <div v-if="fetchErrors.draftReport !== null" class="mt-3 alert alert-danger" role="alert">
+      <div
+        v-if="fetchErrors.draftReport !== null"
+        class="mt-3 d-flex align-items-center alert alert-danger"
+        role="alert"
+      >
+        <svg class="bi flex-shrink-0 me-2" width="16" height="16" fill="currentColor">
+          <use :xlink:href="ExclamationTriangleFill" />
+        </svg>
         Draft Report failed: {{ fetchErrors.draftReport }}
       </div>
 
