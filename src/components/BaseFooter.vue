@@ -1,3 +1,8 @@
+<script setup>
+const manifest = chrome.runtime.getManifest()
+const version = manifest.version
+</script>
+
 <template>
   <footer class="d-flex flex-wrap justify-content-between align-items-center mt-2 border-top">
     <div class="col-md-4 d-flex align-items-center">
@@ -8,6 +13,8 @@
         <a href="https://latifproject.eu/" target="_blank">LATIF Project</a>
       </span>
     </div>
+
+    <span>Version: {{ version }}</span>
 
     <ul class="nav col-md-4 me-4 justify-content-end list-unstyled d-flex">
       <li class="ms-3">
