@@ -1,110 +1,27 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import ThumbsUp from 'bootstrap-icons/icons/hand-thumbs-up-fill.svg'
+import ThumbsDown from 'bootstrap-icons/icons/hand-thumbs-down-fill.svg'
 import { useStore } from '@/store'
 import { storeToRefs } from 'pinia'
 
 const store = useStore()
 
 const { evidenceTunerCellRef } = storeToRefs(store)
-
-const dialCanvas = ref(null)
-
-let canvas = null
-let ctx = null
-let centerX = null
-let centerY = null
-
-function drawDial() {
-  const maxValue = 100
-  const radius = 40
-  const lineWidth = 10
-
-  // Convert to 0-100 scale.
-  const value =
-    ((store.manualMatrix[evidenceTunerCellRef.value[1]][
-      evidenceTunerCellRef.value[0]
-    ] +
-      1) /
-      2) *
-    100
-
-  // Clear the canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-  // Draw the outer circle.
-  ctx.beginPath()
-  ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI)
-  ctx.lineWidth = lineWidth
-  ctx.strokeStyle = '#ccc'
-  ctx.stroke()
-  ctx.closePath()
-
-  const startAngle = -0.5 * Math.PI
-  const endAngle = startAngle + (value / maxValue) * 2 * Math.PI
-
-  // Draw the filled arc.
-  ctx.beginPath()
-  ctx.arc(centerX, centerY, radius, startAngle, endAngle)
-  ctx.lineWidth = lineWidth
-  ctx.strokeStyle = 'rgb(255,255,255)'
-  ctx.stroke()
-  ctx.closePath()
-}
-
-function getMousePosition(event) {
-  const rect = canvas.getBoundingClientRect()
-  return {
-    x: event.clientX - rect.left,
-    y: event.clientY - rect.top
-  }
-}
-
-function handleMouseMove(event) {
-  const pos = getMousePosition(event)
-  const angle = Math.atan2(pos.y - centerY, pos.x - centerX) + 0.5 * Math.PI
-  const normalizedAngle = (angle < 0 ? angle + 2 * Math.PI : angle) / (2 * Math.PI)
-
-  // Now update dial.
-  // Convert back to -1 to 1 scale.
-  store.manualMatrix[evidenceTunerCellRef.value[1]][
-    evidenceTunerCellRef.value[0]
-  ] = parseFloat((normalizedAngle * 2 - 1).toFixed(2))
-  drawDial()
-}
-
-onMounted(() => {
-  canvas = dialCanvas.value
-  ctx = canvas.getContext('2d')
-
-  centerX = canvas.width / 2
-  centerY = canvas.height / 2
-
-  let isMouseDown = false
-
-  canvas.addEventListener('mousedown', () => {
-    isMouseDown = true
-    canvas.addEventListener('mousemove', handleMouseMove)
-  })
-
-  window.addEventListener('mouseup', () => {
-    isMouseDown = false
-    canvas.removeEventListener('mousemove', handleMouseMove)
-  })
-
-  canvas.addEventListener('mouseleave', () => {
-    if (isMouseDown) {
-      canvas.removeEventListener('mousemove', handleMouseMove)
-    }
-  })
-
-  drawDial()
-})
-
-watch(evidenceTunerCellRef, () => {
-  drawDial()
-})
 </script>
 
 <template>
-  <canvas ref="dialCanvas" width="100" height="100"></canvas>
+  <div class="d-flex flex-column">
+    <input
+      v-model="store.manualMatrix[evidenceTunerCellRef[1]][evidenceTunerCellRef[0]]"
+      type="range"
+      min="-1"
+      max="1"
+      step="0.01"
+      class="form-range"
+    />
+    <div class="d-flex justify-content-between">
+      <ThumbsDown />
+      <ThumbsUp />
+    </div>
+  </div>
 </template>
