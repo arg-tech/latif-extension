@@ -8,6 +8,7 @@ import BaseFooter from '@/components/BaseFooter.vue'
 import BaseModal from '@/components/BaseModal.vue'
 import { useStore } from '@/store'
 import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
+import HelpButton from '@/components/HelpButton.vue'
 
 const store = useStore()
 const modal = ref(null)
@@ -109,9 +110,13 @@ function sourceCheckModalConfirm() {
         </BaseButton>
       </div>
 
+      <HelpButton help-text="When the button is pressed, the news article you are currently on will be used to fact-check against" />
+
       <div class="table-responsive my-3" v-if="store.hypotheses.length !== 0">
         <AchTable @drop="tableDrop"></AchTable>
       </div>
+
+      <HelpButton help-text="This is just a test" />
 
       <div
         v-if="fetchErrors.analyzeEvidence !== null"
