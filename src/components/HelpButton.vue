@@ -8,7 +8,7 @@ const tooltip = ref(null)
 const tooltipElement = ref(null)
 
 onMounted(() => {
-  tooltip.value = new bootstrap.Tooltip(tooltipElement)
+  tooltip.value = new bootstrap.Tooltip(tooltipElement.value)
 })
 
 onUnmounted(() => {
@@ -27,7 +27,7 @@ onUnmounted(() => {
       class="btn btn-outline-info"
       data-bs-toggle="tooltip"
       data-bs-placement="bottom"
-      data-bs-title="help-text"
+      :data-bs-title="helpText"
     >
       <svg width="16" height="16" fill="currentColor">
         <use :xlink:href="HelpIcon" />

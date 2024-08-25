@@ -114,9 +114,8 @@ function sourceCheckModalConfirm() {
 
       <div class="table-responsive my-3" v-if="store.hypotheses.length !== 0">
         <AchTable @drop="tableDrop"></AchTable>
+        <HelpButton help-text="This is just a test" />
       </div>
-
-      <HelpButton help-text="This is just a test" />
 
       <div
         v-if="fetchErrors.analyzeEvidence !== null"
