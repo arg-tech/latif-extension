@@ -26,7 +26,6 @@ onUnmounted(() => {
       type="button"
       class="btn btn-outline-info"
       data-bs-toggle="tooltip"
-      data-bs-placement="bottom"
       :data-bs-title="helpText"
     >
       <svg width="16" height="16" fill="currentColor">
