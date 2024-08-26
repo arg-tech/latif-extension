@@ -1,6 +1,6 @@
 <script setup>
 import * as bootstrap from 'bootstrap'
-import TrashIcon from 'bootstrap-icons/bootstrap-icons.svg#trash'
+import TrashIcon from 'bootstrap-icons/icons/trash.svg'
 import { onBeforeUpdate, onMounted, onUnmounted, onUpdated, ref } from 'vue'
 import HeaderText from '@/components/AchTableHeaderText.vue'
 import { useStore } from '@/store'
@@ -53,9 +53,7 @@ function disposeTooltip() {
         type="button"
         class="btn btn-sm btn-outline-danger ms-1"
       >
-        <svg class="bi bi-trash" width="16" height="16" fill="currentColor">
-          <use :xlink:href="TrashIcon" />
-        </svg>
+      <TrashIcon />
       </button>
     </div>
   </th>
