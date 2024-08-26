@@ -110,13 +110,13 @@ function sourceCheckModalConfirm() {
         </BaseButton>
       </div>
 
-      <HelpButton
-        help-text="When the button is pressed, the news article you are currently on will be used to fact-check against"
-      />
+      <HelpButton help-text="Automatically identifies the claims made in this article." />
 
       <div class="table-responsive my-3" v-if="store.hypotheses.length !== 0">
         <AchTable @drop="tableDrop"></AchTable>
-        <HelpButton help-text="This is just a test" />
+        <HelpButton
+          help-text="Drag and drop supporting and opposing evidence from other sources into the table for evaluation. Tip: Make sure to drop the evidence directly onto the table to get it to add."
+        />
       </div>
 
       <div
@@ -134,7 +134,7 @@ function sourceCheckModalConfirm() {
         <BaseButton @click="analyzeEvidence" :loading="loading.analyzeEvidence">
           Autocomplete Table
         </BaseButton>
-        <HelpButton help-text="This is just a test" />
+        <HelpButton help-text="Completes the rest of the table on a best effort basis." />
       </div>
 
       <div
@@ -169,7 +169,9 @@ function sourceCheckModalConfirm() {
             </BaseModal>
           </Teleport>
         </BaseButton>
-        <HelpButton help-text="This is just a test" />
+        <HelpButton
+          help-text="Drafts a report summarising whether each claim is likely true or false."
+        />
       </div>
     </main>
 
