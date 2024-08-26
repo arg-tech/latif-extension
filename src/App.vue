@@ -43,7 +43,7 @@ async function tableDrop() {
 function selectThisNewsArticle() {
   const useFetchReturn = store.selectThisNewsArticle()
   loading.selectThisNewsArticle = useFetchReturn.isFetching
-  fetchErrors.analyzeEvidence = useFetchReturn.error
+  fetchErrors.selectThisNewsArticle = useFetchReturn.error
 }
 
 function analyzeEvidence() {
