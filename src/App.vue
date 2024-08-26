@@ -110,7 +110,9 @@ function sourceCheckModalConfirm() {
         </BaseButton>
       </div>
 
-      <HelpButton help-text="When the button is pressed, the news article you are currently on will be used to fact-check against" />
+      <HelpButton
+        help-text="When the button is pressed, the news article you are currently on will be used to fact-check against"
+      />
 
       <div class="table-responsive my-3" v-if="store.hypotheses.length !== 0">
         <AchTable @drop="tableDrop"></AchTable>
