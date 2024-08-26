@@ -8,6 +8,7 @@ import BaseFooter from '@/components/BaseFooter.vue'
 import BaseModal from '@/components/BaseModal.vue'
 import { useStore } from '@/store'
 import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
+import HelpButton from '@/components/HelpButton.vue'
 
 const store = useStore()
 const modal = ref(null)
@@ -101,14 +102,24 @@ function sourceCheckModalConfirm() {
     </div>
 
     <main class="container-fluid flex-grow-1">
-      <div class="d-grid gap-2">
-        <BaseButton @click="selectThisNewsArticle" :loading="loading.selectThisNewsArticle">
+      <div class="d-flex gap-2">
+        <BaseButton
+          @click="selectThisNewsArticle"
+          :loading="loading.selectThisNewsArticle"
+          class="flex-grow-1"
+        >
           Select This News Article
         </BaseButton>
+        <HelpButton help-text="Automatically identifies the claims made in this article." />
       </div>
 
-      <div class="table-responsive my-3" v-if="store.hypotheses.length !== 0">
-        <AchTable @drop="tableDrop"></AchTable>
+      <div class="d-flex my-3 gap-2" v-if="store.hypotheses.length !== 0">
+        <div class="table-responsive">
+          <AchTable @drop="tableDrop"></AchTable>
+        </div>
+        <HelpButton
+          help-text="Drag and drop supporting and opposing evidence from other sources into the table for evaluation. Tip: Make sure to drop the evidence directly onto the table to get it to add."
+        />
       </div>
 
       <div
@@ -120,10 +131,11 @@ function sourceCheckModalConfirm() {
         Autocomplete Table failed: {{ fetchErrors.analyzeEvidence }}
       </div>
 
-      <div v-if="store.evidences.length !== 0" class="d-grid gap-2">
-        <BaseButton @click="analyzeEvidence" :loading="loading.analyzeEvidence">
+      <div v-if="store.evidences.length !== 0" class="d-flex gap-2">
+        <BaseButton @click="analyzeEvidence" :loading="loading.analyzeEvidence" class="flex-grow-1">
           Autocomplete Table
         </BaseButton>
+        <HelpButton help-text="Completes the rest of the table on a best effort basis." />
       </div>
 
       <div
@@ -135,8 +147,8 @@ function sourceCheckModalConfirm() {
         Draft Report failed: {{ fetchErrors.draftReport }}
       </div>
 
-      <div v-if="store.analysedMatrix !== null" class="d-grid gap-2 mt-3">
-        <BaseButton @click="draftReport" :loading="loading.draftReport">
+      <div v-if="store.analysedMatrix !== null" class="d-flex gap-2 mt-3">
+        <BaseButton @click="draftReport" :loading="loading.draftReport" class="flex-grow-1">
           Draft Report
 
           <Teleport v-if="showSourceCheckModal" to="body">
@@ -156,6 +168,9 @@ function sourceCheckModalConfirm() {
             </BaseModal>
           </Teleport>
         </BaseButton>
+        <HelpButton
+          help-text="Drafts a report summarising whether each claim is likely true or false."
+        />
       </div>
     </main>
 
