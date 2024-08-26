@@ -134,6 +134,7 @@ function sourceCheckModalConfirm() {
         <BaseButton @click="analyzeEvidence" :loading="loading.analyzeEvidence">
           Autocomplete Table
         </BaseButton>
+        <HelpButton help-text="This is just a test" />
       </div>
 
       <div
@@ -168,6 +169,7 @@ function sourceCheckModalConfirm() {
             </BaseModal>
           </Teleport>
         </BaseButton>
+        <HelpButton help-text="This is just a test" />
       </div>
     </main>
 
