@@ -1,7 +1,7 @@
 <script setup>
 import * as bootstrap from 'bootstrap'
 import { defineProps, onMounted, onUnmounted, ref } from 'vue'
-import HelpIcon from 'bootstrap-icons/bootstrap-icons.svg#question-lg'
+import HelpIcon from 'bootstrap-icons/icons/question-lg.svg'
 
 defineProps({ helpText: String })
 const tooltip = ref(null)
@@ -28,8 +28,6 @@ onUnmounted(() => {
     data-bs-toggle="tooltip"
     :data-bs-title="helpText"
   >
-    <svg width="1em" height="1em" fill="currentColor">
-      <use :xlink:href="HelpIcon" />
-    </svg>
+    <HelpIcon width="1em" height="1em" />
   </button>
 </template>
