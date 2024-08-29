@@ -20,14 +20,22 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <button
-    ref="tooltipElement"
-    type="button"
-    class="btn btn-outline-info border border-0 rounded-circle p-0"
-    style="height: 38px; width: 38px; font-size: 20px"
-    data-bs-toggle="tooltip"
-    :data-bs-title="helpText"
-  >
-    <HelpIcon width="1em" height="1em" />
-  </button>
+  <div>
+    <button
+      ref="tooltipElement"
+      type="button"
+      class="btn btn-outline-info border-0 rounded-circle d-flex align-items-center justify-content-center p-0 square-button"
+      data-bs-toggle="tooltip"
+      :data-bs-title="helpText"
+    >
+      <HelpIcon width="60%" height="60%" />
+    </button>
+  </div>
 </template>
+
+<style scoped>
+.square-button {
+  aspect-ratio: 1 / 1;
+  width: 38px;
+}
+</style>
