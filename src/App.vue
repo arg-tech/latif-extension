@@ -6,6 +6,7 @@ import BaseButton from '@/components/BaseButton.vue'
 import BaseHeader from '@/components/BaseHeader.vue'
 import BaseFooter from '@/components/BaseFooter.vue'
 import BaseModal from '@/components/BaseModal.vue'
+import SelectArticleButton from '@/components/SelectArticleButton.vue'
 import { useStore } from '@/store'
 import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
 import HelpButton from '@/components/HelpButton.vue'
@@ -14,12 +15,10 @@ const store = useStore()
 const modal = ref(null)
 const showSourceCheckModal = ref(false)
 const loading = reactive({
-  selectThisNewsArticle: false,
   analyzeEvidence: false,
   draftReport: false
 })
 const fetchErrors = reactive({
-  selectThisNewsArticle: null,
   analyzeEvidence: null,
   draftReport: null
 })
@@ -39,12 +38,6 @@ async function tableDrop() {
     store.evidences.push({ text, url })
     store.manualMatrix.map((x) => x.push(undefined))
   }
-}
-
-function selectThisNewsArticle() {
-  const useFetchReturn = store.selectThisNewsArticle()
-  loading.selectThisNewsArticle = useFetchReturn.isFetching
-  fetchErrors.selectThisNewsArticle = useFetchReturn.error
 }
 
 function analyzeEvidence() {
@@ -92,26 +85,8 @@ function sourceCheckModalConfirm() {
   <div class="flex-column min-vh-100 d-flex">
     <BaseHeader class="mt-2 mb-4 container-fluid" />
 
-    <div
-      v-if="fetchErrors.selectThisNewsArticle !== null"
-      class="mt-3 d-flex align-items-center alert alert-danger"
-      role="alert"
-    >
-      <ExclamationTriangleFill class="flex-shrink-0 me-2" />
-      Select This News Article failed: {{ fetchErrors.selectThisNewsArticle }}
-    </div>
-
     <main class="container-fluid flex-grow-1">
-      <div class="d-flex gap-2">
-        <BaseButton
-          @click="selectThisNewsArticle"
-          :loading="loading.selectThisNewsArticle"
-          class="flex-grow-1"
-        >
-          Select This News Article
-        </BaseButton>
-        <HelpButton help-text="Automatically identifies the claims made in this article." />
-      </div>
+      <SelectArticleButton />
 
       <div class="d-flex my-3 gap-2" v-if="store.hypotheses.length !== 0">
         <div class="table-responsive">
