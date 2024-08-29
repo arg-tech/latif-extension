@@ -7,6 +7,7 @@ import BaseHeader from '@/components/BaseHeader.vue'
 import BaseFooter from '@/components/BaseFooter.vue'
 import BaseModal from '@/components/BaseModal.vue'
 import SelectArticleButton from '@/components/SelectArticleButton.vue'
+import AutocompleteTableButton from '@/components/AutocompleteTableButton.vue'
 import { useStore } from '@/store'
 import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
 import HelpButton from '@/components/HelpButton.vue'
@@ -15,11 +16,9 @@ const store = useStore()
 const modal = ref(null)
 const showSourceCheckModal = ref(false)
 const loading = reactive({
-  analyzeEvidence: false,
   draftReport: false
 })
 const fetchErrors = reactive({
-  analyzeEvidence: null,
   draftReport: null
 })
 
@@ -38,12 +37,6 @@ async function tableDrop() {
     store.evidences.push({ text, url })
     store.manualMatrix.map((x) => x.push(undefined))
   }
-}
-
-function analyzeEvidence() {
-  const useFetchReturn = store.analyzeEvidence()
-  loading.analyzeEvidence = useFetchReturn.isFetching
-  fetchErrors.analyzeEvidence = useFetchReturn.error
 }
 
 function draftReport() {
@@ -97,20 +90,8 @@ function sourceCheckModalConfirm() {
         />
       </div>
 
-      <div
-        v-if="fetchErrors.analyzeEvidence !== null"
-        class="mt-3 d-flex align-items-center alert alert-danger"
-        role="alert"
-      >
-        <ExclamationTriangleFill class="flex-shrink-0 me-2" />
-        Autocomplete Table failed: {{ fetchErrors.analyzeEvidence }}
-      </div>
-
-      <div v-if="store.evidences.length !== 0" class="d-flex gap-2">
-        <BaseButton @click="analyzeEvidence" :loading="loading.analyzeEvidence" class="flex-grow-1">
-          Autocomplete Table
-        </BaseButton>
-        <HelpButton help-text="Completes the rest of the table on a best effort basis." />
+      <div v-if="store.evidences.length !== 0">
+        <AutocompleteTableButton />
       </div>
 
       <div
