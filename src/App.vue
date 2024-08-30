@@ -41,7 +41,7 @@ async function tableDrop() {
           <AchTable class="mb-0"></AchTable>
         </div>
         <HelpButton
-          help-text="Drag and drop supporting and opposing evidence from other sources into the table for evaluation. Tip: Make sure to drop the evidence directly onto the table to get it to add."
+          help-text="Drag and drop supporting and opposing evidence from other sources into the table for evaluation."
         />
       </div>
 
