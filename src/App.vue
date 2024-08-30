@@ -30,7 +30,7 @@ async function tableDrop() {
 </script>
 
 <template>
-  <div class="flex-column min-vh-100 d-flex">
+  <div class="flex-column min-vh-100 d-flex" @drop="tableDrop" @dragover.prevent>
     <BaseHeader class="mt-2 mb-4 container-fluid" />
 
     <main class="container-fluid flex-grow-1">
@@ -38,7 +38,7 @@ async function tableDrop() {
 
       <div class="d-flex my-3 gap-2" v-if="store.hypotheses.length !== 0">
         <div class="table-responsive">
-          <AchTable class="mb-0" @drop="tableDrop"></AchTable>
+          <AchTable class="mb-0"></AchTable>
         </div>
         <HelpButton
           help-text="Drag and drop supporting and opposing evidence from other sources into the table for evaluation. Tip: Make sure to drop the evidence directly onto the table to get it to add."

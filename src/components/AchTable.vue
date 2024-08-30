@@ -49,7 +49,7 @@ function getBackgroundColor(score) {
 </script>
 
 <template>
-  <table class="table table-bordered" @dragover.prevent>
+  <table class="table table-bordered">
     <thead>
       <tr>
         <th><AddClaim /></th>
