@@ -43,7 +43,36 @@ function selectThisNewsArticle() {
           title="Survey"
           confirmButtonText="Continue"
         >
-          Survey form here
+          <label class="mb-2">Q1. Why are you selecting this news article?</label>
+          <div class="input-group">
+            <select class="form-select">
+              <option selected>Choose...</option>
+              <option value="1">Viral topic</option>
+              <option value="2">Controversial content</option>
+              <option value="3">Unreliable source</option>
+              <option value="4">Other</option>
+            </select>
+          </div>
+          <label class="mt-3 mb-2">Q2. How relevant do you think this news article is?</label>
+          <div class="input-group">
+            <select class="form-select">
+              <option selected>Choose...</option>
+              <option value="1">Very relevant/Current affair</option>
+              <option value="2">Somewhat relevant</option>
+              <option value="3">Not as relevant/Old news</option>
+            </select>
+          </div>
+          <label class="mt-3 mb-2">
+            Q3. Does the article contain any sensational language or emotional appeals?
+          </label>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="option1" />
+            <label class="form-check-label"> Yes </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="option2" />
+            <label class="form-check-label"> No </label>
+          </div>
         </BaseModal>
       </Teleport>
     </BaseButton>
