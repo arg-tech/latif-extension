@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import ExclamationTriangleFill from 'bootstrap-icons/icons/exclamation-triangle-fill.svg'
 import { useStore } from '@/store'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseModal from '@/components/BaseModal.vue'
@@ -44,14 +43,9 @@ function sourceCheckModalConfirm() {
 </script>
 
 <template>
-  <div
-    v-if="useFetchReturn?.error"
-    class="mb-3 d-flex align-items-center alert alert-danger"
-    role="alert"
-  >
-    <ExclamationTriangleFill class="flex-shrink-0 me-2" />
+  <FetchAlert v-if="useFetchReturn?.error" class="mb-3">
     Draft Report failed: {{ useFetchReturn.error }}
-  </div>
+  </FetchAlert>
 
   <div class="d-flex gap-2">
     <BaseButton @click="draftReport" :loading="useFetchReturn?.isFetching" class="flex-grow-1">
