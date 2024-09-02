@@ -34,7 +34,9 @@ async function tableDrop() {
     <BaseHeader class="mt-2 mb-4 container-fluid" />
 
     <main class="container-fluid flex-grow-1">
-      <SelectArticleButton />
+      <div class="my-3">
+        <SelectArticleButton />
+      </div>
 
       <div class="d-flex my-3 gap-2" v-if="store.hypotheses.length !== 0">
         <div class="table-responsive">
@@ -45,11 +47,11 @@ async function tableDrop() {
         />
       </div>
 
-      <div v-if="store.evidences.length !== 0">
+      <div v-if="store.evidences.length !== 0" class="my-3">
         <AutocompleteTableButton />
       </div>
 
-      <div v-if="store.analysedMatrix !== null">
+      <div v-if="store.analysedMatrix !== null" class="my-3">
         <DraftReportButton />
       </div>
     </main>

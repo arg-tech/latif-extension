@@ -46,14 +46,14 @@ function sourceCheckModalConfirm() {
 <template>
   <div
     v-if="useFetchReturn?.error"
-    class="mt-3 d-flex align-items-center alert alert-danger"
+    class="mb-3 d-flex align-items-center alert alert-danger"
     role="alert"
   >
     <ExclamationTriangleFill class="flex-shrink-0 me-2" />
     Draft Report failed: {{ useFetchReturn.error }}
   </div>
 
-  <div class="d-flex gap-2 mt-3">
+  <div class="d-flex gap-2">
     <BaseButton @click="draftReport" :loading="useFetchReturn?.isFetching" class="flex-grow-1">
       Draft Report
 
