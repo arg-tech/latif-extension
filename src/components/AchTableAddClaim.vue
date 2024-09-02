@@ -24,7 +24,7 @@ function addClaim(claim) {
     <button
       @click="isActive = true"
       type="button"
-      class="btn btn-outline-success btn-sm text-nowrap"
+      class="btn btn-success btn-sm text-nowrap"
     >
       Add Claim
     </button>
