@@ -4,7 +4,7 @@ import ExclamationTriangleFill from 'bootstrap-icons/icons/exclamation-triangle-
 import { useStore } from '@/store'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseModal from '@/components/BaseModal.vue'
-import HelpButton from '@/components/HelpButton.vue'
+import HelpButton from '@/components/AppHelpButton.vue'
 
 const store = useStore()
 const useFetchReturn = ref(null)

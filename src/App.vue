@@ -2,12 +2,12 @@
 import AchTable from '@/components/AchTable.vue'
 import BaseHeader from '@/components/BaseHeader.vue'
 import BaseFooter from '@/components/BaseFooter.vue'
-import SelectArticleButton from '@/components/SelectArticleButton.vue'
-import AutocompleteTableButton from '@/components/AutocompleteTableButton.vue'
-import DraftReportButton from '@/components/DraftReportButton.vue'
+import SelectArticleButton from '@/components/AppSelectArticleButton.vue'
+import AutocompleteTableButton from '@/components/AppAutocompleteButton.vue'
+import DraftReportButton from '@/components/AppDraftReportButton.vue'
+import HelpButton from '@/components/AppHelpButton.vue'
 import { useStore } from '@/store'
 import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
-import HelpButton from '@/components/HelpButton.vue'
 
 const store = useStore()
 
