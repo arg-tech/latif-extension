@@ -21,10 +21,10 @@ const version = manifest.version
       </div>
 
       <div class="col">
-        <ul class="justify-content-end list-inline hstack gap-3 mb-0">
+        <ul class="justify-content-end list-inline hstack gap-2 mb-0">
           <li>
             <a
-              class="text-body-secondary"
+              class="link-secondary p-1"
               href="https://www.instagram.com/ARG_tech/"
               target="_blank"
             >
@@ -33,7 +33,7 @@ const version = manifest.version
           </li>
           <li>
             <a
-              class="text-body-secondary"
+              class="link-secondary p-1"
               href="https://www.facebook.com/ARGtechOrg/"
               target="_blank"
             >
@@ -41,7 +41,7 @@ const version = manifest.version
             </a>
           </li>
           <li>
-            <a class="text-body-secondary" href="https://x.com/arg_tech" target="_blank">
+            <a class="link-secondary p-1" href="https://x.com/arg_tech" target="_blank">
               <TwitterIcon />
             </a>
           </li>
