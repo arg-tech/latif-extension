@@ -41,7 +41,7 @@ const version = manifest.version
             </a>
           </li>
           <li>
-            <a class="link-secondary p-1" href="https://x.com/arg_tech" target="_blank">
+            <a class="link-secondary p-1 pe-0" href="https://x.com/arg_tech" target="_blank">
               <TwitterIcon />
             </a>
           </li>
