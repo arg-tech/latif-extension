@@ -1,7 +1,7 @@
 <script setup>
 import InstagramIcon from 'bootstrap-icons/icons/instagram.svg'
 import FacebookIcon from 'bootstrap-icons/icons/facebook.svg'
-import TwitterIcon from 'bootstrap-icons/icons/twitter.svg'
+import TwitterIcon from 'bootstrap-icons/icons/twitter-x.svg'
 
 const manifest = chrome.runtime.getManifest()
 const version = manifest.version
@@ -41,7 +41,7 @@ const version = manifest.version
             </a>
           </li>
           <li>
-            <a class="text-body-secondary" href="https://twitter.com/arg_tech" target="_blank">
+            <a class="text-body-secondary" href="https://x.com/arg_tech" target="_blank">
               <TwitterIcon />
             </a>
           </li>
