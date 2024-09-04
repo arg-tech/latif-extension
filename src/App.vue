@@ -34,7 +34,7 @@ async function tableDrop() {
     <BaseHeader class="mt-2 mb-4 container-fluid" />
 
     <main class="container-fluid flex-grow-1">
-      <div class="my-3">
+      <div class="mb-3">
         <SelectArticleButton />
       </div>
 
