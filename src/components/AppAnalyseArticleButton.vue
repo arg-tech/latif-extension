@@ -35,38 +35,61 @@ function analyseThisNewsArticle() {
           ref="modal"
           v-on="{ 'hidden.bs.modal': () => (showSourceCheckModal = false) }"
           @confirm="modal.hide()"
-          title="Survey"
+          title="Why are you selecting this news article?"
           confirmButtonText="Continue"
         >
-          <label class="mb-2">Q1. Why are you selecting this news article?</label>
-          <div class="input-group">
-            <select class="form-select">
-              <option selected>Choose...</option>
-              <option value="1">Viral topic</option>
-              <option value="2">Controversial content</option>
-              <option value="3">Unreliable source</option>
-              <option value="4">Other</option>
-            </select>
+          <label for="option1" class="form-label fw-semibold"> Reach of the claim </label>
+          <input type="range" class="form-range" id="customRange1" />
+          <div class="d-flex justify-content-between">
+            <p class="fs-6">Low</p>
+            <p>Medium</p>
+            <p class="fs-6">High</p>
           </div>
-          <label class="mt-3 mb-2">Q2. How relevant do you think this news article is?</label>
-          <div class="input-group">
-            <select class="form-select">
-              <option selected>Choose...</option>
-              <option value="1">Very relevant/Current affair</option>
-              <option value="2">Somewhat relevant</option>
-              <option value="3">Not as relevant/Old news</option>
-            </select>
+          <label for="option2" class="form-label fw-semibold"> Importance of the claim </label>
+          <input type="range" class="form-range" id="customRange1" />
+          <div class="d-flex justify-content-between">
+            <p class="fs-6">Low</p>
+            <p>Medium</p>
+            <p class="fs-6">High</p>
           </div>
-          <label class="mt-3 mb-2">
-            Q3. Does the article contain any sensational language or emotional appeals?
-          </label>
+          <label for="option3" class="form-label fw-semibold"> Familiarity </label>
+          <input type="range" class="form-range" id="customRange1" />
+          <div class="d-flex justify-content-between">
+            <p>Low</p>
+            <p>Medium</p>
+            <p>High</p>
+          </div>
+          <label for="option4" class="form-label fw-semibold"> Timeliness </label>
+          <input type="range" class="form-range" id="customRange1" />
+          <div class="d-flex justify-content-between">
+            <p>Low</p>
+            <p>Medium</p>
+            <p>High</p>
+          </div>
+          <label for="option5" class="form-label fw-semibold"> Suggested by readers </label>
+          <input type="range" class="form-range" id="customRange1" />
+          <div class="d-flex justify-content-between">
+            <p>No</p>
+            <p>Maybe</p>
+            <p>Yes</p>
+          </div>
+          <div class="form-check mt-2">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id="idk"
+            />
+            <label class="form-check-label fw-semibold" for="idk"> I don't know </label>
+          </div>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="option1" />
-            <label class="form-check-label"> Yes </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="option2" />
-            <label class="form-check-label"> No </label>
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioDefault"
+              id="other"
+            />
+            <label class="form-check-label fw-semibold" for="other"> Other </label>
           </div>
         </BaseModal>
       </Teleport>
