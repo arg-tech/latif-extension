@@ -11,24 +11,24 @@ const useFetchReturn = ref(null)
 const modal = ref(null)
 const showSourceCheckModal = ref(false)
 
-function selectThisNewsArticle() {
+function analyseThisNewsArticle() {
   showSourceCheckModal.value = true
-  useFetchReturn.value = store.selectThisNewsArticle()
+  useFetchReturn.value = store.analyseThisNewsArticle()
 }
 </script>
 
 <template>
   <FetchAlert v-if="useFetchReturn?.error" class="mb-3">
-    Select This News Article failed: {{ useFetchReturn.error }}
+    Analyse This News Article failed: {{ useFetchReturn.error }}
   </FetchAlert>
 
   <div class="d-flex gap-2">
     <BaseButton
-      @click="selectThisNewsArticle"
+      @click="analyseThisNewsArticle"
       :loading="useFetchReturn?.isFetching"
       class="flex-grow-1"
     >
-      Select This News Article
+      Analyse This News Article
 
       <Teleport v-if="showSourceCheckModal" to="body">
         <BaseModal
