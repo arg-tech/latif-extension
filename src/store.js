@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { createFetch } from '@vueuse/core'
-import { ensureContentScriptIsReady } from '@/utils'
+import { getCurrentTab } from '@/utils'
 import contentCssUrl from '@/content.css?url'
 
 const fetchOptions = {
@@ -58,9 +58,7 @@ export const useStore = defineStore('store', () => {
         url = 'http://178.79.182.88:8080/get_claims/'
 
         // Get article text
-        const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
-        // Fixes 'Receiving end does not exist' error on extension reload.
-        await ensureContentScriptIsReady(tab.id)
+        const tab = await getCurrentTab()
         const articleText = (await chrome.tabs.sendMessage(tab.id, { action: 'getArticleText' }))
           .text
 

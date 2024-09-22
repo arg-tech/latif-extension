@@ -11,7 +11,7 @@ export function doUrlsMatch(urlA, urlB) {
   )
 }
 
-export async function ensureContentScriptIsReady(tabId) {
+async function ensureContentScriptIsReady(tabId) {
   try {
     await chrome.tabs.sendMessage(tabId, {})
   } catch {
@@ -20,4 +20,13 @@ export async function ensureContentScriptIsReady(tabId) {
       files: ['content.js']
     })
   }
+}
+
+export async function getCurrentTab() {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+
+  // Fixes 'Receiving end does not exist' error on extension reload.
+  await ensureContentScriptIsReady(tab.id)
+
+  return tab
 }
