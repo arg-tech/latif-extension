@@ -50,7 +50,7 @@ export const useStore = defineStore('store', () => {
     }
   }
 
-  const selectThisNewsArticle = createFetch({
+  const analyseThisNewsArticle = createFetch({
     fetchOptions,
     combination: 'chaining',
     options: {
@@ -185,7 +185,7 @@ export const useStore = defineStore('store', () => {
     articleUrl,
     achMatrix,
     deleteHypothesis,
-    selectThisNewsArticle,
+    analyseThisNewsArticle,
     analyzeEvidence,
     draftReport
   }
