@@ -3,19 +3,17 @@ import AchTable from '@/components/AchTable.vue'
 import BaseHeader from '@/components/BaseHeader.vue'
 import BaseFooter from '@/components/BaseFooter.vue'
 import AnalyseArticleButton from '@/components/AppAnalyseArticleButton.vue'
+import GetHeadingsButtons from '@/components/AppGetHeadingsButtons.vue'
 import AutocompleteTableButton from '@/components/AppAutocompleteButton.vue'
 import DraftReportButton from '@/components/AppDraftReportButton.vue'
 // import HelpButton from '@/components/AppHelpButton.vue'
 import { useStore } from '@/store'
-import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
+import { doUrlsMatch, getCurrentTab } from '@/utils'
 
 const store = useStore()
 
 async function tableDrop() {
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
-
-  // Fixes 'Receiving end does not exist' error on extension reload.
-  await ensureContentScriptIsReady(tab.id)
+  const tab = await getCurrentTab()
   const url = (await chrome.tabs.sendMessage(tab.id, { action: 'getFragmentUrl' })).url
   const text = (await chrome.tabs.sendMessage(tab.id, { action: 'getSelectionText' })).text
 
@@ -34,8 +32,12 @@ async function tableDrop() {
     <BaseHeader class="mt-2 mb-4 container-fluid" />
 
     <main class="container-fluid flex-grow-1">
-      <div class="mb-3">
+      <div class="mb-2">
         <AnalyseArticleButton />
+      </div>
+
+      <div v-if="store.hypotheses.length !== 0" class="mb-3">
+        <GetHeadingsButtons />
       </div>
 
       <div class="d-flex my-3 gap-2" v-if="store.hypotheses.length !== 0">
