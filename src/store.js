@@ -41,6 +41,13 @@ export const useStore = defineStore('store', () => {
       })
   })
 
+  function addHypothesis(claim) {
+    if (claim) {
+      hypotheses.value.push(claim)
+      manualMatrix.value.push(Array.from({ length: evidences.value.length }, () => undefined))
+    }
+  }
+
   function deleteHypothesis(index) {
     hypotheses.value.splice(index, 1)
     manualMatrix.value.splice(index, 1)
@@ -198,6 +205,7 @@ export const useStore = defineStore('store', () => {
     evidenceTunerCellRef,
     articleUrl,
     achMatrix,
+    addHypothesis,
     deleteHypothesis,
     addEvidence,
     deleteEvidence,

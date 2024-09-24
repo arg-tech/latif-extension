@@ -11,11 +11,8 @@ const modal = ref(null)
 const claimEditor = ref(null)
 
 function addClaim(claim) {
-  if (claim) {
-    store.hypotheses.push(claim)
-    store.manualMatrix.push(Array.from({ length: store.evidences.length }, () => undefined))
-    modal.value.hide()
-  }
+  store.addHypothesis(claim)
+  modal.value.hide()
 }
 </script>
 
