@@ -1,5 +1,6 @@
 <script setup>
 import AddClaim from '@/components/AchTableAddClaim.vue'
+import AddEvidence from '@/components/AchTableAddEvidence.vue'
 import EvidenceCell from '@/components/AchTableEvidenceCell.vue'
 import EvidenceTuner from '@/components/AchTableEvidenceTuner.vue'
 import TableHeader from '@/components/AchTableHeader.vue'
@@ -84,6 +85,10 @@ function getBackgroundColor(score) {
             <EvidenceTuner />
           </div>
         </td>
+      </tr>
+      <tr>
+        <td><AddEvidence /></td>
+        <td :colspan="store.achMatrix.length" />
       </tr>
     </tbody>
   </table>

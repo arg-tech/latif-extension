@@ -41,12 +41,35 @@ export const useStore = defineStore('store', () => {
       })
   })
 
+  function addHypothesis(claim) {
+    if (claim) {
+      hypotheses.value.push(claim)
+      manualMatrix.value.push(Array.from({ length: evidences.value.length }, () => undefined))
+    }
+  }
+
   function deleteHypothesis(index) {
     hypotheses.value.splice(index, 1)
     manualMatrix.value.splice(index, 1)
 
     if (analysedMatrix.value !== null) {
       analysedMatrix.value.splice(index, 1)
+    }
+  }
+
+  function addEvidence(evidence, url) {
+    if (evidence) {
+      evidences.value.push({ text: evidence, url })
+      manualMatrix.value.map((x) => x.push(undefined))
+    }
+  }
+
+  function deleteEvidence(index) {
+    evidences.value.splice(index, 1)
+    manualMatrix.value.map((x) => x.splice(index, 1))
+
+    if (analysedMatrix.value !== null) {
+      analysedMatrix.value.map((x) => x.splice(index, 1))
     }
   }
 
@@ -182,7 +205,10 @@ export const useStore = defineStore('store', () => {
     evidenceTunerCellRef,
     articleUrl,
     achMatrix,
+    addHypothesis,
     deleteHypothesis,
+    addEvidence,
+    deleteEvidence,
     analyseThisNewsArticle,
     analyzeEvidence,
     draftReport

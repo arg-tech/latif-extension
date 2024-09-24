@@ -1,12 +1,15 @@
 <script setup>
 import { ref } from 'vue'
+import TrashIcon from 'bootstrap-icons/icons/trash.svg'
 import { doUrlsMatch } from '@/utils'
+import { useStore } from '@/store'
 
 defineProps({
   evidence: String,
   rowIndex: Number
 })
 
+const store = useStore()
 const anchor = ref(null)
 
 // Either opens a new tab or switches to an existing tab and modifies the url to include the text fragment.
@@ -48,5 +51,21 @@ async function onClick(evidenceUrl) {
       ref="anchor"
       >{{ evidence.text }}</a
     >
+    <div class="d-grid">
+      <button
+        @click="store.deleteEvidence(rowIndex)"
+        type="button"
+        class="delete-button btn btn-sm btn-outline-danger border-0 mt-1"
+      >
+        <TrashIcon />
+      </button>
+    </div>
   </td>
 </template>
+
+<style scoped>
+.delete-button {
+  font-size: 0px;
+  padding: 7px;
+}
+</style>

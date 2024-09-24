@@ -18,11 +18,9 @@ async function tableDrop() {
   const text = (await chrome.tabs.sendMessage(tab.id, { action: 'getSelectionText' })).text
 
   if (doUrlsMatch(tab.url, store.articleUrl)) {
-    store.hypotheses.push(text)
-    store.manualMatrix.push(Array.from({ length: store.evidences.length }, () => undefined))
+    store.addHypothesis(text)
   } else {
-    store.evidences.push({ text, url })
-    store.manualMatrix.map((x) => x.push(undefined))
+    store.addEvidence(text, url)
   }
 }
 </script>

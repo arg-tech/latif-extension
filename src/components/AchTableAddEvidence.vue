@@ -10,8 +10,8 @@ const isActive = ref(false)
 const modal = ref(null)
 const claimEditor = ref(null)
 
-function addClaim(claim) {
-  store.addHypothesis(claim)
+function addEvidence(evidence) {
+  store.addEvidence(evidence)
   modal.value.hide()
 }
 </script>
@@ -23,7 +23,7 @@ function addClaim(claim) {
       type="button"
       class="btn btn-outline-success fw-bold btn-sm text-nowrap"
     >
-      Add Claim
+      Add Evidence
     </button>
 
     <Teleport to="body">
@@ -35,9 +35,9 @@ function addClaim(claim) {
         }"
         @confirm="() => claimEditor.confirmClaim()"
         v-if="isActive"
-        title="Add Claim"
+        title="Add Evidence"
       >
-        <ClaimEditor ref="claimEditor" @claim="addClaim" />
+        <ClaimEditor ref="claimEditor" @claim="addEvidence" />
       </BaseModal>
     </Teleport>
   </div>
