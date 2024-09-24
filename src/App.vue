@@ -5,7 +5,7 @@ import BaseFooter from '@/components/BaseFooter.vue'
 import AnalyseArticleButton from '@/components/AppAnalyseArticleButton.vue'
 import AutocompleteTableButton from '@/components/AppAutocompleteButton.vue'
 import DraftReportButton from '@/components/AppDraftReportButton.vue'
-import HelpButton from '@/components/AppHelpButton.vue'
+// import HelpButton from '@/components/AppHelpButton.vue'
 import { useStore } from '@/store'
 import { doUrlsMatch, ensureContentScriptIsReady } from '@/utils'
 
@@ -42,9 +42,9 @@ async function tableDrop() {
         <div class="table-responsive">
           <AchTable class="mb-0"></AchTable>
         </div>
-        <HelpButton
+        <!-- <HelpButton
           help-text="Drag and drop supporting and opposing evidence from other sources into the table for evaluation."
-        />
+        /> -->
       </div>
 
       <div v-if="store.evidences.length !== 0" class="my-3">

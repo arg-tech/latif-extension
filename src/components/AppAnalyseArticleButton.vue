@@ -4,7 +4,7 @@ import { useStore } from '@/store'
 import FetchAlert from '@/components/AppButtonFetchAlert.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseModal from '@/components/BaseModal.vue'
-import HelpButton from '@/components/AppHelpButton.vue'
+// import HelpButton from '@/components/AppHelpButton.vue'
 
 const store = useStore()
 const useFetchReturn = ref(null)
@@ -22,6 +22,9 @@ function analyseThisNewsArticle() {
     Analyse This News Article failed: {{ useFetchReturn.error }}
   </FetchAlert>
 
+  <div class="container text-center fst-italic mb-2">
+    Click the button to add your own claim in addition to those found automatically
+  </div>
   <div class="d-flex gap-2">
     <BaseButton
       @click="analyseThisNewsArticle"
@@ -94,6 +97,6 @@ function analyseThisNewsArticle() {
         </BaseModal>
       </Teleport>
     </BaseButton>
-    <HelpButton help-text="Automatically identifies the claims made in this article." />
+    <!-- <HelpButton help-text="Automatically identifies the claims made in this article." class="col" /> -->
   </div>
 </template>

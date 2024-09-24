@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { useStore } from '@/store'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseModal from '@/components/BaseModal.vue'
-import HelpButton from '@/components/AppHelpButton.vue'
+// import HelpButton from '@/components/AppHelpButton.vue'
 
 const store = useStore()
 const useFetchReturn = ref(null)
@@ -48,7 +48,7 @@ function sourceCheckModalConfirm() {
   </FetchAlert>
 
   <div class="d-flex gap-2">
-    <BaseButton @click="draftReport" :loading="useFetchReturn?.isFetching" class="flex-grow-1">
+    <BaseButton @click="draftReport" :loading="useFetchReturn?.isFetching" class="flex-grow-1 col-5">
       Draft Report
 
       <Teleport v-if="showSourceCheckModal" to="body">
@@ -68,8 +68,11 @@ function sourceCheckModalConfirm() {
         </BaseModal>
       </Teleport>
     </BaseButton>
-    <HelpButton
+    <!-- <HelpButton
       help-text="Drafts a report summarising whether each claim is likely true or false."
-    />
+    /> -->
+    <div class="container text-center fst-italic mb-2 col-7">
+      Click to draft a report analysing this article
+  </div>
   </div>
 </template>

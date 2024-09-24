@@ -49,6 +49,9 @@ function getBackgroundColor(score) {
 </script>
 
 <template>
+  <div class="container text-center fst-italic mb-2">
+    Click the trashcan to remove an automatically identified claim. Select evidence in other webpages and drag onto this panel to add.
+  </div>
   <table class="table table-bordered">
     <thead>
       <tr>
