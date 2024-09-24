@@ -2,8 +2,16 @@ import { Readability } from '@mozilla/readability'
 import { convert } from 'html-to-text'
 import { generateFragment } from 'text-fragments-polyfill/dist/fragment-generation-utils.js'
 
+let articleHeading = ''
+let articleSubheading = ''
+
 function getArticleText() {
   const article = new Readability(document.cloneNode(true), { charThreshold: 100 }).parse()
+
+  // Save processing entire page multiple times.
+  articleHeading = article.title
+  articleSubheading = article.excerpt
+
   return {
     text: convert(article.content, {
       selectors: [
@@ -133,6 +141,14 @@ function getFragmentUrl() {
   }
 }
 
+function getHeading() {
+  return articleHeading
+}
+
+function getSubheading() {
+  return articleSubheading
+}
+
 function getSelectionText() {
   return window.getSelection().toString()
 }
@@ -151,6 +167,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     highlightHypotheses(message.hypotheses)
   } else if (message.action === 'getFragmentUrl') {
     sendResponse({ url: getFragmentUrl() })
+  } else if (message.action === 'getHeading') {
+    sendResponse({ text: getHeading() })
+  } else if (message.action === 'getSubheading') {
+    sendResponse({ text: getSubheading() })
   } else if (message.action === 'getSelectionText') {
     sendResponse({ text: getSelectionText() })
   } else if (message.action === 'goToUrl') {
