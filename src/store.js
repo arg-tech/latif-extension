@@ -50,6 +50,13 @@ export const useStore = defineStore('store', () => {
     }
   }
 
+  function addEvidence(evidence, url) {
+    if (evidence) {
+      evidences.value.push({ text: evidence, url })
+      manualMatrix.value.map((x) => x.push(undefined))
+    }
+  }
+
   function deleteEvidence(index) {
     evidences.value.splice(index, 1)
     manualMatrix.value.map((x) => x.splice(index, 1))
@@ -192,6 +199,7 @@ export const useStore = defineStore('store', () => {
     articleUrl,
     achMatrix,
     deleteHypothesis,
+    addEvidence,
     deleteEvidence,
     analyseThisNewsArticle,
     analyzeEvidence,

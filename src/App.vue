@@ -21,8 +21,7 @@ async function tableDrop() {
     store.hypotheses.push(text)
     store.manualMatrix.push(Array.from({ length: store.evidences.length }, () => undefined))
   } else {
-    store.evidences.push({ text, url })
-    store.manualMatrix.map((x) => x.push(undefined))
+    store.addEvidence(text, url)
   }
 }
 </script>
