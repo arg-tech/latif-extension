@@ -3,6 +3,7 @@ import AchTable from '@/components/AchTable.vue'
 import BaseHeader from '@/components/BaseHeader.vue'
 import BaseFooter from '@/components/BaseFooter.vue'
 import AnalyseArticleButton from '@/components/AppAnalyseArticleButton.vue'
+import GetHeadingsButtons from '@/components/AppGetHeadingsButtons.vue'
 import AutocompleteTableButton from '@/components/AppAutocompleteButton.vue'
 import DraftReportButton from '@/components/AppDraftReportButton.vue'
 // import HelpButton from '@/components/AppHelpButton.vue'
@@ -31,8 +32,12 @@ async function tableDrop() {
     <BaseHeader class="mt-2 mb-4 container-fluid" />
 
     <main class="container-fluid flex-grow-1">
-      <div class="mb-3">
+      <div class="mb-2">
         <AnalyseArticleButton />
+      </div>
+
+      <div v-if="store.hypotheses.length !== 0" class="mb-3">
+        <GetHeadingsButtons />
       </div>
 
       <div class="d-flex my-3 gap-2" v-if="store.hypotheses.length !== 0">
