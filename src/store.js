@@ -50,6 +50,15 @@ export const useStore = defineStore('store', () => {
     }
   }
 
+  function deleteEvidence(index) {
+    evidences.value.splice(index, 1)
+    manualMatrix.value.map((x) => x.splice(index, 1))
+
+    if (analysedMatrix.value !== null) {
+      analysedMatrix.value.map((x) => x.splice(index, 1))
+    }
+  }
+
   const analyseThisNewsArticle = createFetch({
     fetchOptions,
     combination: 'chaining',
@@ -183,6 +192,7 @@ export const useStore = defineStore('store', () => {
     articleUrl,
     achMatrix,
     deleteHypothesis,
+    deleteEvidence,
     analyseThisNewsArticle,
     analyzeEvidence,
     draftReport
