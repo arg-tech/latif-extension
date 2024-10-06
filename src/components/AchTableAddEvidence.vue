@@ -26,19 +26,17 @@ function addEvidence(evidence) {
       Add Evidence
     </button>
 
-    <Teleport to="body">
-      <BaseModal
-        ref="modal"
-        v-on="{
-          'hidden.bs.modal': () => (isActive = false),
-          'shown.bs.modal': () => claimEditor.focus()
-        }"
-        @confirm="() => claimEditor.confirmClaim()"
-        v-if="isActive"
-        title="Add Evidence"
-      >
-        <ClaimEditor ref="claimEditor" @claim="addEvidence" />
-      </BaseModal>
-    </Teleport>
+    <BaseModal
+      ref="modal"
+      v-on="{
+        'hidden.bs.modal': () => (isActive = false),
+        'shown.bs.modal': () => claimEditor.focus()
+      }"
+      @confirm="() => claimEditor.confirmClaim()"
+      v-if="isActive"
+      title="Add Evidence"
+    >
+      <ClaimEditor ref="claimEditor" @claim="addEvidence" />
+    </BaseModal>
   </div>
 </template>

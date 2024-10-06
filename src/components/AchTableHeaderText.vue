@@ -32,18 +32,17 @@ function click() {
     {{ shortHypothesis }}
   </span>
 
-  <Teleport v-if="isActive" to="body">
-    <BaseModal
-      ref="modal"
-      v-on="{
-        'hidden.bs.modal': () => (isActive = false),
-        'shown.bs.modal': () => claimEditor.focus()
-      }"
-      @confirm="() => claimEditor.confirmClaim()"
-      title="Edit Claim"
-      confirmButtonText="Save changes"
-    >
-      <ClaimEditor ref="claimEditor" @claim="editClaim" :initial-value="hypothesis" />
-    </BaseModal>
-  </Teleport>
+  <BaseModal
+    ref="modal"
+    v-if="isActive"
+    v-on="{
+      'hidden.bs.modal': () => (isActive = false),
+      'shown.bs.modal': () => claimEditor.focus()
+    }"
+    @confirm="() => claimEditor.confirmClaim()"
+    title="Edit Claim"
+    confirmButtonText="Save changes"
+  >
+    <ClaimEditor ref="claimEditor" @claim="editClaim" :initial-value="hypothesis" />
+  </BaseModal>
 </template>

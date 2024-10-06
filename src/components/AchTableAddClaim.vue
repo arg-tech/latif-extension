@@ -26,19 +26,17 @@ function addClaim(claim) {
       Add Claim
     </button>
 
-    <Teleport to="body">
-      <BaseModal
-        ref="modal"
-        v-on="{
-          'hidden.bs.modal': () => (isActive = false),
-          'shown.bs.modal': () => claimEditor.focus()
-        }"
-        @confirm="() => claimEditor.confirmClaim()"
-        v-if="isActive"
-        title="Add Claim"
-      >
-        <ClaimEditor ref="claimEditor" @claim="addClaim" />
-      </BaseModal>
-    </Teleport>
+    <BaseModal
+      ref="modal"
+      v-on="{
+        'hidden.bs.modal': () => (isActive = false),
+        'shown.bs.modal': () => claimEditor.focus()
+      }"
+      @confirm="() => claimEditor.confirmClaim()"
+      v-if="isActive"
+      title="Add Claim"
+    >
+      <ClaimEditor ref="claimEditor" @claim="addClaim" />
+    </BaseModal>
   </div>
 </template>
