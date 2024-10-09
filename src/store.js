@@ -14,7 +14,7 @@ const fetchOptions = {
 
 export const useStore = defineStore('store', () => {
   const hypotheses = ref([])
-  const manualMatrix = ref(null)
+  const manualMatrix = ref([])
   const analysedMatrix = ref(null)
   const evidences = ref([])
   const evidenceTunerCellRef = ref(null)
@@ -73,6 +73,27 @@ export const useStore = defineStore('store', () => {
     }
   }
 
+  async function addHeadingToTable() {
+    const tab = await getCurrentTab()
+
+    const articleHeading = (await chrome.tabs.sendMessage(tab.id, { action: 'getHeading' })).text
+
+    hypotheses.value.unshift(articleHeading)
+
+    manualMatrix.value.unshift(Array())
+  }
+
+  async function addSubheadingToTable() {
+    const tab = await getCurrentTab()
+
+    const articleSubHeading = (await chrome.tabs.sendMessage(tab.id, { action: 'getSubheading' }))
+      .text
+
+    hypotheses.value.unshift(articleSubHeading)
+
+    manualMatrix.value.unshift(Array())
+  }
+
   const analyseThisNewsArticle = createFetch({
     fetchOptions,
     combination: 'chaining',
@@ -102,6 +123,9 @@ export const useStore = defineStore('store', () => {
 
         manualMatrix.value = Array.from({ length: hypotheses.value.length }, () => Array())
 
+        addHeadingToTable()
+        addSubheadingToTable()
+
         // Log the hypotheses to help with debugging.
         console.log('Hypotheses: ', hypotheses.value)
 
@@ -117,6 +141,16 @@ export const useStore = defineStore('store', () => {
           target: { tabId: tab.id },
           files: [contentCssUrl]
         })
+
+        return ctx
+      },
+      updateDataOnError: true,
+      onFetchError(ctx) {
+        // ctx.data can be null when 5xx response
+        if (ctx.data === null) {
+          addHeadingToTable()
+          addSubheadingToTable()
+        }
 
         return ctx
       }
