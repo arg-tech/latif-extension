@@ -1,15 +1,40 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useStore } from '@/store'
 import FetchAlert from '@/components/AppButtonFetchAlert.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseModal from '@/components/BaseModal.vue'
+import * as bootstrap from 'bootstrap'
 // import HelpButton from '@/components/AppHelpButton.vue'
 
 const store = useStore()
 const useFetchReturn = ref(null)
 const modal = ref(null)
 const showSourceCheckModal = ref(false)
+const tooltip = ref(null)
+const tooltipElement = ref(null)
+
+onMounted(() => {
+  initTooltip()
+})
+
+onUnmounted(() => {
+  // Dispose of the tooltip before unmounting, stops tooltip staying after item is deleted.
+  disposeTooltip()
+})
+
+function initTooltip() {
+  if (tooltipElement.value) {
+    tooltip.value = new bootstrap.Tooltip(tooltipElement.value)
+  }
+}
+
+function disposeTooltip() {
+  if (tooltip.value) {
+    tooltip.value.dispose()
+    tooltip.value = null
+  }
+}
 
 function analyseThisNewsArticle() {
   showSourceCheckModal.value = true
@@ -22,14 +47,14 @@ function analyseThisNewsArticle() {
     Analyse This News Article failed: {{ useFetchReturn.error }}
   </FetchAlert>
 
-  <div class="container text-center fst-italic mb-2">
-    Click the button to add your own claim in addition to those found automatically
-  </div>
   <div class="d-flex gap-2">
     <BaseButton
+      ref="tooltipElement"
       @click="analyseThisNewsArticle"
       :loading="useFetchReturn?.isFetching"
       class="flex-grow-1"
+      data-bs-toggle="tooltip"
+      data-bs-title="Automatically extract claims from the news article"
     >
       Analyse This News Article
 
