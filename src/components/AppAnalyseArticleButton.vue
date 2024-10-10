@@ -23,7 +23,7 @@ function analyseThisNewsArticle() {
   </FetchAlert>
 
   <div class="container text-center fst-italic mb-2">
-    Click the button to add your own claim in addition to those found automatically
+    Automatically extract claims from the news article
   </div>
   <div class="d-flex gap-2">
     <BaseButton
