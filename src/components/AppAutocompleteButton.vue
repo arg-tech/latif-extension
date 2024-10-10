@@ -26,6 +26,6 @@ function autocompleteTable() {
       Autocomplete Table
     </BaseButton>
     <!-- <HelpButton help-text="Completes the rest of the table on a best effort basis." /> -->
-     <p class="col-7 fst-italic">Click to automatically assess the degree to which evidence corrorborates or casts doubt on claims</p>
+     <p class="col-7 fst-italic">Click on a cell to manually modify the assessment</p>
   </div>
 </template>
