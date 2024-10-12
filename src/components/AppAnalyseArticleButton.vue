@@ -25,7 +25,7 @@ onUnmounted(() => {
 
 function initTooltip() {
   if (tooltipElement.value) {
-    tooltip.value = new bootstrap.Tooltip(tooltipElement.value)
+    tooltip.value = new bootstrap.Tooltip(tooltipElement.value.$el)
   }
 }
 
