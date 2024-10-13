@@ -123,8 +123,9 @@ export const useStore = defineStore('store', () => {
 
         manualMatrix.value = Array.from({ length: hypotheses.value.length }, () => Array())
 
-        addHeadingToTable()
+        // These methods push to the first element of the list, so call them in reverse order.
         addSubheadingToTable()
+        addHeadingToTable()
 
         // Log the hypotheses to help with debugging.
         console.log('Hypotheses: ', hypotheses.value)
