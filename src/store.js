@@ -106,6 +106,10 @@ export const useStore = defineStore('store', () => {
         const articleText = (await chrome.tabs.sendMessage(tab.id, { action: 'getArticleText' }))
           .text
 
+        // These methods push to the first element of the list, so call them in reverse order.
+        addSubheadingToTable()
+        addHeadingToTable()
+
         console.log(articleText)
 
         articleUrl.value = tab.url
@@ -119,13 +123,9 @@ export const useStore = defineStore('store', () => {
       async afterFetch(ctx) {
         const get_claims = await ctx.response.json()
 
-        hypotheses.value = get_claims.output.hypothesis
+        hypotheses.value = [...hypotheses.value, ...get_claims.output.hypothesis]
 
         manualMatrix.value = Array.from({ length: hypotheses.value.length }, () => Array())
-
-        // These methods push to the first element of the list, so call them in reverse order.
-        addSubheadingToTable()
-        addHeadingToTable()
 
         // Log the hypotheses to help with debugging.
         console.log('Hypotheses: ', hypotheses.value)
