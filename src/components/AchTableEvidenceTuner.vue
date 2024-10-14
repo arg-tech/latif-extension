@@ -8,8 +8,13 @@ const store = useStore()
 const { evidenceTunerCellRef } = storeToRefs(store)
 const sliderLabel = ref(null)
 
-function updateLabel(event) {
-  switch (event.target.value) {
+const cellValue = store.manualMatrix[evidenceTunerCellRef.value[1]][evidenceTunerCellRef.value[0]]
+if (cellValue) {
+  updateLabel(cellValue)
+}
+
+function updateLabel(sliderValue) {
+  switch (sliderValue) {
     case '-1':
       sliderLabel.value = 'Not supporting'
       break
@@ -29,12 +34,16 @@ function updateLabel(event) {
       sliderLabel.value = 'Error :('
   }
 }
+
+function handleInput(event) {
+  updateLabel(event.target.value)
+}
 </script>
 
 <template>
   <div class="d-flex flex-column">
     <input
-      @input="updateLabel"
+      @input="handleInput"
       v-model="store.manualMatrix[evidenceTunerCellRef[1]][evidenceTunerCellRef[0]]"
       type="range"
       min="-1"
