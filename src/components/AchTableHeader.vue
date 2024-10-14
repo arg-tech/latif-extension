@@ -45,15 +45,18 @@ function disposeTooltip() {
 </script>
 
 <template>
-  <th ref="tooltipElement" data-bs-toggle="tooltip" :data-bs-title="hypothesis" class="align-middle">
+  <th class="align-middle">
     <div class="d-flex align-items-center">
       <HeaderText @click="tooltip.hide()" :hypothesis :index />
       <button
+        ref="tooltipElement"
+        data-bs-toggle="tooltip"
+        data-bs-title="Remove claim"
         @click="store.deleteHypothesis(index)"
         type="button"
         class="delete-button btn btn-sm btn-outline-danger ms-1 border-0"
       >
-      <TrashIcon />
+        <TrashIcon />
       </button>
     </div>
   </th>
