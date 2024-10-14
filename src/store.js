@@ -31,6 +31,15 @@ export const useStore = defineStore('store', () => {
   privateStore.undoStack.push(returnNonReactiveStore())
   privateStore.undoStackPointer = 0
 
+  function resetStore() {
+    hypotheses.value = []
+    manualMatrix.value = []
+    analysedMatrix.value = null
+    evidences.value = []
+    evidenceTunerCellRef.value = null
+    articleUrl.value = null
+  }
+
   function rawClone(value) {
     return structuredClone(toRaw(value))
   }
@@ -159,6 +168,8 @@ export const useStore = defineStore('store', () => {
     combination: 'chaining',
     options: {
       async beforeFetch({ options, url }) {
+        resetStore()
+
         url = 'http://178.79.182.88:8080/get_claims/'
 
         // Get article text
