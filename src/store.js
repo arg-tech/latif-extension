@@ -210,7 +210,14 @@ export const useStore = defineStore('store', () => {
         options.body = JSON.stringify({
           ordered_hypothesises: hypotheses.value,
           full_ordered_evidences: evidences.value.map((t) => t.text),
-          full_scoring_matrix: achMatrix.value
+          full_scoring_matrix: achMatrix.value,
+          sources: evidences.value.map((e) => {
+            if (e.url) {
+              return e.url
+            } else {
+              return ''
+            }
+          })
         })
 
         return { url, options }
