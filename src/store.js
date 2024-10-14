@@ -217,9 +217,9 @@ export const useStore = defineStore('store', () => {
             } else {
               return ''
             }
-          })
+          }),
+          article_url_link: articleUrl.value,
         })
-
         return { url, options }
       },
       async afterFetch(ctx) {
