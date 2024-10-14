@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, reactive, toRaw } from 'vue'
 import { createFetch } from '@vueuse/core'
 import { getCurrentTab } from '@/utils'
 import contentCssUrl from '@/content.css?url'
@@ -12,13 +12,73 @@ const fetchOptions = {
   }
 }
 
+const usePrivateState = defineStore('store-private', () => {
+  const undoStack = reactive([])
+  const undoStackPointer = ref(-1)
+
+  return { undoStack, undoStackPointer }
+})
+
 export const useStore = defineStore('store', () => {
+  const privateStore = usePrivateState()
   const hypotheses = ref([])
   const manualMatrix = ref([])
   const analysedMatrix = ref(null)
   const evidences = ref([])
   const evidenceTunerCellRef = ref(null)
   const articleUrl = ref(null)
+
+  privateStore.undoStack.push(returnNonReactiveStore())
+  privateStore.undoStackPointer = 0
+
+  function rawClone(value) {
+    return structuredClone(toRaw(value))
+  }
+
+  function returnNonReactiveStore() {
+    return {
+      hypotheses: rawClone(hypotheses.value),
+      manualMatrix: rawClone(manualMatrix.value),
+      analysedMatrix: rawClone(analysedMatrix.value),
+      evidences: rawClone(evidences.value),
+      articleUrl: rawClone(articleUrl.value)
+    }
+  }
+
+  function loadStore(store) {
+    console.log(store.hypotheses)
+    hypotheses.value = rawClone(store.hypotheses)
+    manualMatrix.value = rawClone(store.manualMatrix)
+    analysedMatrix.value = rawClone(store.analysedMatrix)
+    evidences.value = rawClone(store.evidences)
+    // We don't want to save this.
+    evidenceTunerCellRef.value = null
+    articleUrl.value = rawClone(store.articleUrl)
+  }
+
+  function pushUndoState() {
+    // Wipe the future of the stack if there is any.
+    privateStore.undoStack.splice(privateStore.undoStackPointer + 1)
+
+    privateStore.undoStack.push(returnNonReactiveStore())
+    privateStore.undoStackPointer++
+  }
+
+  function undo() {
+    if (privateStore.undoStackPointer <= 0) {
+      return
+    }
+
+    loadStore(privateStore.undoStack[--privateStore.undoStackPointer])
+  }
+
+  function redo() {
+    if (privateStore.undoStack.length - 1 === privateStore.undoStackPointer) {
+      return
+    }
+
+    loadStore(privateStore.undoStack[++privateStore.undoStackPointer])
+  }
 
   const achMatrix = computed(() => {
     if (analysedMatrix.value === null) {
@@ -247,6 +307,9 @@ export const useStore = defineStore('store', () => {
     evidenceTunerCellRef,
     articleUrl,
     achMatrix,
+    pushUndoState,
+    undo,
+    redo,
     addHypothesis,
     deleteHypothesis,
     addEvidence,
