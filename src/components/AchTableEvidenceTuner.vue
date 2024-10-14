@@ -11,19 +11,19 @@ const sliderLabel = ref(null)
 function updateLabel(event) {
   switch (event.target.value) {
     case '-1':
-      sliderLabel.value = 'Strongly Disagree'
+      sliderLabel.value = 'Not supporting'
       break
     case '-0.5':
-      sliderLabel.value = 'Disagree'
+      sliderLabel.value = 'Mainly not supporting'
       break
     case '0':
-      sliderLabel.value = 'Neither disagree nor agree'
+      sliderLabel.value = 'Neutral'
       break
     case '0.5':
-      sliderLabel.value = 'Agree'
+      sliderLabel.value = 'Mainly supporting'
       break
     case '1':
-      sliderLabel.value = 'Strongly Agree'
+      sliderLabel.value = 'Supporting'
       break
     default:
       sliderLabel.value = 'Error :('
