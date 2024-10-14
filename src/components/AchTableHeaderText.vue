@@ -28,7 +28,7 @@ function click() {
 </script>
 
 <template>
-  <span @click="click" class="text-nowrap">
+  <span @click="click" class="text-nowrap" role="button" tabindex="0">
     {{ shortHypothesis }}
   </span>
 
