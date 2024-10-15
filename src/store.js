@@ -117,6 +117,32 @@ export const useStore = defineStore('store', () => {
     URL.revokeObjectURL(url)
   }
 
+  function load() {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = '.arg'
+
+    input.onchange = (e) => {
+      const file = e.target.files[0]
+      const reader = new FileReader()
+
+      reader.onload = async (readerEvent) => {
+        // I should probably catch any potential errors here or something ¯\_(ツ)_/¯
+        const content = await JSON.parse(readerEvent.target.result)
+
+        // Check that it's our unique file format
+        if (content.fileSignature !== 'f86929cf-00ae-49fd-93c6-a2fbcf6fc4d7') {
+          return
+        }
+
+        loadStore(content.data)
+      }
+      reader.readAsText(file)
+    }
+
+    input.click()
+  }
+
   const achMatrix = computed(() => {
     if (analysedMatrix.value === null) {
       return manualMatrix.value
@@ -361,6 +387,7 @@ export const useStore = defineStore('store', () => {
     undo,
     redo,
     save,
+    load,
     addHypothesis,
     deleteHypothesis,
     addEvidence,
