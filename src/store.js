@@ -300,7 +300,7 @@ export const useStore = defineStore('store', () => {
               return ''
             }
           }),
-          article_url_link: articleUrl.value,
+          article_url_link: articleUrl.value
         })
         return { url, options }
       },
