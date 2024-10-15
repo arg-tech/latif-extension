@@ -89,6 +89,34 @@ export const useStore = defineStore('store', () => {
     loadStore(privateStore.undoStack[++privateStore.undoStackPointer])
   }
 
+  function save() {
+    const blob = new Blob(
+      [
+        JSON.stringify({
+          fileSignature: 'f86929cf-00ae-49fd-93c6-a2fbcf6fc4d7',
+          fileType: 'Impartial fact checker extension',
+          version: 1,
+          data: returnNonReactiveStore()
+        })
+      ],
+      {
+        type: 'application/json'
+      }
+    )
+    const url = URL.createObjectURL(blob)
+
+    const link = document.createElement('a')
+    link.href = url
+    link.download =
+      new Date().toISOString().replace('T', '_').replace(/:/g, '-').replace(/\..+/, '') + '.arg'
+
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+
+    URL.revokeObjectURL(url)
+  }
+
   const achMatrix = computed(() => {
     if (analysedMatrix.value === null) {
       return manualMatrix.value
@@ -332,6 +360,7 @@ export const useStore = defineStore('store', () => {
     pushUndoState,
     undo,
     redo,
+    save,
     addHypothesis,
     deleteHypothesis,
     addEvidence,
