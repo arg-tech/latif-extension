@@ -32,6 +32,9 @@ async function tableDrop() {
     <main class="container-fluid flex-grow-1">
     <BaseButton @click="store.undo">Undo</BaseButton>
     <BaseButton @click="store.redo">Redo</BaseButton>
+    <BaseButton @click="store.save">Save</BaseButton>
+    <BaseButton @click="store.load">Load</BaseButton>
+
       <div class="mb-2">
         <AnalyseArticleButton />
       </div>
