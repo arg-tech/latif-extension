@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, reactive, toRaw } from 'vue'
 import { createFetch } from '@vueuse/core'
 import { getCurrentTab } from '@/utils'
 import contentCssUrl from '@/content.css?url'
@@ -12,13 +12,136 @@ const fetchOptions = {
   }
 }
 
+const usePrivateState = defineStore('store-private', () => {
+  const undoStack = reactive([])
+  const undoStackPointer = ref(-1)
+
+  return { undoStack, undoStackPointer }
+})
+
 export const useStore = defineStore('store', () => {
+  const privateStore = usePrivateState()
   const hypotheses = ref([])
   const manualMatrix = ref([])
   const analysedMatrix = ref(null)
   const evidences = ref([])
   const evidenceTunerCellRef = ref(null)
   const articleUrl = ref(null)
+
+  privateStore.undoStack.push(returnNonReactiveStore())
+  privateStore.undoStackPointer = 0
+
+  function resetStore() {
+    hypotheses.value = []
+    manualMatrix.value = []
+    analysedMatrix.value = null
+    evidences.value = []
+    evidenceTunerCellRef.value = null
+    articleUrl.value = null
+  }
+
+  function rawClone(value) {
+    return structuredClone(toRaw(value))
+  }
+
+  function returnNonReactiveStore() {
+    return {
+      hypotheses: rawClone(hypotheses.value),
+      manualMatrix: rawClone(manualMatrix.value),
+      analysedMatrix: rawClone(analysedMatrix.value),
+      evidences: rawClone(evidences.value),
+      articleUrl: rawClone(articleUrl.value)
+    }
+  }
+
+  function loadStore(store) {
+    console.log(store.hypotheses)
+    hypotheses.value = rawClone(store.hypotheses)
+    manualMatrix.value = rawClone(store.manualMatrix)
+    analysedMatrix.value = rawClone(store.analysedMatrix)
+    evidences.value = rawClone(store.evidences)
+    // We don't want to save this.
+    evidenceTunerCellRef.value = null
+    articleUrl.value = rawClone(store.articleUrl)
+  }
+
+  function pushUndoState() {
+    // Wipe the future of the stack if there is any.
+    privateStore.undoStack.splice(privateStore.undoStackPointer + 1)
+
+    privateStore.undoStack.push(returnNonReactiveStore())
+    privateStore.undoStackPointer++
+  }
+
+  function undo() {
+    if (privateStore.undoStackPointer <= 0) {
+      return
+    }
+
+    loadStore(privateStore.undoStack[--privateStore.undoStackPointer])
+  }
+
+  function redo() {
+    if (privateStore.undoStack.length - 1 === privateStore.undoStackPointer) {
+      return
+    }
+
+    loadStore(privateStore.undoStack[++privateStore.undoStackPointer])
+  }
+
+  function save() {
+    const blob = new Blob(
+      [
+        JSON.stringify({
+          fileSignature: 'f86929cf-00ae-49fd-93c6-a2fbcf6fc4d7',
+          fileType: 'Impartial fact checker extension',
+          version: 1,
+          data: returnNonReactiveStore()
+        })
+      ],
+      {
+        type: 'application/json'
+      }
+    )
+    const url = URL.createObjectURL(blob)
+
+    const link = document.createElement('a')
+    link.href = url
+    link.download =
+      new Date().toISOString().replace('T', '_').replace(/:/g, '-').replace(/\..+/, '') + '.arg'
+
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+
+    URL.revokeObjectURL(url)
+  }
+
+  function load() {
+    const input = document.createElement('input')
+    input.type = 'file'
+    input.accept = '.arg'
+
+    input.onchange = (e) => {
+      const file = e.target.files[0]
+      const reader = new FileReader()
+
+      reader.onload = async (readerEvent) => {
+        // I should probably catch any potential errors here or something ¯\_(ツ)_/¯
+        const content = await JSON.parse(readerEvent.target.result)
+
+        // Check that it's our unique file format
+        if (content.fileSignature !== 'f86929cf-00ae-49fd-93c6-a2fbcf6fc4d7') {
+          return
+        }
+
+        loadStore(content.data)
+      }
+      reader.readAsText(file)
+    }
+
+    input.click()
+  }
 
   const achMatrix = computed(() => {
     if (analysedMatrix.value === null) {
@@ -46,6 +169,8 @@ export const useStore = defineStore('store', () => {
       hypotheses.value.push(claim)
       manualMatrix.value.push(Array.from({ length: evidences.value.length }, () => undefined))
     }
+
+    pushUndoState()
   }
 
   function deleteHypothesis(index) {
@@ -55,6 +180,8 @@ export const useStore = defineStore('store', () => {
     if (analysedMatrix.value !== null) {
       analysedMatrix.value.splice(index, 1)
     }
+
+    pushUndoState()
   }
 
   function addEvidence(evidence, url) {
@@ -62,6 +189,8 @@ export const useStore = defineStore('store', () => {
       evidences.value.push({ text: evidence, url })
       manualMatrix.value.map((x) => x.push(undefined))
     }
+
+    pushUndoState()
   }
 
   function deleteEvidence(index) {
@@ -71,6 +200,8 @@ export const useStore = defineStore('store', () => {
     if (analysedMatrix.value !== null) {
       analysedMatrix.value.map((x) => x.splice(index, 1))
     }
+
+    pushUndoState()
   }
 
   async function addHeadingToTable() {
@@ -99,6 +230,8 @@ export const useStore = defineStore('store', () => {
     combination: 'chaining',
     options: {
       async beforeFetch({ options, url }) {
+        resetStore()
+
         url = 'http://178.79.182.88:8080/get_claims/'
 
         // Get article text
@@ -143,6 +276,7 @@ export const useStore = defineStore('store', () => {
           files: [contentCssUrl]
         })
 
+        pushUndoState()
         return ctx
       },
       updateDataOnError: true,
@@ -153,6 +287,7 @@ export const useStore = defineStore('store', () => {
           addSubheadingToTable()
         }
 
+        pushUndoState()
         return ctx
       }
     }
@@ -195,6 +330,7 @@ export const useStore = defineStore('store', () => {
         // Also log the returned hypotheses as they appear to be getting flipped.
         console.log('Analysed hypotheses: ', analyse.output.ordered_hypothesises)
 
+        pushUndoState()
         return ctx
       }
     }
@@ -218,7 +354,7 @@ export const useStore = defineStore('store', () => {
               return ''
             }
           }),
-          article_url_link: articleUrl.value,
+          article_url_link: articleUrl.value
         })
         return { url, options }
       },
@@ -247,6 +383,11 @@ export const useStore = defineStore('store', () => {
     evidenceTunerCellRef,
     articleUrl,
     achMatrix,
+    pushUndoState,
+    undo,
+    redo,
+    save,
+    load,
     addHypothesis,
     deleteHypothesis,
     addEvidence,
