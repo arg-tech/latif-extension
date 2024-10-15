@@ -34,9 +34,8 @@ function getBackgroundColor(score) {
   let red = 255
   let green = 255
 
-  if (score === -1000) {
-    green = 0
-  } else if (score < 0) {
+  // The api returns -1000 for any evidence that it doesn't think is relevant.
+  if (score < 0 && score !== -1000) {
     // If score is a string we still want numeric addition, not concatination.
     green = Math.round(255 * (1 + +score))
   } else if (score > 0) {
