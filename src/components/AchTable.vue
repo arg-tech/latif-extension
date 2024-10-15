@@ -51,7 +51,9 @@ function getBackgroundColor(score) {
 
 <template>
   <div class="container text-center fst-italic mb-2">
-    Click “Add claim” to add your own claim in addition to those found automatically. Click on a claim to edit it. Select evidence in other webpages and drag onto this panel to add. Click on a piece of dragged-and-dropped evidence to view the source.
+    Click “Add claim” to add your own claim in addition to those found automatically. Click on a
+    claim to edit it. Select evidence in other webpages and drag onto this panel to add. Click on a
+    piece of dragged-and-dropped evidence to view the source.
   </div>
   <table class="table table-bordered">
     <thead>
