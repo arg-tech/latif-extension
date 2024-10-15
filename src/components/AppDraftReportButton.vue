@@ -16,6 +16,10 @@ function draftReport() {
     // Check number of unique URLs is acceptable.
     let uniqueUrls = new Set()
     for (const e of store.evidences) {
+      if (!e?.url) {
+        continue
+      }
+
       const url = new URL(e.url)
       url.hash = ''
       uniqueUrls.add(url.toString())
