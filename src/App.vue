@@ -9,6 +9,10 @@ import DraftReportButton from '@/components/AppDraftReportButton.vue'
 import { useStore } from '@/store'
 import { doUrlsMatch, getCurrentTab } from '@/utils'
 import BaseButton from '@/components/BaseButton.vue'
+import UndoIcon from 'bootstrap-icons/icons/arrow-counterclockwise.svg'
+import RedoIcon from 'bootstrap-icons/icons/arrow-clockwise.svg'
+import SaveIcon from 'bootstrap-icons/icons/floppy.svg'
+import LoadIcon from 'bootstrap-icons/icons/folder.svg'
 
 const store = useStore()
 
@@ -30,10 +34,12 @@ async function tableDrop() {
     <BaseHeader class="mt-2 mb-4 container-fluid" />
 
     <main class="container-fluid flex-grow-1">
-    <BaseButton @click="store.undo">Undo</BaseButton>
-    <BaseButton @click="store.redo">Redo</BaseButton>
-    <BaseButton @click="store.save">Save</BaseButton>
-    <BaseButton @click="store.load">Load</BaseButton>
+      <div class="d-flex justify-content-between mb-2">
+        <BaseButton @click="store.undo"><UndoIcon class="align-self-center" /> Undo</BaseButton>
+        <BaseButton @click="store.redo"><RedoIcon /> Redo</BaseButton>
+        <BaseButton @click="store.save"><SaveIcon /> Save</BaseButton>
+        <BaseButton @click="store.load"><LoadIcon /> Load</BaseButton>
+      </div>
 
       <div class="mb-2">
         <AnalyseArticleButton />
