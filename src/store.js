@@ -143,23 +143,27 @@ export const useStore = defineStore('store', () => {
     input.click()
   }
 
+  // Prioritise manualMatrix as these are the user's input values.
   const achMatrix = computed(() => {
-    if (analysedMatrix.value === null) {
-      return manualMatrix.value
-    }
-
     return manualMatrix.value
       .map((innerArr) => innerArr.slice())
       .map((x, i) => {
         return x.map((y, j) => {
-          // Prioritise the manual matrix's values, only falling back to full_scoring_matrix if the
-          // first array exists. Fixes bug where table disappears if a new claim is added once
-          // full_scoring_matrix exists.
-          if (y !== undefined || analysedMatrix.value[i] === undefined) {
+          if (y !== undefined) {
             return y
           }
 
-          return analysedMatrix.value[i][j]
+          if (
+            analysedMatrix.value !== null &&
+            analysedMatrix.value[i] !== undefined &&
+            analysedMatrix.value[i][j] !== undefined
+          ) {
+            return analysedMatrix.value[i][j]
+          }
+
+          // The api expects this when the evidence isn't considered relevant,
+          // so we'll use it if there's no value in the table for it.
+          return -1000
         })
       })
   })
