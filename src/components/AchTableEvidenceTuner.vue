@@ -44,6 +44,7 @@ function handleInput(event) {
   <div class="d-flex flex-column">
     <input
       @input="handleInput"
+      @change="store.pushUndoState"
       v-model="store.manualMatrix[evidenceTunerCellRef[1]][evidenceTunerCellRef[0]]"
       type="range"
       min="-1"

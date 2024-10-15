@@ -115,6 +115,8 @@ export const useStore = defineStore('store', () => {
       hypotheses.value.push(claim)
       manualMatrix.value.push(Array.from({ length: evidences.value.length }, () => undefined))
     }
+
+    pushUndoState()
   }
 
   function deleteHypothesis(index) {
@@ -124,6 +126,8 @@ export const useStore = defineStore('store', () => {
     if (analysedMatrix.value !== null) {
       analysedMatrix.value.splice(index, 1)
     }
+
+    pushUndoState()
   }
 
   function addEvidence(evidence, url) {
@@ -131,6 +135,8 @@ export const useStore = defineStore('store', () => {
       evidences.value.push({ text: evidence, url })
       manualMatrix.value.map((x) => x.push(undefined))
     }
+
+    pushUndoState()
   }
 
   function deleteEvidence(index) {
@@ -140,6 +146,8 @@ export const useStore = defineStore('store', () => {
     if (analysedMatrix.value !== null) {
       analysedMatrix.value.map((x) => x.splice(index, 1))
     }
+
+    pushUndoState()
   }
 
   async function addHeadingToTable() {
@@ -214,6 +222,7 @@ export const useStore = defineStore('store', () => {
           files: [contentCssUrl]
         })
 
+        pushUndoState()
         return ctx
       },
       updateDataOnError: true,
@@ -224,6 +233,7 @@ export const useStore = defineStore('store', () => {
           addSubheadingToTable()
         }
 
+        pushUndoState()
         return ctx
       }
     }
@@ -266,6 +276,7 @@ export const useStore = defineStore('store', () => {
         // Also log the returned hypotheses as they appear to be getting flipped.
         console.log('Analysed hypotheses: ', analyse.output.ordered_hypothesises)
 
+        pushUndoState()
         return ctx
       }
     }
