@@ -35,7 +35,7 @@ async function tableDrop() {
     <BaseHeader class="mt-2 mb-4 container-fluid" />
 
     <main class="container-fluid flex-grow-1">
-      <div class="d-flex justify-content-between mb-2">
+      <div class="d-flex gap-1 mb-2">
         <BaseButton @click="store.undo"><UndoIcon class="p-0 align-self-center" /> Undo</BaseButton>
         <BaseButton @click="store.redo"><RedoIcon /> Redo</BaseButton>
         <BaseButton @click="store.save"><SaveIcon /> Save</BaseButton>
