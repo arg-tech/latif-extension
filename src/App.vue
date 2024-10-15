@@ -8,6 +8,7 @@ import DraftReportButton from '@/components/AppDraftReportButton.vue'
 // import HelpButton from '@/components/AppHelpButton.vue'
 import { useStore } from '@/store'
 import { doUrlsMatch, getCurrentTab } from '@/utils'
+import BaseButton from '@/components/BaseButton.vue'
 
 const store = useStore()
 
@@ -29,6 +30,8 @@ async function tableDrop() {
     <BaseHeader class="mt-2 mb-4 container-fluid" />
 
     <main class="container-fluid flex-grow-1">
+    <BaseButton @click="store.undo">Undo</BaseButton>
+    <BaseButton @click="store.redo">Redo</BaseButton>
       <div class="mb-2">
         <AnalyseArticleButton />
       </div>
