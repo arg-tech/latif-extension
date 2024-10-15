@@ -12,7 +12,7 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(['confirm'])
+const emits = defineEmits(['confirm', 'hidden.bs.modal', 'shown.bs.modal'])
 
 const modalEl = ref(null)
 let modalObj = null
@@ -40,6 +40,10 @@ function _hide() {
       tabindex="-1"
       aria-labelledby="modalLabel"
       aria-hidden="true"
+      v-on="{
+        'hidden.bs.modal': () => emits('hidden.bs.modal'),
+        'shown.bs.modal': () => emits('shown.bs.modal')
+      }"
     >
       <div class="modal-dialog">
         <div class="modal-content">
