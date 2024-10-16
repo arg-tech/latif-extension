@@ -60,7 +60,7 @@ async function tableDrop() {
         <AutocompleteTableButton />
       </div>
 
-      <div v-if="store.analysedMatrix !== null" class="my-3">
+      <div v-if="store.evidences.length !== 0" class="my-3">
         <DraftReportButton />
       </div>
     </main>
