@@ -38,8 +38,8 @@ async function tableDrop() {
       <div class="d-flex gap-1 mb-2">
         <BaseButton @click="store.undo"><UndoIcon class="p-0 align-self-center" /> Undo</BaseButton>
         <BaseButton @click="store.redo"><RedoIcon /> Redo</BaseButton>
-        <BaseButton @click="store.save"><SaveIcon /> Save</BaseButton>
-        <BaseButton @click="store.load"><LoadIcon /> Load</BaseButton>
+        <BaseButton @click="store.save" tooltip="Save the table to a file"><SaveIcon /> Save</BaseButton>
+        <BaseButton @click="store.load" tooltip="Load a previously saved file"><LoadIcon /> Load</BaseButton>
         <a href="https://latif.arg.tech" target="_blank"><BaseButton><HelpIcon /> Help</BaseButton></a>
       </div>
 
