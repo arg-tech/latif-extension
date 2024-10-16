@@ -149,14 +149,14 @@ export const useStore = defineStore('store', () => {
       .map((innerArr) => innerArr.slice())
       .map((x, i) => {
         return x.map((y, j) => {
-          if (y !== undefined) {
+          if (y != null) {
             return y
           }
 
           if (
             analysedMatrix.value !== null &&
-            analysedMatrix.value[i] !== undefined &&
-            analysedMatrix.value[i][j] !== undefined
+            analysedMatrix.value[i] != null &&
+            analysedMatrix.value[i][j] != null
           ) {
             return analysedMatrix.value[i][j]
           }
