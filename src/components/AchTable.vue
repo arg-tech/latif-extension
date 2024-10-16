@@ -31,15 +31,37 @@ function getBackgroundColor(score) {
     return
   }
 
-  let red = 255
-  let green = 255
+  score = parseFloat(score)
 
-  // The api returns -1000 for any evidence that it doesn't think is relevant.
-  if (score < 0 && score !== -1000) {
-    // If score is a string we still want numeric addition, not concatination.
-    green = Math.round(255 * (1 + +score))
-  } else if (score > 0) {
-    red = Math.round(255 * (1 - score))
+  let green, red
+
+  switch (score) {
+    case -1:
+      red = 255
+      green = 0
+      break
+    case -0.5:
+      red = 255
+      green = 128
+      break
+    // The api returns -1000 for any evidence that it doesn't think is relevant.
+    case 0:
+    case -1000:
+      red = 255
+      green = 255
+      break
+    case 0.5:
+      red = 128
+      green = 255
+      break
+    case 1:
+      red = 0
+      green = 128
+      break
+    default:
+      red = 255
+      green = 255
+      break
   }
 
   // Change bg colour of cell with colour calculated earlier.
