@@ -161,9 +161,7 @@ export const useStore = defineStore('store', () => {
             return analysedMatrix.value[i][j]
           }
 
-          // The api expects this when the evidence isn't considered relevant,
-          // so we'll use it if there's no value in the table for it.
-          return -1000
+          return null
         })
       })
   })
@@ -368,7 +366,16 @@ export const useStore = defineStore('store', () => {
         options.body = JSON.stringify({
           ordered_hypothesises: hypotheses.value,
           full_ordered_evidences: evidences.value.map((t) => t.text),
-          full_scoring_matrix: achMatrix.value,
+          full_scoring_matrix: achMatrix.value.map((x) =>
+            x.map((y) => {
+              if (y == null) {
+                // The api expects this when the evidence isn't considered relevant,
+                // so we'll use it if there's no value in the table for it.
+                return -1000
+              }
+              return y
+            })
+          ),
           sources: evidences.value.map((e) => {
             if (e.url) {
               return e.url
