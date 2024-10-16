@@ -316,7 +316,25 @@ export const useStore = defineStore('store', () => {
       async afterFetch(ctx) {
         const analyse = await ctx.response.json()
 
-        analysedMatrix.value = analyse.output.full_scoring_matrix
+        analysedMatrix.value = analyse.output.full_scoring_matrix.map((x) =>
+          x.map((y) => {
+            if (y == -1000) {
+              return y
+            }
+
+            if (y <= -0.75) {
+              return -1
+            } else if (y <= -0.25) {
+              return -0.5
+            } else if (y <= 0.25) {
+              return 0
+            } else if (y <= 0.75) {
+              return 0.5
+            } else {
+              return 1
+            }
+          })
+        )
 
         // The api seems to return the hypotheses in reverse order. We assume this means that the
         // matrix is in reverse order too, so check that this is still true at runtime, and flip
