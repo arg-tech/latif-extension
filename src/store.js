@@ -376,13 +376,7 @@ export const useStore = defineStore('store', () => {
               return y
             })
           ),
-          sources: evidences.value.map((e) => {
-            if (e.url) {
-              return e.url
-            } else {
-              return ''
-            }
-          }),
+          sources: evidences.value.map((e) => e.url ?? ''),
           article_url_link: articleUrl.value
         })
         return { url, options }
