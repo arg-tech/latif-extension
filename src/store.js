@@ -12,6 +12,9 @@ const fetchOptions = {
   }
 }
 
+// const SERVER_ADDRESS = "http://latifserver.arg.tech"
+const SERVER_ADDRESS = 'http://178.79.182.88'
+
 const usePrivateState = defineStore('store-private', () => {
   const undoStack = reactive([])
   const undoStackPointer = ref(-1)
@@ -234,7 +237,7 @@ export const useStore = defineStore('store', () => {
       async beforeFetch({ options, url }) {
         resetStore()
 
-        url = 'http://178.79.182.88:8080/get_claims/'
+        url = `${SERVER_ADDRESS}:8080/get_claims/`
 
         // Get article text
         const tab = await getCurrentTab()
@@ -300,7 +303,7 @@ export const useStore = defineStore('store', () => {
     combination: 'chaining',
     options: {
       async beforeFetch({ options, url }) {
-        url = 'http://178.79.182.88:8080/analyze/'
+        url = `${SERVER_ADDRESS}:8080/analyze/`
 
         options.body = JSON.stringify({
           hypothesis: hypotheses.value,
@@ -361,7 +364,7 @@ export const useStore = defineStore('store', () => {
     combination: 'chaining',
     options: {
       async beforeFetch({ options, url }) {
-        url = 'http://178.79.182.88:8000/generate_check_result_article/'
+        url = `${SERVER_ADDRESS}:8000/generate_check_result_article/`
 
         options.body = JSON.stringify({
           ordered_hypothesises: hypotheses.value,
