@@ -66,6 +66,11 @@ function analyseThisNewsArticle() {
         title="Why are you selecting this news article?"
         confirmButtonText="Continue"
       >
+        <div class="alert alert-secondary" role="alert">
+          The International Fact-Checking Network recommends selecting news articles according to
+          their relevance and reach
+        </div>
+        <hr>
         <label for="option1" class="form-label fw-semibold"> Popularity </label>
         <input type="range" class="form-range" id="customRange1" />
         <div class="d-flex justify-content-between">
