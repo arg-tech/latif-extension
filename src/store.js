@@ -12,8 +12,7 @@ const fetchOptions = {
   }
 }
 
-// const SERVER_ADDRESS = "http://latifserver.arg.tech"
-const SERVER_ADDRESS = 'http://178.79.182.88'
+const SERVER_ADDRESS = "http://latifserver.arg.tech"
 
 const usePrivateState = defineStore('store-private', () => {
   const undoStack = reactive([])
