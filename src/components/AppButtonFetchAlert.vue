@@ -4,7 +4,7 @@ import ExclamationTriangleFill from 'bootstrap-icons/icons/exclamation-triangle-
 
 <template>
   <div class="d-flex align-items-center alert alert-danger" role="alert">
-    <ExclamationTriangleFill class="flex-shrink-0 me-2" />
+    <ExclamationTriangleFill class="flex-shrink-0 me-3" />
     <slot />
   </div>
 </template>
