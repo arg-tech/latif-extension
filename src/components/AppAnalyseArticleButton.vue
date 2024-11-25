@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useStore } from '@/store'
+import InfoIcon from 'bootstrap-icons/icons/info-lg.svg'
 import FetchAlert from '@/components/AppButtonFetchAlert.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseModal from '@/components/BaseModal.vue'
@@ -66,9 +67,10 @@ function analyseThisNewsArticle() {
         title="Why are you selecting this news article?"
         confirmButtonText="Continue"
       >
-        <div class="alert alert-secondary" role="alert">
+        <div class="d-flex align-items-center alert alert-secondary" role="alert">
+          <InfoIcon class="flex-shrink-0 me-3" />
           The International Fact-Checking Network recommends selecting news articles according to
-          their relevance and reach
+          their relevance and reach.
         </div>
         <hr>
         <label for="option1" class="form-label fw-semibold"> Popularity </label>
