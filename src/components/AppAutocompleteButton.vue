@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useStore } from '@/store'
 import BaseButton from '@/components/BaseButton.vue'
+import FetchAlert from '@/components/AppButtonFetchAlert.vue'
 // import HelpButton from '@/components/AppHelpButton.vue'
 
 const store = useStore()
