@@ -41,7 +41,7 @@ function disposeTooltip() {
 
 function analyseThisNewsArticle() {
   // Show warning if an article is already being analysed.
-  if (store.evidences.length > 0) {
+  if (store.hypotheses.length > 0) {
     showWarningModal.value = true
     return
   }
