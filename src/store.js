@@ -169,9 +169,15 @@ export const useStore = defineStore('store', () => {
   })
 
   function addHypothesis(claim) {
-    if (claim) {
-      hypotheses.value.push(claim)
-      manualMatrix.value.push(Array.from({ length: evidences.value.length }, () => undefined))
+    if (!claim) {
+      return
+    }
+
+    hypotheses.value.unshift(claim)
+    manualMatrix.value.unshift(Array.from({ length: evidences.value.length }, () => undefined))
+
+    if (analysedMatrix.value !== null) {
+      analysedMatrix.value.unshift(Array.from({ length: evidences.value.length }, () => undefined))
     }
 
     pushUndoState()
