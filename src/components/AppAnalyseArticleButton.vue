@@ -100,40 +100,135 @@ function warningModalConfirm() {
         </div>
         <hr />
         <label for="option1" class="form-label fw-semibold"> Popularity </label>
-        <input type="range" class="form-range" id="customRange1" />
-        <div class="d-flex justify-content-between">
-          <p class="small-text text-start">Strongly disagree</p>
-          <p class="small-text text-center">Neither disagree nor agree</p>
-          <p class="small-text text-end">Strongly agree</p>
+        <div class="likert d-flex justify-content-between mb-3">
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="strongly_disagree" />
+            <label class="small-text">Strongly <br />disagree</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="disagree" />
+            <label class="small-text">Disagree</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="neutral" />
+            <label class="small-text">Neutral</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="agree" />
+            <label class="small-text">Agree</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="strongly_agree" />
+            <label class="small-text">Strongly <br />agree</label>
+          </div>
         </div>
+
+        <hr />
+
         <label for="option2" class="form-label fw-semibold"> Relevance </label>
-        <input type="range" class="form-range" id="customRange1" />
-        <div class="d-flex justify-content-between">
-          <p class="small-text text-start">Strongly disagree</p>
-          <p class="small-text text-center">Neither disagree nor agree</p>
-          <p class="small-text text-end">Strongly agree</p>
+        <div class="likert d-flex justify-content-between mb-3">
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="strongly_disagree" />
+            <label class="small-text">Strongly <br />disagree</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="disagree" />
+            <label class="small-text">Disagree</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="neutral" />
+            <label class="small-text">Neutral</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="agree" />
+            <label class="small-text">Agree</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="strongly_agree" />
+            <label class="small-text">Strongly <br />agree</label>
+          </div>
         </div>
+
+        <hr />
+
         <label for="option3" class="form-label fw-semibold"> Familiarity </label>
-        <input type="range" class="form-range" id="customRange1" />
-        <div class="d-flex justify-content-between">
-          <p class="small-text text-start">Strongly disagree</p>
-          <p class="small-text text-center">Neither disagree nor agree</p>
-          <p class="small-text text-end">Strongly agree</p>
+        <div class="likert d-flex justify-content-between mb-3">
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="strongly_disagree" />
+            <label class="small-text">Strongly <br />disagree</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="disagree" />
+            <label class="small-text">Disagree</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="neutral" />
+            <label class="small-text">Neutral</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="agree" />
+            <label class="small-text">Agree</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="strongly_agree" />
+            <label class="small-text">Strongly <br />agree</label>
+          </div>
         </div>
+
+        <hr />
+
         <label for="option4" class="form-label fw-semibold"> Timeliness </label>
-        <input type="range" class="form-range" id="customRange1" />
-        <div class="d-flex justify-content-between">
-          <p class="small-text text-start">Strongly disagree</p>
-          <p class="small-text text-center">Neither disagree nor agree</p>
-          <p class="small-text text-end">Strongly agree</p>
+        <div class="likert d-flex justify-content-between mb-3">
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="strongly_disagree" />
+            <label class="small-text">Strongly <br />disagree</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="disagree" />
+            <label class="small-text">Disagree</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="neutral" />
+            <label class="small-text">Neutral</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="agree" />
+            <label class="small-text">Agree</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="strongly_agree" />
+            <label class="small-text">Strongly <br />agree</label>
+          </div>
         </div>
+
+        <hr />
+
         <label for="option5" class="form-label fw-semibold"> Suggested by readers </label>
-        <input type="range" class="form-range" id="customRange1" />
-        <div class="d-flex justify-content-between">
-          <p class="small-text text-start">Strongly disagree</p>
-          <p class="small-text text-center">Neither disagree nor agree</p>
-          <p class="small-text text-end">Strongly agree</p>
+        <div class="likert d-flex justify-content-between mb-3">
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="strongly_disagree" />
+            <label class="small-text">Strongly <br />disagree</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="disagree" />
+            <label class="small-text">Disagree</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="neutral" />
+            <label class="small-text">Neutral</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="agree" />
+            <label class="small-text">Agree</label>
+          </div>
+          <div class="d-flex flex-column align-items-center">
+            <input type="radio" name="likert" value="strongly_agree" />
+            <label class="small-text">Strongly <br />agree</label>
+          </div>
         </div>
+
+        <hr />
+
         <div>
           <label class="form-label fw-semibold" for="other"> Other </label>
           <textarea class="form-control" rows="3"></textarea>
@@ -148,4 +243,8 @@ function warningModalConfirm() {
 .small-text {
   font-size: 12px;
 }
+/* 
+.likert {
+  border-bottom:2px solid #efefef;
+} */
 </style>
