@@ -12,6 +12,8 @@ const store = useStore()
 const useFetchReturn = ref(null)
 const modal = ref(null)
 const showSourceCheckModal = ref(false)
+const warningModal = ref(null)
+const showWarningModal = ref(false)
 const tooltip = ref(null)
 const tooltipElement = ref(null)
 
@@ -38,8 +40,20 @@ function disposeTooltip() {
 }
 
 function analyseThisNewsArticle() {
+  // Show warning if an article is already being analysed.
+  if (store.evidences.length > 0) {
+    showWarningModal.value = true
+    return
+  }
+
   showSourceCheckModal.value = true
   useFetchReturn.value = store.analyseThisNewsArticle()
+}
+
+function warningModalConfirm() {
+  showSourceCheckModal.value = true
+  useFetchReturn.value = store.analyseThisNewsArticle()
+  warningModal.value.hide()
 }
 </script>
 
@@ -60,6 +74,18 @@ function analyseThisNewsArticle() {
       Analyse This News Article
 
       <BaseModal
+        ref="warningModal"
+        v-if="showWarningModal"
+        v-on="{ 'hidden.bs.modal': () => (showWarningModal = false) }"
+        @confirm="warningModalConfirm"
+        title="Confirm Action?"
+        confirmButtonText="Continue anyway"
+      >
+        If you continue, the claims will be extracted from this webpage, and your previous work will
+        be lost. Do you wish to continue?
+      </BaseModal>
+
+      <BaseModal
         ref="modal"
         v-if="showSourceCheckModal"
         v-on="{ 'hidden.bs.modal': () => (showSourceCheckModal = false) }"
@@ -72,7 +98,7 @@ function analyseThisNewsArticle() {
           The International Fact-Checking Network recommends selecting news articles according to
           their relevance and reach.
         </div>
-        <hr>
+        <hr />
         <label for="option1" class="form-label fw-semibold"> Popularity </label>
         <input type="range" class="form-range" id="customRange1" />
         <div class="d-flex justify-content-between">
