@@ -39,7 +39,7 @@ function disposeTooltip() {
   }
 }
 
-function analyseThisNewsArticle() {
+function handleAnalyseButton() {
   // Show warning if an article is already being analysed.
   if (store.hypotheses.length > 0) {
     showWarningModal.value = true
@@ -50,7 +50,7 @@ function analyseThisNewsArticle() {
   useFetchReturn.value = store.analyseThisNewsArticle()
 }
 
-function warningModalConfirm() {
+function handleWarningModalConfirm() {
   showSurveyModal.value = true
   useFetchReturn.value = store.analyseThisNewsArticle()
   warningModal.value.hide()
@@ -65,7 +65,7 @@ function warningModalConfirm() {
   <div class="d-flex gap-2">
     <BaseButton
       ref="tooltipElement"
-      @click="analyseThisNewsArticle"
+      @click="handleAnalyseButton"
       :loading="useFetchReturn?.isFetching"
       class="flex-grow-1"
       data-bs-toggle="tooltip"
@@ -77,7 +77,7 @@ function warningModalConfirm() {
         ref="warningModal"
         v-if="showWarningModal"
         v-on="{ 'hidden.bs.modal': () => (showWarningModal = false) }"
-        @confirm="warningModalConfirm"
+        @confirm="handleWarningModalConfirm"
         title="Confirm Action?"
         confirmButtonText="Continue anyway"
       >
