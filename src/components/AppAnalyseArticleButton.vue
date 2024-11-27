@@ -10,8 +10,8 @@ import * as bootstrap from 'bootstrap'
 
 const store = useStore()
 const useFetchReturn = ref(null)
-const modal = ref(null)
-const showSourceCheckModal = ref(false)
+const surveyModal = ref(null)
+const showSurveyModal = ref(false)
 const warningModal = ref(null)
 const showWarningModal = ref(false)
 const tooltip = ref(null)
@@ -46,12 +46,12 @@ function analyseThisNewsArticle() {
     return
   }
 
-  showSourceCheckModal.value = true
+  showSurveyModal.value = true
   useFetchReturn.value = store.analyseThisNewsArticle()
 }
 
 function warningModalConfirm() {
-  showSourceCheckModal.value = true
+  showSurveyModal.value = true
   useFetchReturn.value = store.analyseThisNewsArticle()
   warningModal.value.hide()
 }
@@ -86,10 +86,10 @@ function warningModalConfirm() {
       </BaseModal>
 
       <BaseModal
-        ref="modal"
-        v-if="showSourceCheckModal"
-        v-on="{ 'hidden.bs.modal': () => (showSourceCheckModal = false) }"
-        @confirm="modal.hide()"
+        ref="surveyModal"
+        v-if="showSurveyModal"
+        v-on="{ 'hidden.bs.modal': () => (showSurveyModal = false) }"
+        @confirm="surveyModal.hide()"
         title="Why are you selecting this news article?"
         confirmButtonText="Continue"
       >
