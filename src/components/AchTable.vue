@@ -74,18 +74,19 @@ function getBackgroundColor(score) {
   <table class="table">
     <thead>
       <tr>
-        <th><AddClaim /></th>
+        <th class="position-sticky top-0 start-0 z-1"><AddClaim /></th>
         <TableHeader
           v-for="(hypothesis, colIndex) in store.hypotheses"
           :key="colIndex"
           :hypothesis="hypothesis"
           :index="colIndex"
+          class="position-sticky top-0 row-0"
         />
       </tr>
     </thead>
     <tbody>
       <tr v-for="(evidence, rowIndex) in store.evidences" :key="rowIndex">
-        <EvidenceCell :evidence :rowIndex />
+        <EvidenceCell :evidence :rowIndex class="position-sticky start-0" />
         <td
           v-for="(scoreCol, colIndex) in store.achMatrix"
           :style="{ backgroundColor: getBackgroundColor(scoreCol[rowIndex]) }"
@@ -105,7 +106,7 @@ function getBackgroundColor(score) {
         </td>
       </tr>
       <tr>
-        <td><AddEvidence /></td>
+        <td class="position-sticky start-0"><AddEvidence /></td>
         <td :colspan="store.achMatrix.length" />
       </tr>
     </tbody>

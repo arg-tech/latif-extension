@@ -77,4 +77,8 @@ async function tableDrop() {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.table-responsive {
+  max-height: 50vh;
+}
+</style>
