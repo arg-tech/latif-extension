@@ -47,7 +47,15 @@ async function tableDrop() {
         <AnalyseArticleButton />
       </div>
 
-      <div class="d-flex my-3 gap-2" v-if="store.hypotheses.length !== 0">
+      <div class="my-3" v-if="store.hypotheses.length !== 0">
+        <div class="container text-center fst-italic mb-2">
+          <p>
+            Click “Add claim” to add your own claim in addition to those found automatically. Click
+            on a claim to edit it.
+          </p>
+          <p><strong>Select evidence in other webpages and drag onto this panel to add.</strong></p>
+          <p>Click on a piece of dragged-and-dropped evidence to view the source.</p>
+        </div>
         <div class="table-responsive">
           <AchTable class="mb-0"></AchTable>
         </div>
