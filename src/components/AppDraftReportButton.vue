@@ -12,7 +12,7 @@ const useFetchReturn = ref(null)
 const modal = ref(null)
 const showSourceCheckModal = ref(false)
 
-function draftReport() {
+function handleDraftButton() {
   function areDraftReportConditionsMet() {
     // Check number of unique URLs is acceptable.
     let uniqueUrls = new Set()
@@ -54,7 +54,7 @@ function sourceCheckModalConfirm() {
 
   <div class="d-flex gap-2">
     <BaseButton
-      @click="draftReport"
+      @click="handleDraftButton"
       :loading="useFetchReturn?.isFetching"
       class="flex-grow-1 col-5"
     >
