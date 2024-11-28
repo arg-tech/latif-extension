@@ -71,7 +71,7 @@ function getBackgroundColor(score) {
 </script>
 
 <template>
-  <table class="table table-bordered">
+  <table class="table">
     <thead>
       <tr>
         <th><AddClaim /></th>
@@ -111,3 +111,9 @@ function getBackgroundColor(score) {
     </tbody>
   </table>
 </template>
+
+<style scoped>
+tr td:not(:first-child) {
+    border-left: 1px solid var(--bs-border-color);
+}
+</style>
