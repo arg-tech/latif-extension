@@ -62,181 +62,178 @@ function handleWarningModalConfirm() {
     Analyse This News Article failed: {{ useFetchReturn.error }}
   </FetchAlert>
 
-  <div class="d-flex gap-2">
-    <BaseButton
-      ref="tooltipElement"
-      @click="handleAnalyseButton"
-      :loading="useFetchReturn?.isFetching"
-      class="flex-grow-1"
-      data-bs-toggle="tooltip"
-      data-bs-title="Automatically extract claims from the news article"
+  <BaseButton
+    ref="tooltipElement"
+    @click="handleAnalyseButton"
+    :loading="useFetchReturn?.isFetching"
+    class="flex-grow-1"
+    data-bs-toggle="tooltip"
+    data-bs-title="Automatically extract claims from the news article"
+  >
+    Analyse This News Article
+
+    <BaseModal
+      ref="warningModal"
+      v-if="showWarningModal"
+      v-on="{ 'hidden.bs.modal': () => (showWarningModal = false) }"
+      @confirm="handleWarningModalConfirm"
+      title="Confirm Action?"
+      confirmButtonText="Continue anyway"
     >
-      Analyse This News Article
+      If you continue, the claims will be extracted from this webpage, and your previous work will
+      be lost. Do you wish to continue?
+    </BaseModal>
 
-      <BaseModal
-        ref="warningModal"
-        v-if="showWarningModal"
-        v-on="{ 'hidden.bs.modal': () => (showWarningModal = false) }"
-        @confirm="handleWarningModalConfirm"
-        title="Confirm Action?"
-        confirmButtonText="Continue anyway"
-      >
-        If you continue, the claims will be extracted from this webpage, and your previous work will
-        be lost. Do you wish to continue?
-      </BaseModal>
-
-      <BaseModal
-        ref="surveyModal"
-        v-if="showSurveyModal"
-        v-on="{ 'hidden.bs.modal': () => (showSurveyModal = false) }"
-        @confirm="surveyModal.hide()"
-        title="Why are you selecting this news article?"
-        confirmButtonText="Continue"
-      >
-        <div class="d-flex align-items-center alert alert-secondary" role="alert">
-          <InfoIcon class="flex-shrink-0 me-3" />
-          The International Fact-Checking Network recommends selecting news articles according to
-          their relevance and reach.
+    <BaseModal
+      ref="surveyModal"
+      v-if="showSurveyModal"
+      v-on="{ 'hidden.bs.modal': () => (showSurveyModal = false) }"
+      @confirm="surveyModal.hide()"
+      title="Why are you selecting this news article?"
+      confirmButtonText="Continue"
+    >
+      <div class="d-flex align-items-center alert alert-secondary" role="alert">
+        <InfoIcon class="flex-shrink-0 me-3" />
+        The International Fact-Checking Network recommends selecting news articles according to
+        their relevance and reach.
+      </div>
+      <hr />
+      <label for="option1" class="form-label fw-semibold"> Popularity </label>
+      <div class="likert d-flex justify-content-between mb-3">
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="strongly_disagree" />
+          <label class="small-text">Strongly <br />disagree</label>
         </div>
-        <hr />
-        <label for="option1" class="form-label fw-semibold"> Popularity </label>
-        <div class="likert d-flex justify-content-between mb-3">
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="strongly_disagree" />
-            <label class="small-text">Strongly <br />disagree</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="disagree" />
-            <label class="small-text">Disagree</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="neutral" />
-            <label class="small-text">Neutral</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="agree" />
-            <label class="small-text">Agree</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="strongly_agree" />
-            <label class="small-text">Strongly <br />agree</label>
-          </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="disagree" />
+          <label class="small-text">Disagree</label>
         </div>
-
-        <hr />
-
-        <label for="option2" class="form-label fw-semibold"> Relevance </label>
-        <div class="likert d-flex justify-content-between mb-3">
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="strongly_disagree" />
-            <label class="small-text">Strongly <br />disagree</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="disagree" />
-            <label class="small-text">Disagree</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="neutral" />
-            <label class="small-text">Neutral</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="agree" />
-            <label class="small-text">Agree</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="strongly_agree" />
-            <label class="small-text">Strongly <br />agree</label>
-          </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="neutral" />
+          <label class="small-text">Neutral</label>
         </div>
-
-        <hr />
-
-        <label for="option3" class="form-label fw-semibold"> Familiarity </label>
-        <div class="likert d-flex justify-content-between mb-3">
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="strongly_disagree" />
-            <label class="small-text">Strongly <br />disagree</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="disagree" />
-            <label class="small-text">Disagree</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="neutral" />
-            <label class="small-text">Neutral</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="agree" />
-            <label class="small-text">Agree</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="strongly_agree" />
-            <label class="small-text">Strongly <br />agree</label>
-          </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="agree" />
+          <label class="small-text">Agree</label>
         </div>
-
-        <hr />
-
-        <label for="option4" class="form-label fw-semibold"> Timeliness </label>
-        <div class="likert d-flex justify-content-between mb-3">
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="strongly_disagree" />
-            <label class="small-text">Strongly <br />disagree</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="disagree" />
-            <label class="small-text">Disagree</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="neutral" />
-            <label class="small-text">Neutral</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="agree" />
-            <label class="small-text">Agree</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="strongly_agree" />
-            <label class="small-text">Strongly <br />agree</label>
-          </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="strongly_agree" />
+          <label class="small-text">Strongly <br />agree</label>
         </div>
+      </div>
 
-        <hr />
+      <hr />
 
-        <label for="option5" class="form-label fw-semibold"> Suggested by readers </label>
-        <div class="likert d-flex justify-content-between mb-3">
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="strongly_disagree" />
-            <label class="small-text">Strongly <br />disagree</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="disagree" />
-            <label class="small-text">Disagree</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="neutral" />
-            <label class="small-text">Neutral</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="agree" />
-            <label class="small-text">Agree</label>
-          </div>
-          <div class="d-flex flex-column align-items-center">
-            <input type="radio" name="likert" value="strongly_agree" />
-            <label class="small-text">Strongly <br />agree</label>
-          </div>
+      <label for="option2" class="form-label fw-semibold"> Relevance </label>
+      <div class="likert d-flex justify-content-between mb-3">
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="strongly_disagree" />
+          <label class="small-text">Strongly <br />disagree</label>
         </div>
-
-        <hr />
-
-        <div>
-          <label class="form-label fw-semibold" for="other"> Other </label>
-          <textarea class="form-control" rows="3"></textarea>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="disagree" />
+          <label class="small-text">Disagree</label>
         </div>
-      </BaseModal>
-    </BaseButton>
-    <!-- <HelpButton help-text="Automatically identifies the claims made in this article." class="col" /> -->
-  </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="neutral" />
+          <label class="small-text">Neutral</label>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="agree" />
+          <label class="small-text">Agree</label>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="strongly_agree" />
+          <label class="small-text">Strongly <br />agree</label>
+        </div>
+      </div>
+
+      <hr />
+
+      <label for="option3" class="form-label fw-semibold"> Familiarity </label>
+      <div class="likert d-flex justify-content-between mb-3">
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="strongly_disagree" />
+          <label class="small-text">Strongly <br />disagree</label>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="disagree" />
+          <label class="small-text">Disagree</label>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="neutral" />
+          <label class="small-text">Neutral</label>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="agree" />
+          <label class="small-text">Agree</label>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="strongly_agree" />
+          <label class="small-text">Strongly <br />agree</label>
+        </div>
+      </div>
+
+      <hr />
+
+      <label for="option4" class="form-label fw-semibold"> Timeliness </label>
+      <div class="likert d-flex justify-content-between mb-3">
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="strongly_disagree" />
+          <label class="small-text">Strongly <br />disagree</label>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="disagree" />
+          <label class="small-text">Disagree</label>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="neutral" />
+          <label class="small-text">Neutral</label>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="agree" />
+          <label class="small-text">Agree</label>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="strongly_agree" />
+          <label class="small-text">Strongly <br />agree</label>
+        </div>
+      </div>
+
+      <hr />
+
+      <label for="option5" class="form-label fw-semibold"> Suggested by readers </label>
+      <div class="likert d-flex justify-content-between mb-3">
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="strongly_disagree" />
+          <label class="small-text">Strongly <br />disagree</label>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="disagree" />
+          <label class="small-text">Disagree</label>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="neutral" />
+          <label class="small-text">Neutral</label>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="agree" />
+          <label class="small-text">Agree</label>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <input type="radio" name="likert" value="strongly_agree" />
+          <label class="small-text">Strongly <br />agree</label>
+        </div>
+      </div>
+
+      <hr />
+
+      <div>
+        <label class="form-label fw-semibold" for="other"> Other </label>
+        <textarea class="form-control" rows="3"></textarea>
+      </div>
+    </BaseModal>
+  </BaseButton>
 </template>
 
 <style scoped>

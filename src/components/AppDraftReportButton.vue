@@ -76,9 +76,6 @@ function sourceCheckModalConfirm() {
         </ul>
       </BaseModal>
     </BaseButton>
-    <!-- <HelpButton
-      help-text="Drafts a report summarising whether each claim is likely true or false."
-    /> -->
     <div class="text-center fst-italic col-7">
       Click to draft a report analysing this article
     </div>

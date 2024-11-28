@@ -43,7 +43,7 @@ async function tableDrop() {
         <a href="https://latif.arg.tech" target="_blank"><BaseButton><HelpIcon /> Help</BaseButton></a>
       </div>
 
-      <div class="mb-2">
+      <div class="d-grid mb-2">
         <AnalyseArticleButton />
       </div>
 
@@ -59,9 +59,6 @@ async function tableDrop() {
         <div class="table-responsive">
           <AchTable class="mb-0"></AchTable>
         </div>
-        <!-- <HelpButton
-          help-text="Drag and drop supporting and opposing evidence from other sources into the table for evaluation."
-        /> -->
       </div>
 
       <div v-if="store.evidences.length !== 0" class="my-3">

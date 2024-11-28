@@ -26,7 +26,6 @@ function autocompleteTable() {
     >
       Autocomplete Table
     </BaseButton>
-    <!-- <HelpButton help-text="Completes the rest of the table on a best effort basis." /> -->
      <p class="text-center col-7 fst-italic">Click on a cell to manually modify the assessment</p>
   </div>
 </template>
