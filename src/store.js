@@ -12,7 +12,8 @@ const fetchOptions = {
   }
 }
 
-const SERVER_ADDRESS = 'http://latifserver.arg.tech'
+const CEAS_ADDRESS = 'http://ceas.latif.arg.tech'
+const REPORT_GEN_ADDRESS = 'http://report-gen.latif.arg.tech'
 
 const usePrivateState = defineStore('store-private', () => {
   const undoStack = reactive([])
@@ -242,7 +243,7 @@ export const useStore = defineStore('store', () => {
       async beforeFetch({ options, url }) {
         resetStore()
 
-        url = `${SERVER_ADDRESS}:8080/get_claims/`
+        url = `${CEAS_ADDRESS}/get_claims/`
 
         // Get article text
         const tab = await getCurrentTab()
@@ -308,7 +309,7 @@ export const useStore = defineStore('store', () => {
     combination: 'chaining',
     options: {
       async beforeFetch({ options, url }) {
-        url = `${SERVER_ADDRESS}:8080/analyze/`
+        url = `${CEAS_ADDRESS}/analyze/`
 
         options.body = JSON.stringify({
           hypothesis: hypotheses.value,
@@ -369,7 +370,7 @@ export const useStore = defineStore('store', () => {
     combination: 'chaining',
     options: {
       async beforeFetch({ options, url }) {
-        url = `${SERVER_ADDRESS}:8000/generate_check_result_article/`
+        url = `${REPORT_GEN_ADDRESS}/generate_check_result_article/`
 
         options.body = JSON.stringify({
           ordered_hypothesises: hypotheses.value,
