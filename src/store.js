@@ -402,7 +402,9 @@ export const useStore = defineStore('store', () => {
         const textBlob = await Packer.toBlob(doc)
         const link = document.createElement('a')
         link.href = URL.createObjectURL(textBlob)
-        link.download = 'report' // Filename
+        link.download =
+          'report_' +
+          new Date().toISOString().replace('T', '_').replace(/:/g, '-').replace(/\..+/, '')
         link.click()
         URL.revokeObjectURL(link.href)
 
