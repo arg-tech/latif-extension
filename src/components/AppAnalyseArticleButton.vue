@@ -10,7 +10,6 @@ import * as bootstrap from 'bootstrap'
 
 const store = useStore()
 const useFetchReturn = ref(null)
-const surveyModal = ref(null)
 const showSurveyModal = ref(false)
 const warningModal = ref(null)
 const showWarningModal = ref(false)
@@ -85,10 +84,8 @@ function handleWarningModalConfirm() {
     </BaseModal>
 
     <BaseModal
-      ref="surveyModal"
-      v-if="showSurveyModal"
-      v-on="{ 'hidden.bs.modal': () => (showSurveyModal = false) }"
-      @confirm="surveyModal.hide()"
+      v-model="showSurveyModal"
+      @confirm="showSurveyModal = false"
       title="Why are you selecting this news article?"
       confirmButtonText="Continue"
     >
