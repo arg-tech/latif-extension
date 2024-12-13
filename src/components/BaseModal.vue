@@ -1,8 +1,14 @@
 <script setup>
 import { Modal } from 'bootstrap'
-import { defineEmits, defineProps, onMounted, ref } from 'vue'
+import { defineEmits, defineProps, onMounted, ref, watch } from 'vue'
 
 defineExpose({ show: _show, hide: _hide })
+
+const model = defineModel({ type: Boolean, default: undefined })
+
+watch(model, (newModel) => {
+  newModel === true ? _show() : _hide()
+})
 
 const props = defineProps({
   title: String,
@@ -19,7 +25,9 @@ let modalObj = null
 
 onMounted(() => {
   modalObj = new Modal(modalEl.value)
-  modalObj.show()
+  if (model.value === undefined) {
+    modalObj.show()
+  }
 })
 
 function _show() {
@@ -41,8 +49,14 @@ function _hide() {
       aria-labelledby="modalLabel"
       aria-hidden="true"
       v-on="{
-        'hidden.bs.modal': () => emits('hidden.bs.modal'),
-        'shown.bs.modal': () => emits('shown.bs.modal')
+        'hidden.bs.modal': () => {
+          emits('hidden.bs.modal')
+          model = false
+        },
+        'shown.bs.modal': () => {
+          emits('shown.bs.modal')
+          model = true
+        }
       }"
     >
       <div class="modal-dialog">
