@@ -1,3 +1,4 @@
+import { Document, Packer, Paragraph } from 'docx'
 import { defineStore } from 'pinia'
 import { computed, ref, reactive, toRaw } from 'vue'
 import { createFetch } from '@vueuse/core'
@@ -392,8 +393,13 @@ export const useStore = defineStore('store', () => {
       },
       async afterFetch(ctx) {
         const article = (await ctx.response.json()).output.article
+        const paragraphs = article.split(/\r?\n/)
 
-        let textBlob = new Blob([article], { type: 'text/plain' })
+        const doc = new Document({
+          sections: [{ children: paragraphs.map((p) => new Paragraph({ text: p })) }]
+        })
+
+        const textBlob = await Packer.toBlob(doc)
         const link = document.createElement('a')
         link.href = URL.createObjectURL(textBlob)
         link.download = 'report' // Filename
