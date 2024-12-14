@@ -2,12 +2,10 @@
 import { Modal } from 'bootstrap'
 import { defineEmits, defineProps, onMounted, ref, watch } from 'vue'
 
-defineExpose({ show: _show, hide: _hide })
-
-const model = defineModel({ type: Boolean, default: undefined })
+const model = defineModel({ type: Boolean })
 
 watch(model, (newModel) => {
-  newModel === true ? _show() : _hide()
+  newModel === true ? modalObj.show() : modalObj.hide()
 })
 
 const props = defineProps({
@@ -18,25 +16,14 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(['confirm', 'hidden.bs.modal', 'shown.bs.modal'])
+const emits = defineEmits(['confirm', 'shown.bs.modal'])
 
 const modalEl = ref(null)
 let modalObj = null
 
 onMounted(() => {
   modalObj = new Modal(modalEl.value)
-  if (model.value === undefined) {
-    modalObj.show()
-  }
 })
-
-function _show() {
-  modalObj.show()
-}
-
-function _hide() {
-  modalObj.hide()
-}
 </script>
 
 <template>
@@ -50,7 +37,6 @@ function _hide() {
       aria-hidden="true"
       v-on="{
         'hidden.bs.modal': () => {
-          emits('hidden.bs.modal')
           model = false
         },
         'shown.bs.modal': () => {
