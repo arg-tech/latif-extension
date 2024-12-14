@@ -16,7 +16,10 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(['confirm', 'shown.bs.modal'])
+// 'confirm' is emitted when the confirm button is clicked.
+// 'shown' is emitted once the modal has fully opened.
+// This is useful for focusing any input boxes inside the modal.
+const emits = defineEmits(['confirm', 'shown'])
 
 const modalEl = ref(null)
 let modalObj = null
@@ -40,7 +43,7 @@ onMounted(() => {
           model = false
         },
         'shown.bs.modal': () => {
-          emits('shown.bs.modal')
+          emits('shown')
           model = true
         }
       }"

@@ -86,9 +86,7 @@ function disposeTooltip() {
 
   <BaseModal
     v-model="isActive"
-    v-on="{
-      'shown.bs.modal': () => claimEditor.focus()
-    }"
+    @shown="() => claimEditor.focus()"
     @confirm="() => claimEditor.confirmClaim()"
     title="Edit Claim"
     confirmButtonText="Save changes"

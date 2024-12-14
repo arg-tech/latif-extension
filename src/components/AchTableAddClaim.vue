@@ -27,8 +27,8 @@ function addClaim(claim) {
 
     <BaseModal
       v-model="isActive"
+      @shown="() => claimEditor.focus()"
       @confirm="() => claimEditor.confirmClaim()"
-      v-on="{ 'shown.bs.modal': () => claimEditor.focus() }"
       title="Add Claim"
     >
       <ClaimEditor ref="claimEditor" @claim="addClaim" />

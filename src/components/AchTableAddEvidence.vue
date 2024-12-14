@@ -27,7 +27,7 @@ function addEvidence(evidence) {
 
     <BaseModal
       v-model="isActive"
-      v-on="{ 'shown.bs.modal': () => claimEditor.focus() }"
+      @shown="() => claimEditor.focus()"
       @confirm="() => claimEditor.confirmClaim()"
       title="Add Evidence"
     >
