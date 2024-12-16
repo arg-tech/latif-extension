@@ -10,6 +10,10 @@ watch(model, (newModel) => {
 
 const props = defineProps({
   title: String,
+  cancelButtonText: {
+    type: String,
+    default: 'Cancel'
+  },
   confirmButtonText: {
     type: String,
     default: 'Confirm'
@@ -60,7 +64,9 @@ onMounted(() => {
           </div>
           <div class="modal-body"><slot /></div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              {{ props.cancelButtonText }}
+            </button>
             <button @click="emits('confirm')" type="button" class="btn btn-primary">
               {{ props.confirmButtonText }}
             </button>
