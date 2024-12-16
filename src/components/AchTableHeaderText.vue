@@ -19,7 +19,6 @@ const emits = defineEmits(['click'])
 
 const store = useStore()
 const isActive = ref(false)
-const modal = ref(null)
 const claimEditor = ref(null)
 const tooltip = ref(null)
 const tooltipElement = ref(null)
@@ -30,7 +29,7 @@ const shortHypothesis = computed(() =>
 
 function editClaim(claim) {
   store.hypotheses[props.index] = claim
-  modal.value.hide()
+  isActive.value = false
 }
 
 function click() {
@@ -86,12 +85,8 @@ function disposeTooltip() {
   </span>
 
   <BaseModal
-    ref="modal"
-    v-if="isActive"
-    v-on="{
-      'hidden.bs.modal': () => (isActive = false),
-      'shown.bs.modal': () => claimEditor.focus()
-    }"
+    v-model="isActive"
+    @shown="() => claimEditor.focus()"
     @confirm="() => claimEditor.confirmClaim()"
     title="Edit Claim"
     confirmButtonText="Save changes"

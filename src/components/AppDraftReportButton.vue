@@ -9,7 +9,6 @@ import FetchAlert from '@/components/AppButtonFetchAlert.vue'
 const store = useStore()
 const useFetchReturn = ref(null)
 
-const modal = ref(null)
 const showSourceCheckModal = ref(false)
 
 function handleDraftButton() {
@@ -43,7 +42,7 @@ function handleDraftButton() {
 
 function sourceCheckModalConfirm() {
   useFetchReturn.value = store.draftReport()
-  modal.value.hide()
+  showSourceCheckModal.value = false
 }
 </script>
 
@@ -61,9 +60,7 @@ function sourceCheckModalConfirm() {
       Draft Report
 
       <BaseModal
-        ref="modal"
-        v-if="showSourceCheckModal"
-        v-on="{ 'hidden.bs.modal': () => (showSourceCheckModal = false) }"
+        v-model="showSourceCheckModal"
         @confirm="sourceCheckModalConfirm"
         title="Warning: Insufficient Evidence and Source Variety"
         confirmButtonText="Continue anyway"

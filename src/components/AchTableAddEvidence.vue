@@ -7,12 +7,11 @@ import { useStore } from '@/store'
 const store = useStore()
 
 const isActive = ref(false)
-const modal = ref(null)
 const claimEditor = ref(null)
 
 function addEvidence(evidence) {
   store.addEvidence(evidence)
-  modal.value.hide()
+  isActive.value = false
 }
 </script>
 
@@ -27,13 +26,9 @@ function addEvidence(evidence) {
     </button>
 
     <BaseModal
-      ref="modal"
-      v-on="{
-        'hidden.bs.modal': () => (isActive = false),
-        'shown.bs.modal': () => claimEditor.focus()
-      }"
+      v-model="isActive"
+      @shown="() => claimEditor.focus()"
       @confirm="() => claimEditor.confirmClaim()"
-      v-if="isActive"
       title="Add Evidence"
     >
       <ClaimEditor ref="claimEditor" @claim="addEvidence" />

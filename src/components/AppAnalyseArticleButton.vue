@@ -10,9 +10,7 @@ import * as bootstrap from 'bootstrap'
 
 const store = useStore()
 const useFetchReturn = ref(null)
-const surveyModal = ref(null)
 const showSurveyModal = ref(false)
-const warningModal = ref(null)
 const showWarningModal = ref(false)
 const tooltip = ref(null)
 const tooltipElement = ref(null)
@@ -53,7 +51,7 @@ function handleAnalyseButton() {
 function handleWarningModalConfirm() {
   showSurveyModal.value = true
   useFetchReturn.value = store.analyseThisNewsArticle()
-  warningModal.value.hide()
+  showWarningModal.value = false
 }
 </script>
 
@@ -73,9 +71,7 @@ function handleWarningModalConfirm() {
     Analyse This News Article
 
     <BaseModal
-      ref="warningModal"
-      v-if="showWarningModal"
-      v-on="{ 'hidden.bs.modal': () => (showWarningModal = false) }"
+      v-model="showWarningModal"
       @confirm="handleWarningModalConfirm"
       title="Confirm Action?"
       confirmButtonText="Continue anyway"
@@ -85,10 +81,8 @@ function handleWarningModalConfirm() {
     </BaseModal>
 
     <BaseModal
-      ref="surveyModal"
-      v-if="showSurveyModal"
-      v-on="{ 'hidden.bs.modal': () => (showSurveyModal = false) }"
-      @confirm="surveyModal.hide()"
+      v-model="showSurveyModal"
+      @confirm="showSurveyModal = false"
       title="Why are you selecting this news article?"
       confirmButtonText="Continue"
     >

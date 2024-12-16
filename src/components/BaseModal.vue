@@ -1,8 +1,12 @@
 <script setup>
 import { Modal } from 'bootstrap'
-import { defineEmits, defineProps, onMounted, ref } from 'vue'
+import { defineEmits, defineProps, onMounted, ref, watch } from 'vue'
 
-defineExpose({ show: _show, hide: _hide })
+const model = defineModel({ type: Boolean })
+
+watch(model, (newModel) => {
+  newModel === true ? modalObj.show() : modalObj.hide()
+})
 
 const props = defineProps({
   title: String,
@@ -12,23 +16,17 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(['confirm', 'hidden.bs.modal', 'shown.bs.modal'])
+// 'confirm' is emitted when the confirm button is clicked.
+// 'shown' is emitted once the modal has fully opened.
+// This is useful for focusing any input boxes inside the modal.
+const emits = defineEmits(['confirm', 'shown'])
 
 const modalEl = ref(null)
 let modalObj = null
 
 onMounted(() => {
   modalObj = new Modal(modalEl.value)
-  modalObj.show()
 })
-
-function _show() {
-  modalObj.show()
-}
-
-function _hide() {
-  modalObj.hide()
-}
 </script>
 
 <template>
@@ -41,8 +39,13 @@ function _hide() {
       aria-labelledby="modalLabel"
       aria-hidden="true"
       v-on="{
-        'hidden.bs.modal': () => emits('hidden.bs.modal'),
-        'shown.bs.modal': () => emits('shown.bs.modal')
+        'hidden.bs.modal': () => {
+          model = false
+        },
+        'shown.bs.modal': () => {
+          emits('shown')
+          model = true
+        }
       }"
     >
       <div class="modal-dialog">
