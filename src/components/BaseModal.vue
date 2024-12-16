@@ -34,7 +34,6 @@ onMounted(() => {
     <div
       ref="modalEl"
       class="modal fade"
-      id="modal"
       tabindex="-1"
       aria-labelledby="modalLabel"
       aria-hidden="true"
